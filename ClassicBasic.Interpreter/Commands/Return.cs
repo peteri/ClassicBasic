@@ -1,0 +1,31 @@
+﻿// <copyright file="Return.cs" company="Peter Ibbotson">
+// (C) Copyright 2017 Peter Ibbotson
+// </copyright>
+
+namespace ClassicBasic.Interpreter.Commands
+{
+    /// <summary>
+    /// Implements the RETURN command.
+    /// </summary>
+    public class Return : Token, ICommand
+    {
+        private readonly IRunEnvironment _runEnvironment;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Return"/> class.
+        /// </summary>
+        /// <param name="runEnvironment">Run time environment.</param>
+        public Return(IRunEnvironment runEnvironment)
+            : base("RETURN", TokenType.ClassStatement)
+        {
+            _runEnvironment = runEnvironment;
+        }
+
+        /// <summary>
+        /// Executes the return command.
+        /// </summary>
+        public void Execute()
+        {
+        }
+    }
+}
