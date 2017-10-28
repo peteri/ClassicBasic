@@ -10,11 +10,13 @@ namespace ClassicBasic.Test
 
     /// <summary>
     /// Tests for the Expression Evaluator class.
+    /// Since the mocking would get a bit painful this uses real evaluators.
     /// </summary>
     [TestClass]
     public class ExpressionEvaluatorTests
     {
         private static ITokeniser _tokeniser;
+        private static MockTeletype _mockTeletype;
         private IExpressionEvaluator _expressionEvaluator;
         private IRunEnvironment _runEnvironment;
         private IVariableRepository _variableRepository;
@@ -26,9 +28,11 @@ namespace ClassicBasic.Test
         [ClassInitialize]
         public static void SetupTokeniser(TestContext context)
         {
+            _mockTeletype = new MockTeletype();
             var builder = new ContainerBuilder();
             RegisterTypes.Register(builder);
-            builder.RegisterInstance(new MockTeletype()).As<ITeletype>();
+            builder.RegisterInstance(_mockTeletype).As<ITeletype>();
+
             var container = builder.Build();
             _tokeniser = container.Resolve<ITokeniser>();
         }
@@ -665,6 +669,72 @@ namespace ClassicBasic.Test
             }
 
             Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test function evaluation
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorTestFunctionWorks()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT POS (1)");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            var result = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(1.0, result.ValueAsDouble());
+        }
+
+        /// <summary>
+        /// Test missing open bracket
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorTestFunctionMissingOpenBracket()
+        {
+            var exceptionThrown = false;
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT POS 1)");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            try
+            {
+                _expressionEvaluator.GetExpression();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test missing close bracket
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorTestFunctionMissingCloseBracket()
+        {
+            var exceptionThrown = false;
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT POS(1,2");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            try
+            {
+                _expressionEvaluator.GetExpression();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test missing multi parameter left
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorTestFunctionLeftDollar()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT LEFT$(\"ABC\",2)");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            var result = _expressionEvaluator.GetExpression();
+            Assert.AreEqual("AB", result.ValueAsString());
         }
     }
 }

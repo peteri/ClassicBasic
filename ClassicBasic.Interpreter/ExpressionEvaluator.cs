@@ -6,6 +6,7 @@ namespace ClassicBasic.Interpreter
 {
     using System;
     using System.Collections.Generic;
+    using ClassicBasic.Interpreter.Interfaces;
 
     /// <summary>
     /// Expression evaluator.
@@ -367,12 +368,38 @@ namespace ClassicBasic.Interpreter
                     var variable = GetLeftValue();
                     return variable.GetValue();
                 case TokenType.ClassFunction:
-                    throw new NotImplementedException();
+                    var function = token as IFunction;
+                    var parameters = GetFunctionParameters();
+                    return function.Execute(parameters);
                 default:
                     break;
             }
 
             throw new Exceptions.SyntaxErrorException();
+        }
+
+        private IList<Accumulator> GetFunctionParameters()
+        {
+            var parameters = new List<Accumulator>();
+            IToken token = _runEnvironment.CurrentLine.NextToken();
+            if (token.Seperator != TokenType.OpenBracket)
+            {
+                throw new Exceptions.SyntaxErrorException();
+            }
+
+            do
+            {
+                parameters.Add(GetExpression());
+                token = _runEnvironment.CurrentLine.NextToken();
+            }
+            while (token.Seperator == TokenType.Comma);
+
+            if (token.Seperator != TokenType.CloseBracket)
+            {
+                throw new Exceptions.SyntaxErrorException();
+            }
+
+            return parameters;
         }
     }
 }

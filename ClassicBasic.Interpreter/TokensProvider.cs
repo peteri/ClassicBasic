@@ -60,14 +60,12 @@ namespace ClassicBasic.Interpreter
             new Token("SIN", TokenType.ClassFunction),
             new Token("TAN", TokenType.ClassFunction),
             new Token("ATN", TokenType.ClassFunction),
-            new Token("POS", TokenType.ClassFunction),
             new Token("RND", TokenType.ClassFunction),
             new Token("LEN", TokenType.ClassFunction),
             new Token("VAL", TokenType.ClassFunction),
             new Token("ASC", TokenType.ClassFunction),
             new Token("STR$", TokenType.ClassFunction),
             new Token("CHR$", TokenType.ClassFunction),
-            new Token("LEFT$", TokenType.ClassFunction),
             new Token("RIGHT$", TokenType.ClassFunction),
             new Token("MID$", TokenType.ClassFunction)
         };

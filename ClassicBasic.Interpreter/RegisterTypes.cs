@@ -18,6 +18,7 @@ namespace ClassicBasic.Interpreter
         public static void Register(ContainerBuilder builder)
         {
             builder.RegisterModule(new Modules.RegisterCommands());
+            builder.RegisterModule(new Modules.RegisterFunctions());
 
             // Other stuff we care about
             builder.RegisterType<Executor>().As<IExecutor>().SingleInstance();
