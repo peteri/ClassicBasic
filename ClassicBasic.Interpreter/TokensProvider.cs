@@ -47,27 +47,7 @@ namespace ClassicBasic.Interpreter
             new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
             new Token("OR", TokenType.ClassSeperator | TokenType.Or),
             new Token("NOT", TokenType.ClassSeperator | TokenType.Not),
-            new Token("AND", TokenType.ClassSeperator | TokenType.And),
-
-            new Token("SGN", TokenType.ClassFunction),
-            new Token("INT", TokenType.ClassFunction),
-            new Token("ABS", TokenType.ClassFunction),
-            new Token("FRE", TokenType.ClassFunction),
-            new Token("SQR", TokenType.ClassFunction),
-            new Token("LOG", TokenType.ClassFunction),
-            new Token("EXP", TokenType.ClassFunction),
-            new Token("COS", TokenType.ClassFunction),
-            new Token("SIN", TokenType.ClassFunction),
-            new Token("TAN", TokenType.ClassFunction),
-            new Token("ATN", TokenType.ClassFunction),
-            new Token("RND", TokenType.ClassFunction),
-            new Token("LEN", TokenType.ClassFunction),
-            new Token("VAL", TokenType.ClassFunction),
-            new Token("ASC", TokenType.ClassFunction),
-            new Token("STR$", TokenType.ClassFunction),
-            new Token("CHR$", TokenType.ClassFunction),
-            new Token("MID$", TokenType.ClassFunction),
-            new Token("RIGHT$", TokenType.ClassFunction)
+            new Token("AND", TokenType.ClassSeperator | TokenType.And)
         };
 
         /// <summary>
