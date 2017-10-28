@@ -47,7 +47,7 @@ namespace ClassicBasic.Interpreter
             bool quit = false;
             while (!quit)
             {
-                _teletypeWithPosition.Write(Environment.NewLine);
+                _teletypeWithPosition.NewLine();
                 _teletypeWithPosition.Write(">");
                 var command = _teletypeWithPosition.Read();
                 if (command == null)
@@ -59,16 +59,7 @@ namespace ClassicBasic.Interpreter
                 var parsedLine = _tokeniser.Tokenise(command);
                 if (parsedLine.LineNumber.HasValue)
                 {
-                    if (parsedLine.EndOfLine)
-                    {
-                        _programRepository.DeleteProgramLines(
-                            parsedLine.LineNumber.Value,
-                            parsedLine.LineNumber.Value);
-                    }
-                    else
-                    {
-                        _programRepository.SetProgramLine(parsedLine);
-                    }
+                    _programRepository.SetProgramLine(parsedLine);
                 }
                 else
                 {
@@ -81,7 +72,7 @@ namespace ClassicBasic.Interpreter
                     {
                         if (endError.ErrorMessage != string.Empty)
                         {
-                            WriteErrorToTeletype(_runEnvironment.ContinueLineNumber, endError.ErrorMessage);
+                            WriteErrorToTeletype(_runEnvironment.CurrentLine.LineNumber, endError.ErrorMessage);
                         }
                     }
                     catch (Exceptions.BasicException basicError)
@@ -96,11 +87,9 @@ namespace ClassicBasic.Interpreter
 
         private void WriteErrorToTeletype(int? lineNumber, string message)
         {
-            _teletypeWithPosition.Write(
-                Environment.NewLine +
-                message +
-                (lineNumber.HasValue ? $" IN {lineNumber}" : string.Empty)
-                + Environment.NewLine);
+            _teletypeWithPosition.NewLine();
+            _teletypeWithPosition.Write(message + (lineNumber.HasValue ? $" IN {lineNumber}" : string.Empty));
+            _teletypeWithPosition.NewLine();
         }
     }
 }

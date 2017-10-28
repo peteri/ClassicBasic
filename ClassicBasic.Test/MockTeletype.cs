@@ -5,6 +5,7 @@
 namespace ClassicBasic.Test
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using ClassicBasic.Interpreter;
 
@@ -13,21 +14,60 @@ namespace ClassicBasic.Test
     /// </summary>
     public class MockTeletype : ITeletype
     {
+        private Queue<string> _output;
+        private Queue<string> _input;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockTeletype"/> class.
+        /// </summary>
+        public MockTeletype()
+        {
+            _output = new Queue<string>();
+            _input = new Queue<string>();
+        }
+
 #pragma warning disable CS0067
         /// <inheritdoc/>
         public event ConsoleCancelEventHandler CancelEventHandler;
 #pragma warning restore CS0067
 
+        /// <summary>
+        /// Gets Queue of strings used for input.
+        /// </summary>
+        public Queue<string> Input => _input;
+
+        /// <summary>
+        /// Gets List of output from interpreter.
+        /// </summary>
+        public Queue<string> Output => _output;
+
+        /// <summary>
+        /// Gets the width of the teletype.
+        /// </summary>
+        public short Width => 80;
+
         /// <inheritdoc/>
         public string Read()
         {
-            throw new NotImplementedException();
+            if (_input.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var returnValue = _input.Dequeue();
+            if (returnValue == "BREAK")
+            {
+                RaiseCancelEvent();
+                return null;
+            }
+
+            return returnValue;
         }
 
         /// <inheritdoc/>
         public void Write(string output)
         {
-            throw new NotImplementedException();
+            _output.Enqueue(output);
         }
 
         /// <summary>

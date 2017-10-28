@@ -40,6 +40,11 @@ namespace ClassicBasic.Console
         }
 
         /// <summary>
+        /// Gets the width of the teletype.
+        /// </summary>
+        public short Width => (short)Console.WindowWidth;
+
+        /// <summary>
         /// Read a line from the console or if an initial command has been specified the intial command.
         /// </summary>
         /// <returns>Line of text from the console.</returns>

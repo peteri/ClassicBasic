@@ -17,6 +17,11 @@ namespace ClassicBasic.Interpreter
         event ConsoleCancelEventHandler CancelEventHandler;
 
         /// <summary>
+        /// Gets the width of the teletype.
+        /// </summary>
+        short Width { get; }
+
+        /// <summary>
         /// Write text to the glass teletype (aka console)
         /// </summary>
         /// <param name="output">Text to write.</param>

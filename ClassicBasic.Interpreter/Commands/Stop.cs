@@ -27,7 +27,7 @@ namespace ClassicBasic.Interpreter.Commands
         public void Execute()
         {
             _runEnvironment.ContinueToken = _runEnvironment.CurrentLine.CurrentToken;
-            throw new Exceptions.EndException();
+            throw new Exceptions.BreakException();
         }
     }
 }

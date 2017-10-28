@@ -11,7 +11,8 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class TeletypeWithPosition : ITeletypeWithPosition
     {
-        private int _currentPosition = 0;
+        private const int CommaCellWidth = 14;
+        private int _currentPosition = 1;
         private ITeletype _teletype;
 
         /// <summary>
@@ -38,7 +39,17 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         public void NextComma()
         {
-            throw new NotImplementedException();
+            // Originally commas are split in to 14 character cells
+            // which makes sense where width is 72.
+            var newPosition = ((_currentPosition / CommaCellWidth) + 1) * CommaCellWidth;
+            if ((newPosition + CommaCellWidth) >= _teletype.Width)
+            {
+                NewLine();
+            }
+            else
+            {
+                Tab((short)(newPosition + 1));
+            }
         }
 
         /// <summary>
@@ -47,16 +58,37 @@ namespace ClassicBasic.Interpreter
         /// <param name="count">Position to move to.</param>
         public void Space(short count)
         {
-            throw new NotImplementedException();
+            if (count < 0 || count > 255)
+            {
+                throw new Exceptions.IllegalQuantityException();
+            }
+
+            Write(new string(' ', count));
         }
 
         /// <summary>
-        /// Moves across to a tab position.
+        /// Moves across to a tab position left most position is 1.
         /// </summary>
         /// <param name="count">Position to move to.</param>
         public void Tab(short count)
         {
-            throw new NotImplementedException();
+            if (count < 0 || count > 255)
+            {
+                throw new Exceptions.IllegalQuantityException();
+            }
+
+            while (count > _teletype.Width)
+            {
+                count -= _teletype.Width;
+                NewLine();
+            }
+
+            count--;
+            var numberOfSpaces = count - _currentPosition;
+            if (numberOfSpaces > 0)
+            {
+                Write(new string(' ', numberOfSpaces));
+            }
         }
 
         /// <summary>
@@ -66,7 +98,7 @@ namespace ClassicBasic.Interpreter
         public void Write(string text)
         {
             _teletype.Write(text);
-            _currentPosition += text.Length;
+            _currentPosition = (_currentPosition + text.Length) % _teletype.Width;
         }
 
         /// <summary>
@@ -78,6 +110,15 @@ namespace ClassicBasic.Interpreter
             var input = _teletype.Read();
             _currentPosition = 0;
             return input;
+        }
+
+        /// <summary>
+        /// Returns the current position on the line numbered from 1.
+        /// </summary>
+        /// <returns>Current position.</returns>
+        public short Position()
+        {
+            return (short)(_currentPosition + 1);
         }
     }
 }

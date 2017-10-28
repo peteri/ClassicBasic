@@ -42,5 +42,11 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         /// <returns>String user typed in.</returns>
         string Read();
+
+        /// <summary>
+        /// Returns the current position on the line numbered from 0.
+        /// </summary>
+        /// <returns>Current position.</returns>
+        short Position();
     }
 }
