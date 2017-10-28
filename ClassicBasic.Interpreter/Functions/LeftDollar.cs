@@ -12,16 +12,12 @@ namespace ClassicBasic.Interpreter.Functions
     /// </summary>
     public class LeftDollar : Token, IFunction
     {
-        private readonly ITeletypeWithPosition _teletypeWithPosition;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LeftDollar"/> class.
         /// </summary>
-        /// <param name="teletypeWithPosition">Teletype to get the cursor position for.</param>
-        public LeftDollar(ITeletypeWithPosition teletypeWithPosition)
+        public LeftDollar()
             : base("LEFT$", TokenType.ClassFunction)
         {
-            _teletypeWithPosition = teletypeWithPosition;
         }
 
         /// <summary>

@@ -4,7 +4,6 @@
 
 namespace ClassicBasic.Interpreter
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -16,39 +15,40 @@ namespace ClassicBasic.Interpreter
 
         private IToken[] _staticTokens =
         {
-            new Token("DATA", TokenType.ClassStatement),
             new Token("ON", TokenType.ClassStatement),
-            new Token("SAVE", TokenType.ClassStatement),
+            new Token("FN", TokenType.ClassStatement),
+            new Token("NEW", TokenType.ClassStatement),
             new Token("DEF", TokenType.ClassStatement),
             new Token("GET", TokenType.ClassStatement),
-            new Token("NEW", TokenType.ClassStatement),
+            new Token("DATA", TokenType.ClassStatement),
+            new Token("SAVE", TokenType.ClassStatement),
             new Token("CLEAR", TokenType.ClassStatement),
-            new Token("SYSTEM", TokenType.ClassStatement | TokenType.System),
-            new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
             new Token("TO", TokenType.ClassStatement | TokenType.To),
-            new Token("FN", TokenType.ClassStatement),
-            new Token("SPC(", TokenType.ClassStatement | TokenType.Space),
+            new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
             new Token("THEN", TokenType.ClassStatement | TokenType.Then),
-            new Token("STEP", TokenType.ClassStatement),
+            new Token("STEP", TokenType.ClassStatement | TokenType.Step),
+            new Token("SPC(", TokenType.ClassStatement | TokenType.Space),
+            new Token("SYSTEM", TokenType.ClassStatement | TokenType.System),
 
-            new Token("NOT", TokenType.ClassSeperator | TokenType.Not),
             new Token("+", TokenType.ClassSeperator | TokenType.Plus),
             new Token("-", TokenType.ClassSeperator | TokenType.Minus),
-            new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
             new Token("/", TokenType.ClassSeperator | TokenType.Divide),
-            new Token("AND", TokenType.ClassSeperator | TokenType.And),
-            new Token("OR", TokenType.ClassSeperator | TokenType.Or),
-            new Token(">", TokenType.ClassSeperator | TokenType.GreaterThan),
             new Token("=", TokenType.ClassSeperator | TokenType.Equal),
-            new Token("<", TokenType.ClassSeperator | TokenType.LessThan),
             new Token("^", TokenType.ClassSeperator | TokenType.Power),
+            new Token(":", TokenType.ClassSeperator | TokenType.Colon),
+            new Token(",", TokenType.ClassSeperator | TokenType.Comma),
             new Token("$", TokenType.ClassSeperator | TokenType.Dollar),
             new Token("%", TokenType.ClassSeperator | TokenType.Percent),
-            new Token(":", TokenType.ClassSeperator | TokenType.Colon),
+            new Token("<", TokenType.ClassSeperator | TokenType.LessThan),
+            new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
             new Token(";", TokenType.ClassSeperator | TokenType.Semicolon),
-            new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+            new Token(">", TokenType.ClassSeperator | TokenType.GreaterThan),
             new Token("(", TokenType.ClassSeperator | TokenType.OpenBracket),
             new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
+            new Token("OR", TokenType.ClassSeperator | TokenType.Or),
+            new Token("NOT", TokenType.ClassSeperator | TokenType.Not),
+            new Token("AND", TokenType.ClassSeperator | TokenType.And),
+
             new Token("SGN", TokenType.ClassFunction),
             new Token("INT", TokenType.ClassFunction),
             new Token("ABS", TokenType.ClassFunction),
@@ -66,8 +66,8 @@ namespace ClassicBasic.Interpreter
             new Token("ASC", TokenType.ClassFunction),
             new Token("STR$", TokenType.ClassFunction),
             new Token("CHR$", TokenType.ClassFunction),
-            new Token("RIGHT$", TokenType.ClassFunction),
-            new Token("MID$", TokenType.ClassFunction)
+            new Token("MID$", TokenType.ClassFunction),
+            new Token("RIGHT$", TokenType.ClassFunction)
         };
 
         /// <summary>
