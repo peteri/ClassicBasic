@@ -150,6 +150,48 @@ namespace ClassicBasic.Test
         }
 
         /// <summary>
+        /// Check an else clause does not require a colon, if an IF THEN trueStatement ELSE falseStatemnt.
+        /// runs the true statement, then else needs to eat the following false statement.
+        /// </summary>
+        [TestMethod]
+        public void ExecutingProgramElseDoesNotRequireColon()
+        {
+            var mockElseToken = new Mock<IToken>();
+            var mockElseCmd = mockElseToken.As<ICommand>();
+            mockElseToken.Setup(met => met.Statement).Returns(TokenType.Else);
+
+            SetupSut();
+            var line10 = new ProgramLine(10, new List<IToken> { _mockPrintToken.Object, mockElseToken.Object });
+
+            _mockRunEnvironment.CurrentLine = line10;
+            _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
+            var result = _sut.ExecuteLine();
+            Assert.IsFalse(result);
+            mockElseCmd.Verify(c => c.Execute(), Times.Once);
+        }
+
+        /// <summary>
+        /// Check an  IF THEN trueStatement ELSE falseStatemnt.
+        /// runs the true statement.
+        /// </summary>
+        [TestMethod]
+        public void ExecutingProgramIfDoesNotRequireColon()
+        {
+            var mockIfToken = new Mock<IToken>();
+            var mockIfRepeatCmd = mockIfToken.As<IRepeatExecuteCommand>();
+            var mockIfCmd = mockIfToken.As<ICommand>();
+
+            SetupSut();
+            var line10 = new ProgramLine(10, new List<IToken> { mockIfToken.Object, _mockPrintToken.Object });
+
+            _mockRunEnvironment.CurrentLine = line10;
+            _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
+            var result = _sut.ExecuteLine();
+            Assert.IsFalse(result);
+            mockIfCmd.Verify(c => c.Execute(), Times.Once);
+        }
+
+        /// <summary>
         /// Check we get we a syntax error if first token is not a variable or statement.
         /// </summary>
         [TestMethod]

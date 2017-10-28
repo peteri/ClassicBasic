@@ -68,5 +68,16 @@ namespace ClassicBasic.Interpreter
             _teletype.Write(text);
             _currentPosition += text.Length;
         }
+
+        /// <summary>
+        /// Read a string from the keyboard, also resets the current horizontal position.
+        /// </summary>
+        /// <returns>String user typed in.</returns>
+        public string Read()
+        {
+            var input = _teletype.Read();
+            _currentPosition = 0;
+            return input;
+        }
     }
 }

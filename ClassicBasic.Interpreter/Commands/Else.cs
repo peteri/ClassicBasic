@@ -34,11 +34,6 @@ namespace ClassicBasic.Interpreter.Commands
             while (!_runEnvironment.CurrentLine.EndOfLine)
             {
                 var token = _runEnvironment.CurrentLine.NextToken();
-                if (token.Seperator == TokenType.Colon)
-                {
-                    _runEnvironment.CurrentLine.PushToken(token);
-                    return;
-                }
             }
         }
     }

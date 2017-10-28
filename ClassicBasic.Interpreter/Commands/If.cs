@@ -45,17 +45,11 @@ namespace ClassicBasic.Interpreter.Commands
             // Check the result
             if (result.ValueAsDouble() == 0.0)
             {
-                // Skip to the ELSE, : or EndOfLine
+                // Skip to the ELSE or EndOfLine
                 while (!_runEnvironment.CurrentLine.EndOfLine
-                        && (token.Seperator != TokenType.Colon)
                         && (token.Statement != TokenType.Else))
                 {
                     token = _runEnvironment.CurrentLine.NextToken();
-                }
-
-                if (token.Seperator == TokenType.Colon)
-                {
-                    _runEnvironment.CurrentLine.PushToken(token);
                 }
             }
             else

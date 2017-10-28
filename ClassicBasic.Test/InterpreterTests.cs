@@ -32,7 +32,7 @@ namespace ClassicBasic.Test
             _mockProgramRepository = new Mock<IProgramRepository>();
             _mockExecute = new Mock<IExecutor>();
             IInterpreter sut = new Interpreter(
-                _mockTeletype,
+                new TeletypeWithPosition(_mockTeletype),
                 _mockTokeniser.Object,
                 _mockRunEnvironment.Object,
                 _mockProgramRepository.Object,

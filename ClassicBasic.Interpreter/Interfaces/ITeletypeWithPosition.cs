@@ -36,5 +36,11 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         /// <param name="text">text to write out.</param>
         void Write(string text);
+
+        /// <summary>
+        /// Read a string from the keyboard.
+        /// </summary>
+        /// <returns>String user typed in.</returns>
+        string Read();
     }
 }

@@ -7,10 +7,14 @@
     <DebugType>Full</DebugType>
     <AssemblyName>ClassicBasic.Test</AssemblyName>
     <RootNamespace>ClassicBasic.Test</RootNamespace>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>ClassicBasic.Test.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\netcoreapp2.0\ClassicBasic.Test.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

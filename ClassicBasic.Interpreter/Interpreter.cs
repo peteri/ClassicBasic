@@ -11,7 +11,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class Interpreter : IInterpreter
     {
-        private readonly ITeletype _teletype;
+        private readonly ITeletypeWithPosition _teletypeWithPosition;
         private readonly ITokeniser _tokeniser;
         private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
@@ -20,19 +20,19 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Initializes a new instance of the <see cref="Interpreter"/> class.
         /// </summary>
-        /// <param name="teletype">Teletype to use for input output</param>
+        /// <param name="teletypeWithPosition">Teletype to use for input output</param>
         /// <param name="tokeniser">Tokeniser.</param>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program repository.</param>
         /// <param name="executor">Executor class to run program lines.</param>
         public Interpreter(
-            ITeletype teletype,
+            ITeletypeWithPosition teletypeWithPosition,
             ITokeniser tokeniser,
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
             IExecutor executor)
         {
-            _teletype = teletype;
+            _teletypeWithPosition = teletypeWithPosition;
             _tokeniser = tokeniser;
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
@@ -47,9 +47,9 @@ namespace ClassicBasic.Interpreter
             bool quit = false;
             while (!quit)
             {
-                _teletype.Write(Environment.NewLine);
-                _teletype.Write(">");
-                var command = _teletype.Read();
+                _teletypeWithPosition.Write(Environment.NewLine);
+                _teletypeWithPosition.Write(">");
+                var command = _teletypeWithPosition.Read();
                 if (command == null)
                 {
                     _runEnvironment.KeyboardBreak = false;
@@ -96,7 +96,7 @@ namespace ClassicBasic.Interpreter
 
         private void WriteErrorToTeletype(int? lineNumber, string message)
         {
-            _teletype.Write(
+            _teletypeWithPosition.Write(
                 Environment.NewLine +
                 message +
                 (lineNumber.HasValue ? $" IN {lineNumber}" : string.Empty)

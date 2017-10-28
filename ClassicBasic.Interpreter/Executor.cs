@@ -41,6 +41,8 @@ namespace ClassicBasic.Interpreter
         /// <returns>true if the user type SYSTEM</returns>
         public bool ExecuteLine()
         {
+            IToken token;
+
             _runEnvironment.KeyboardBreak = false;
             while (true)
             {
@@ -80,7 +82,7 @@ namespace ClassicBasic.Interpreter
                 if (_runEnvironment.CurrentLine.CurrentToken != 0)
                 {
                     // Next token should be a colon or an else
-                    var token = _runEnvironment.CurrentLine.NextToken();
+                    token = _runEnvironment.CurrentLine.NextToken();
                     if (token.Statement == TokenType.Else)
                     {
                         _runEnvironment.CurrentLine.PushToken(token);
@@ -90,6 +92,15 @@ namespace ClassicBasic.Interpreter
                         throw new Exceptions.SyntaxErrorException();
                     }
                 }
+
+                // Eat any colons.
+                do
+                {
+                    token = _runEnvironment.CurrentLine.NextToken();
+                }
+                while (token.Seperator == TokenType.Colon);
+
+                _runEnvironment.CurrentLine.PushToken(token);
             }
         }
 
@@ -110,6 +121,7 @@ namespace ClassicBasic.Interpreter
                 // It's a colon go home.
                 if (token.Seperator == TokenType.Colon)
                 {
+                    _runEnvironment.CurrentLine.PushToken(token);
                     return false;
                 }
 

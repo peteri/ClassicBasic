@@ -9,6 +9,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>ClassicBasic.Interpreter.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\netstandard2.0\ClassicBasic.Interpreter.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
