@@ -21,25 +21,24 @@ namespace ClassicBasic.Interpreter.Functions
         }
 
         /// <summary>
-        /// Executes the Left$ function.
+        /// Executes the CHR$ function.
         /// </summary>
         /// <param name="parameters">Parameters to the function</param>
-        /// <returns>left string of the parameters</returns>
+        /// <returns>Converts the parameter to</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
-            if (parameters.Count != 2)
+            if (parameters.Count != 1)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            var returnValue = parameters[0].ValueAsString();
-            int count = (int)parameters[1].ValueAsDouble();
-            if ((count < 0) || (count > 255))
+            int character = (int)parameters[0].ValueAsShort();
+            if (character < 0)
             {
-                throw new Exceptions.IllegalQuantityException();
+                character += 0x10000;
             }
 
-            return new Accumulator(returnValue.Substring(0, count));
+            return new Accumulator(new string((char)character, 1));
         }
     }
 }

@@ -25,15 +25,16 @@ namespace ClassicBasic.Interpreter.Functions
         /// Executes the Len function.
         /// </summary>
         /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Lene of the input value</returns>
+        /// <returns>Length of the input value</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
-#warning FixMe
-            return new Accumulator(48000.0);
+
+            var returnValue = parameters[0].ValueAsString();
+            return new Accumulator((double)returnValue.Length);
         }
     }
 }

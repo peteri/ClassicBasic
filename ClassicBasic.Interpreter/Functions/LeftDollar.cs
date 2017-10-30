@@ -4,6 +4,7 @@
 
 namespace ClassicBasic.Interpreter.Functions
 {
+    using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter.Interfaces;
 
@@ -21,7 +22,7 @@ namespace ClassicBasic.Interpreter.Functions
         }
 
         /// <summary>
-        /// Executes the Left$ function.
+        /// Executes the LEFT$ function.
         /// </summary>
         /// <param name="parameters">Parameters to the function</param>
         /// <returns>left string of the parameters</returns>
@@ -33,12 +34,13 @@ namespace ClassicBasic.Interpreter.Functions
             }
 
             var returnValue = parameters[0].ValueAsString();
-            int count = (int)parameters[1].ValueAsDouble();
-            if ((count < 0) || (count > 255))
+            int count = parameters[1].ValueAsShort();
+            if ((count <= 0) || (count > 255))
             {
                 throw new Exceptions.IllegalQuantityException();
             }
 
+            count = Math.Min(count, returnValue.Length);
             return new Accumulator(returnValue.Substring(0, count));
         }
     }

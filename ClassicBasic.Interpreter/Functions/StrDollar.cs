@@ -24,22 +24,16 @@ namespace ClassicBasic.Interpreter.Functions
         /// Executes the STR$ function.
         /// </summary>
         /// <param name="parameters">Parameters to the function</param>
-        /// <returns>left string of the parameters</returns>
+        /// <returns>String value of the first parameter.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
-            if (parameters.Count != 2)
+            if (parameters.Count != 1)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            var returnValue = parameters[0].ValueAsString();
-            int count = (int)parameters[1].ValueAsDouble();
-            if ((count < 0) || (count > 255))
-            {
-                throw new Exceptions.IllegalQuantityException();
-            }
-#warning FixMe
-            return new Accumulator(returnValue.Substring(0, count));
+            var returnValue = parameters[0].ValueAsDouble();
+            return new Accumulator(returnValue.ToString());
         }
     }
 }

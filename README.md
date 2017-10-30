@@ -5,7 +5,7 @@ The initial aim is to get the code to be able to run the contents of "BASIC comp
 See the games directory for the files.
 
 ## Todo List
-* Finish string functions with tests.
+* ~~Finish string functions with tests.~~
 * Add tests for commands.
 * Fix outstanding bugs.
 * Write the following commands (loosely clustered)

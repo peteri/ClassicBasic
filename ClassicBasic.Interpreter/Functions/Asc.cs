@@ -23,8 +23,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the Asc function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Asce of the input value</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>UTF-16 character of the first character of the input value.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)
@@ -32,8 +32,19 @@ namespace ClassicBasic.Interpreter.Functions
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            #warning FixMe
-            return new Accumulator(0);
+            string paramAsString = parameters[0].ValueAsString();
+            if (paramAsString.Length == 0)
+            {
+                throw new Exceptions.IllegalQuantityException();
+            }
+
+            int returnValue = paramAsString[0];
+            if (returnValue > short.MaxValue)
+            {
+                returnValue = returnValue - 0x10000;
+            }
+
+            return new Accumulator((double)returnValue);
         }
     }
 }

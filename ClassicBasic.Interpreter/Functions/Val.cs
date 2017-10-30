@@ -21,18 +21,25 @@ namespace ClassicBasic.Interpreter.Functions
         }
 
         /// <summary>
-        /// Executes the Val function.
+        /// Executes the VAL function.
         /// </summary>
         /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Vale of the input value</returns>
+        /// <returns>VAL of the input value</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
-#warning FixMe
-            return new Accumulator(48000.0);
+
+            string stringToParse = parameters[0].ValueAsString();
+
+            if (!double.TryParse(stringToParse, out double returnValue))
+            {
+                return new Accumulator(0.0);
+            }
+
+            return new Accumulator(returnValue);
         }
     }
 }
