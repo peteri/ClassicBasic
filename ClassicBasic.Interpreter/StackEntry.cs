@@ -11,9 +11,9 @@ namespace ClassicBasic.Interpreter
     public class StackEntry
     {
         /// <summary>
-        /// Gets or sets line number to loop back to (or return too)
+        /// Gets or sets line to loop back to (or return too)
         /// </summary>
-        public int? LineNumber { get; set; }
+        public ProgramLine Line { get; set; }
 
         /// <summary>
         /// Gets or sets line token to loop back to (or return too)

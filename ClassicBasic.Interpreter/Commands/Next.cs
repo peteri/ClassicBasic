@@ -54,11 +54,7 @@ namespace ClassicBasic.Interpreter.Commands
 
                 if (!finished)
                 {
-                    if (currentLoop.LineNumber.HasValue)
-                    {
-                        _runEnvironment.CurrentLine = _programRepository.GetLine(currentLoop.LineNumber.Value);
-                    }
-
+                    _runEnvironment.CurrentLine = currentLoop.Line;
                     _runEnvironment.CurrentLine.CurrentToken = currentLoop.LineToken;
                     return;
                 }

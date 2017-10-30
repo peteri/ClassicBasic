@@ -19,7 +19,7 @@ See the games directory for the files.
 * Parsing of floating point numbers has a bug when an exponent is specified it get split into '3.03', '-', 'E04' tokens so it needs merging.
 * Make ```PRINT 3.4.5.6. ,``` work the same way it does in Microsoft BASIC.
 * Make ```VAL("3.4.5.6")``` work the same way it does in Microsoft BASIC.
-* Use of GOSUB from an immediate line doesn't return correctly.
+~~* Use of GOSUB from an immediate line doesn't return correctly.~~
 * LIST doesn't correctly get the beginning and end line numbers.
 * RUN "filename.bas" doesn't work.
 * FOR definition does not delete unwanted stack entries.

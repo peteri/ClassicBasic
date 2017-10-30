@@ -41,11 +41,7 @@ namespace ClassicBasic.Interpreter.Commands
             }
             while (stackEntry.VariableRef != null);
 
-            if (stackEntry.LineNumber.HasValue)
-            {
-                _runEnvironment.CurrentLine = _programRepository.GetLine(stackEntry.LineNumber.Value);
-            }
-
+            _runEnvironment.CurrentLine = stackEntry.Line;
             _runEnvironment.CurrentLine.CurrentToken = stackEntry.LineToken;
         }
     }

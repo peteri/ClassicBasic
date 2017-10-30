@@ -76,7 +76,7 @@ namespace ClassicBasic.Interpreter.Commands
                 stackEntry.Step = _expressionEvaluator.GetExpression().ValueAsDouble();
             }
 
-            stackEntry.LineNumber = _runEnvironment.CurrentLine.LineNumber;
+            stackEntry.Line = _runEnvironment.CurrentLine;
             stackEntry.LineToken = _runEnvironment.CurrentLine.CurrentToken;
 
 #warning need to delete older instances of this entry.

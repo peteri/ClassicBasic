@@ -43,7 +43,7 @@ namespace ClassicBasic.Interpreter.Commands
 
             var returnAddress = new StackEntry
             {
-                LineNumber = _runEnvironment.CurrentLine.LineNumber,
+                Line = _runEnvironment.CurrentLine,
                 LineToken = _runEnvironment.CurrentLine.CurrentToken
             };
 
