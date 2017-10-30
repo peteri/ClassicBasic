@@ -30,10 +30,10 @@ namespace ClassicBasic.Interpreter
         /// Gets or sets a value indicating whether user hit the break key.
         /// </summary>
         bool KeyboardBreak { get; set; }
-#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
 
-        // Stack<(bool isForLoop, ProgramLine programCounter)> ProgramStack { get; }
-#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
-
+        /// <summary>
+        /// Gets stack for GOSUB/RETURN or FOR/NEXT
+        /// </summary>
+        Stack<StackEntry> ProgramStack { get; }
     }
 }

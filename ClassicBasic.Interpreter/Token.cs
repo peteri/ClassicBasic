@@ -17,13 +17,15 @@ namespace ClassicBasic.Interpreter
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Token"/> class.
-        /// If the text parameter starts with a number, marked as a number otherwise it's a variable.
+        /// If the text parameter starts with a letter, marked as a variable otherwise it's a number.
         /// </summary>
         /// <param name="text">Value typed in by the user.</param>
         public Token(string text)
         {
             _text = text;
-            _tokenType = char.IsDigit(text[0]) ? TokenType.ClassNumber : TokenType.ClassVariable;
+            _tokenType = char.IsLetter(text[0]) ?
+                TokenType.ClassVariable :
+                TokenType.ClassNumber;
         }
 
         /// <summary>

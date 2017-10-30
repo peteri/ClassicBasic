@@ -58,10 +58,10 @@ namespace ClassicBasic.Test
         }
 
         /// <summary>
-        /// Token created with text and the string begins with a digit is created as number.
+        /// Token created with text and the string begins with a non-letter is created as number.
         /// </summary>
         [TestMethod]
-        public void TokenCreatedWithTextBeginningWithADigitIsNumber()
+        public void TokenCreatedWithTextBeginningWithNotALetterIsNumber()
         {
             var token = new Token("0a1");
             Assert.AreEqual("0a1", token.Text);
@@ -71,10 +71,23 @@ namespace ClassicBasic.Test
         }
 
         /// <summary>
-        /// Token created with text and the string begins with a non-digit is created as variable.
+        /// Token created with text and the string begins with a period is created as number.
         /// </summary>
         [TestMethod]
-        public void TokenCreatedWithTextBeginningWithNotADigitIsVariable()
+        public void TokenCreatedWithTextBeginningWithAPeriodIsNumber()
+        {
+            var token = new Token(".0a1");
+            Assert.AreEqual(".0a1", token.Text);
+            Assert.AreEqual(TokenType.Unknown, token.Seperator);
+            Assert.AreEqual(TokenType.Unknown, token.Statement);
+            Assert.AreEqual(TokenType.ClassNumber, token.TokenClass);
+        }
+
+        /// <summary>
+        /// Token created with text and the string begins with a letter is created as variable.
+        /// </summary>
+        [TestMethod]
+        public void TokenCreatedWithTextBeginningWithALetterIsVariable()
         {
             var token = new Token("a0a1");
             Assert.AreEqual("a0a1", token.Text);

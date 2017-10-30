@@ -37,7 +37,7 @@ namespace ClassicBasic.Interpreter.Commands
         {
             var result = _expressionEvaluator.GetExpression();
             var token = _runEnvironment.CurrentLine.NextToken();
-            if (token.Statement != TokenType.Then)
+            if (token.Statement != TokenType.Then && token.Statement != TokenType.Goto)
             {
                 throw new Exceptions.SyntaxErrorException();
             }

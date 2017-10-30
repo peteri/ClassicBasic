@@ -102,6 +102,9 @@ namespace ClassicBasic.Interpreter
         /// <summary>Token is for a Remark statement</summary>
         Remark,
 
+        /// <summary>Token is for a Goto statement</summary>
+        Goto,
+
         /// <summary>Mask for token.</summary>
         ClassMask = 0xff00,
 

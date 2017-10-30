@@ -1,13 +1,15 @@
-﻿using ClassicBasic.Interpreter;
-using ClassicBasic.Interpreter.Functions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// <copyright file="MiscFunctions.cs" company="Peter Ibbotson">
+// (C) Copyright 2017 Peter Ibbotson
+// </copyright>
 
 namespace ClassicBasic.Test.FunctionTests
 {
+    using System.Collections.Generic;
+    using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Functions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+
     /// <summary>
     /// Test class for various functions that aren't double or string based.
     /// </summary>

@@ -16,9 +16,7 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         public RunEnvironment()
         {
-#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
-        // ProgramStack = new Stack<(bool isForLoop, ProgramLine programCounter)>();
-#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
+            ProgramStack = new Stack<StackEntry>();
         }
 
         /// <summary>
@@ -41,9 +39,9 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         public bool KeyboardBreak { get; set; }
 
-#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
-
-        // public Stack<(bool isForLoop, ProgramLine programCounter)> ProgramStack { get; }
-#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
+        /// <summary>
+        /// Gets stack for GOSUB/RETURN or FOR/NEXT
+        /// </summary>
+        public Stack<StackEntry> ProgramStack { get; }
     }
 }

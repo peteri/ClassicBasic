@@ -4,7 +4,6 @@
 
 namespace ClassicBasic.Interpreter.Functions
 {
-    using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter.Interfaces;
 
@@ -33,6 +32,7 @@ namespace ClassicBasic.Interpreter.Functions
                 throw new Exceptions.SyntaxErrorException();
             }
 
+            #warning FixMe
             return new Accumulator(0);
         }
     }
