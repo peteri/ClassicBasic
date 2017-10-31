@@ -7,7 +7,7 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the RUN command.
     /// </summary>
-    public class Run : Token, ICommand
+    public class Run : Token, ITokeniserCommand
     {
         private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
@@ -37,15 +37,20 @@ namespace ClassicBasic.Interpreter.Commands
         /// <summary>
         /// Executes the RUN command.
         /// </summary>
-        public void Execute()
+        /// <param name="tokeniser">Tokeniser used by the load command.</param>
+        public void Execute(ITokeniser tokeniser)
         {
             var nextToken = _runEnvironment.CurrentLine.NextToken();
 
             if (nextToken.TokenClass == TokenType.ClassString)
             {
-#warning fix me
-                // This will load the program eventually.
-                throw new Exceptions.BasicException("Not implemented yet");
+                // Since we have a tokeniser, we can just fake being the executor/interpreter
+                // and create our own LOAD command and call it.
+                var oldLine = _runEnvironment.CurrentLine;
+                _runEnvironment.CurrentLine = tokeniser.Tokenise($"LOAD {nextToken}");
+                var loadToken = _runEnvironment.CurrentLine.NextToken() as ITokeniserCommand;
+                loadToken.Execute(tokeniser);
+                _runEnvironment.CurrentLine = oldLine;
             }
             else
             {

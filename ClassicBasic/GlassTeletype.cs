@@ -30,12 +30,12 @@ namespace ClassicBasic.Console
         {
             add
             {
-                System.Console.CancelKeyPress += value;
+                Console.CancelKeyPress += value;
             }
 
             remove
             {
-                System.Console.CancelKeyPress -= value;
+                Console.CancelKeyPress -= value;
             }
         }
 
@@ -57,7 +57,7 @@ namespace ClassicBasic.Console
                 return tempinitialCommand;
             }
 
-            return System.Console.ReadLine();
+            return Console.ReadLine();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace ClassicBasic.Console
         /// <param name="output">string to output.</param>
         public void Write(string output)
         {
-            System.Console.Write(output);
+            Console.Write(output);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace ClassicBasic.Interpreter
 {
     using System;
     using System.Collections.Generic;
-    using ClassicBasic.Interpreter.Interfaces;
 
     /// <summary>
     /// Expression evaluator.

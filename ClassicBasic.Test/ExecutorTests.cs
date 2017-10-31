@@ -368,7 +368,8 @@ namespace ClassicBasic.Test
                 _mockTeletype,
                 _mockRunEnvironment,
                 _mockProgramRepository.Object,
-                _mockTokensProvider.Object);
+                _mockTokensProvider.Object,
+                Mock.Of<ITokeniser>());
         }
     }
 }

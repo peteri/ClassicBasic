@@ -10,18 +10,15 @@ namespace ClassicBasic.Interpreter.Commands
     public class Return : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
-        private readonly IProgramRepository _programRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Return"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="programRepository">Program repository.</param>
-        public Return(IRunEnvironment runEnvironment, IProgramRepository programRepository)
+        public Return(IRunEnvironment runEnvironment)
             : base("RETURN", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
-            _programRepository = programRepository;
         }
 
         /// <summary>

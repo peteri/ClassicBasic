@@ -11,23 +11,19 @@ namespace ClassicBasic.Interpreter.Commands
     {
         private readonly IRunEnvironment _runEnvironment;
         private readonly IVariableRepository _variableRepository;
-        private readonly IProgramRepository _programRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Next"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="variableRepository">Variable repository.</param>
-        /// <param name="programRepository">Program repository.</param>
         public Next(
             IRunEnvironment runEnvironment,
-            IVariableRepository variableRepository,
-            IProgramRepository programRepository)
+            IVariableRepository variableRepository)
             : base("NEXT", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
             _variableRepository = variableRepository;
-            _programRepository = programRepository;
         }
 
         /// <summary>

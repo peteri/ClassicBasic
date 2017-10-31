@@ -5,7 +5,6 @@
 namespace ClassicBasic.Interpreter.Functions
 {
     using System.Collections.Generic;
-    using ClassicBasic.Interpreter.Interfaces;
 
     /// <summary>
     /// Implements the CHR$ function.

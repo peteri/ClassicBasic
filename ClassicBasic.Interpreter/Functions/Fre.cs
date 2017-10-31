@@ -4,9 +4,7 @@
 
 namespace ClassicBasic.Interpreter.Functions
 {
-    using System;
     using System.Collections.Generic;
-    using ClassicBasic.Interpreter.Interfaces;
 
     /// <summary>
     /// Implements the Fre function.

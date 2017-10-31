@@ -20,9 +20,9 @@ namespace ClassicBasic.Console
         public static void Main(string[] args)
         {
             string initialCommand = string.Empty;
-            if (args.Length > 1)
+            if (args.Length == 1)
             {
-                initialCommand = $"RUN \"{args[1]}\"";
+                initialCommand = $"RUN \"{args[0]}\"";
             }
             else
             {

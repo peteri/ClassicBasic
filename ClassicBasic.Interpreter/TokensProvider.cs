@@ -21,7 +21,6 @@ namespace ClassicBasic.Interpreter
             new Token("DEF", TokenType.ClassStatement),
             new Token("GET", TokenType.ClassStatement),
             new Token("DATA", TokenType.ClassStatement),
-            new Token("SAVE", TokenType.ClassStatement),
             new Token("CLEAR", TokenType.ClassStatement),
             new Token("TO", TokenType.ClassStatement | TokenType.To),
             new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),

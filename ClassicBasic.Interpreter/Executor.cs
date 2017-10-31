@@ -14,6 +14,7 @@ namespace ClassicBasic.Interpreter
         private readonly IRunEnvironment _runEnvironment;
         private readonly IToken _letToken;
         private readonly IProgramRepository _programRepository;
+        private readonly ITokeniser _tokeniser;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Executor"/> class.
@@ -22,15 +23,17 @@ namespace ClassicBasic.Interpreter
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program repository.</param>
         /// <param name="tokensProvider">Provider of tokens.</param>
+        /// <param name="tokeniser">Tokeniser to pass to ITokeniserCommands.</param>
         public Executor(
             ITeletype teletype,
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
-            ITokensProvider tokensProvider)
+            ITokensProvider tokensProvider,
+            ITokeniser tokeniser)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
-
+            _tokeniser = tokeniser;
             _letToken = tokensProvider.Tokens.Find(t => t.Statement == TokenType.Let);
             teletype.CancelEventHandler += InterruptExecution;
         }
@@ -154,7 +157,9 @@ namespace ClassicBasic.Interpreter
         {
             var executor = token as ICommand;
             var interuptableExecutor = token as IInterruptableCommand;
-            if (executor == null && interuptableExecutor == null)
+            var tokeniserExecutor = token as ITokeniserCommand;
+
+            if (executor == null && interuptableExecutor == null && tokeniserExecutor == null)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
@@ -175,7 +180,14 @@ namespace ClassicBasic.Interpreter
                 }
                 else
                 {
-                    executor.Execute();
+                    if (tokeniserExecutor != null)
+                    {
+                        tokeniserExecutor.Execute(_tokeniser);
+                    }
+                    else
+                    {
+                        executor.Execute();
+                    }
                 }
             }
         }

@@ -12,7 +12,7 @@ See the games directory for the files.
 * ```INPUT, DATA, READ, RESTORE```
 * ```ON GOTO, ON GOSUB, ON ERR```
 * ```NEW,  CLEAR, DEL, DIM```
-* ```SAVE, LOAD```
+~~* ```SAVE, LOAD``` ~~
 * ```DEF FN```
 
 ## Known bugs
@@ -21,9 +21,10 @@ See the games directory for the files.
 * Make ```VAL("3.4.5.6")``` work the same way it does in Microsoft BASIC.
 ~~* Use of GOSUB from an immediate line doesn't return correctly.~~
 * LIST doesn't correctly get the beginning and end line numbers.
-* RUN "filename.bas" doesn't work.
+~~* RUN "filename.bas" doesn't work.~~
 * FOR definition does not delete unwanted stack entries.
 * Numeric overflow is not trapped in the basic interpreter.
+* GOSUB/FOR stack does not have endless recursion check.
 
 ## Issues  and future plans
 * Allow editing of lines of code.

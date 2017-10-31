@@ -1,20 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>Full</DebugType>
     <AssemblyName>ClassicBasic.Interpreter</AssemblyName>
     <RootNamespace>ClassicBasic.Interpreter</RootNamespace>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>ClassicBasic.Interpreter.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\netstandard2.0\ClassicBasic.Interpreter.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\ClassicBasic.Interpreter.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>ClassicBasic.Interpreter.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\netstandard2.0\ClassicBasic.Interpreter.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\ClassicBasic.Interpreter.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +30,11 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="2.0.0" />
+    <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+    <PackageReference Include="System.IO.Abstractions" Version="2.1.0.159" />
   </ItemGroup>
 
 </Project>

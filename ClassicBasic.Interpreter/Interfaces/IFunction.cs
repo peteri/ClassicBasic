@@ -2,7 +2,7 @@
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
-namespace ClassicBasic.Interpreter.Interfaces
+namespace ClassicBasic.Interpreter
 {
     using System.Collections.Generic;
 

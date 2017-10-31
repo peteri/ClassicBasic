@@ -6,7 +6,6 @@ namespace ClassicBasic.Interpreter.Functions
 {
     using System;
     using System.Collections.Generic;
-    using ClassicBasic.Interpreter.Interfaces;
 
     /// <summary>
     /// Base class for simple mathematical function that take a double and return a double.

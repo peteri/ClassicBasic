@@ -4,6 +4,7 @@
 
 namespace ClassicBasic.Interpreter
 {
+    using System.IO.Abstractions;
     using Autofac;
 
     /// <summary>
@@ -23,6 +24,7 @@ namespace ClassicBasic.Interpreter
             // Other stuff we care about
             builder.RegisterType<Executor>().As<IExecutor>().SingleInstance();
             builder.RegisterType<Tokeniser>().As<ITokeniser>().SingleInstance();
+            builder.RegisterType<FileSystem>().As<IFileSystem>().SingleInstance();
             builder.RegisterType<Interpreter>().As<IInterpreter>().SingleInstance();
             builder.RegisterType<RunEnvironment>().As<IRunEnvironment>().SingleInstance();
             builder.RegisterType<TokensProvider>().As<ITokensProvider>().SingleInstance();
