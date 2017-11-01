@@ -12,7 +12,6 @@ See the games directory for the files.
 * ```INPUT, DATA, READ, RESTORE```
 * ```ON GOTO, ON GOSUB, ON ERR```
 * ```NEW,  CLEAR, DEL, DIM```
-* ~~ ```SAVE, LOAD``` ~~
 * ```DEF FN```
 
 ## Known bugs

@@ -859,7 +859,7 @@ namespace ClassicBasic.Test.CommandTests
             _colonToken = new Token(":", TokenType.ClassSeperator | TokenType.Colon);
             _equalToken = new Token("=", TokenType.ClassSeperator | TokenType.Equal);
             _stepToken = new Token("STEP", TokenType.ClassStatement | TokenType.Step);
-            _commaToken = new Token(",", TokenType.ClassStatement | TokenType.Comma);
+            _commaToken = new Token(",", TokenType.ClassSeperator | TokenType.Comma);
         }
     }
 }
