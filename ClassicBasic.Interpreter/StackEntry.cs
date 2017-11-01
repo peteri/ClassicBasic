@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Gets or sets the variable name
         /// </summary>
-        public string VariableRef { get; set; }
+        public string VariableName { get; set; }
 
         /// <summary>
         /// Gets or sets target value for next loop.

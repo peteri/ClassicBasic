@@ -35,5 +35,10 @@ namespace ClassicBasic.Interpreter
         /// Gets stack for GOSUB/RETURN or FOR/NEXT
         /// </summary>
         Stack<StackEntry> ProgramStack { get; }
+
+        /// <summary>
+        /// Tests if the program stack has more than 50 entries, if so throws out of memory exception
+        /// </summary>
+        void TestForStackOverflow();
     }
 }

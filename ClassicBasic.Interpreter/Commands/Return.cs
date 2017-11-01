@@ -36,7 +36,7 @@ namespace ClassicBasic.Interpreter.Commands
 
                 stackEntry = _runEnvironment.ProgramStack.Pop();
             }
-            while (stackEntry.VariableRef != null);
+            while (stackEntry.VariableName != null);
 
             _runEnvironment.CurrentLine = stackEntry.Line;
             _runEnvironment.CurrentLine.CurrentToken = stackEntry.LineToken;

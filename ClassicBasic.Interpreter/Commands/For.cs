@@ -45,7 +45,7 @@ namespace ClassicBasic.Interpreter.Commands
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            stackEntry.VariableRef = token.Text;
+            stackEntry.VariableName = token.Text;
             var variableRef = _variableRepository.GetOrCreateVariable(token.Text, new short[] { });
 
             token = _runEnvironment.CurrentLine.NextToken();
@@ -79,8 +79,33 @@ namespace ClassicBasic.Interpreter.Commands
             stackEntry.Line = _runEnvironment.CurrentLine;
             stackEntry.LineToken = _runEnvironment.CurrentLine.CurrentToken;
 
-#warning need to delete older instances of this entry.
+            bool doDelete = false;
+            foreach (var entry in _runEnvironment.ProgramStack)
+            {
+                // Gosub / Return stop searching
+                if (entry.VariableName == null)
+                {
+                    break;
+                }
+
+                // Name matches we should overwrite.
+                if (entry.VariableName == stackEntry.VariableName)
+                {
+                    doDelete = true;
+                    break;
+                }
+            }
+
+            if (doDelete)
+            {
+                // Pop entries off the stack until we find us.
+                while (_runEnvironment.ProgramStack.Pop().VariableName != stackEntry.VariableName)
+                {
+                }
+            }
+
             _runEnvironment.ProgramStack.Push(stackEntry);
+            _runEnvironment.TestForStackOverflow();
         }
     }
 }

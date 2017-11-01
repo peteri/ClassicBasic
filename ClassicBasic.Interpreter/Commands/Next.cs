@@ -36,7 +36,7 @@ namespace ClassicBasic.Interpreter.Commands
             while (true)
             {
                 currentLoop = FindForEntry(currentLoop);
-                var loopVar = _variableRepository.GetOrCreateVariable(currentLoop.VariableRef, new short[] { });
+                var loopVar = _variableRepository.GetOrCreateVariable(currentLoop.VariableName, new short[] { });
                 loopVar.SetValue(new Accumulator(loopVar.GetValue().ValueAsDouble() + currentLoop.Step));
                 bool finished;
                 if (currentLoop.Step > 0.0)
@@ -87,7 +87,7 @@ namespace ClassicBasic.Interpreter.Commands
                     currentLoop = _runEnvironment.ProgramStack.Peek();
                 }
 
-                if (currentLoop?.VariableRef == null)
+                if (currentLoop?.VariableName == null)
                 {
                     throw new Exceptions.NextWithoutForException();
                 }
@@ -101,12 +101,12 @@ namespace ClassicBasic.Interpreter.Commands
                         currentLoop = _runEnvironment.ProgramStack.Peek();
                     }
 
-                    if (currentLoop?.VariableRef == null)
+                    if (currentLoop?.VariableName == null)
                     {
                         throw new Exceptions.NextWithoutForException();
                     }
 
-                    if (currentLoop.VariableRef == token.Text)
+                    if (currentLoop.VariableName == token.Text)
                     {
                         break;
                     }

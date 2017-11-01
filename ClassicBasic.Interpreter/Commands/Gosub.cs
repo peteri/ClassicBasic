@@ -49,6 +49,7 @@ namespace ClassicBasic.Interpreter.Commands
 
             _runEnvironment.CurrentLine = _programRepository.GetLine(nextLine.Value);
             _runEnvironment.ProgramStack.Push(returnAddress);
+            _runEnvironment.TestForStackOverflow();
         }
     }
 }
