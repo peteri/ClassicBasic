@@ -37,6 +37,7 @@ namespace ClassicBasic.Interpreter.Modules
             builder.RegisterType<Commands.Resume>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Return>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Run>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.Save>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Stop>().As<IToken>().SingleInstance();
         }
     }

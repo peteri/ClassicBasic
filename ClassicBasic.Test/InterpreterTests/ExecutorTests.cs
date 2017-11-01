@@ -2,7 +2,7 @@
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
-namespace ClassicBasic.Test
+namespace ClassicBasic.Test.InterpreterTests
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +20,9 @@ namespace ClassicBasic.Test
 
         private Mock<IToken> _mockPrintToken;
         private Mock<ICommand> _mockPrintCmd;
+
+        private Mock<IToken> _mockRunToken;
+        private Mock<ITokeniserCommand> _mockRunCmd;
 
         private Mock<IToken> _mockLetToken;
         private Mock<ICommand> _mockLetCmd;
@@ -265,6 +268,24 @@ namespace ClassicBasic.Test
         }
 
         /// <summary>
+        /// Run takes a tokeniser as a parameter for execute.
+        /// </summary>
+        [TestMethod]
+        public void ExecutingRunCallsSetupOnceAndExecuteMultipleTimes()
+        {
+            SetupSut();
+            var line10 = new ProgramLine(10, new List<IToken> { _mockRunToken.Object });
+
+            _mockRunEnvironment.CurrentLine = line10;
+            _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
+
+            var result = _sut.ExecuteLine();
+
+            Assert.IsFalse(result);
+            _mockRunCmd.Verify(mrc => mrc.Execute(It.IsAny<ITokeniser>()), Times.Once);
+        }
+
+        /// <summary>
         /// List uses a Setup and Execute approach, runs until ctrl-c hit.
         /// </summary>
         [TestMethod]
@@ -333,8 +354,14 @@ namespace ClassicBasic.Test
             _mockRunEnvironment = new RunEnvironment();
 
             _mockListToken = new Mock<IToken>();
-            _mockListToken.Setup(mlt => mlt.Statement).Returns(TokenType.Let);
+            _mockListToken.Setup(mlt => mlt.Statement).Returns(TokenType.Unknown);
+            _mockListToken.Setup(mlt => mlt.TokenClass).Returns(TokenType.ClassStatement);
             _mockListCmd = _mockListToken.As<IInterruptableCommand>();
+
+            _mockRunToken = new Mock<IToken>();
+            _mockRunToken.Setup(mrt => mrt.TokenClass).Returns(TokenType.ClassStatement);
+            _mockRunToken.Setup(mrt => mrt.Statement).Returns(TokenType.Unknown);
+            _mockRunCmd = _mockRunToken.As<ITokeniserCommand>();
 
             _mockLetToken = new Mock<IToken>();
             _mockLetToken.Setup(mlt => mlt.Statement).Returns(TokenType.Let);

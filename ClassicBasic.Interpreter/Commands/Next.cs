@@ -82,10 +82,7 @@ namespace ClassicBasic.Interpreter.Commands
             if (token.TokenClass != TokenType.ClassVariable)
             {
                 _runEnvironment.CurrentLine.PushToken(token);
-                if (_runEnvironment.ProgramStack.Count > 0)
-                {
-                    currentLoop = _runEnvironment.ProgramStack.Peek();
-                }
+                currentLoop = _runEnvironment.ProgramStack.Count > 0 ? _runEnvironment.ProgramStack.Peek() : null;
 
                 if (currentLoop?.VariableName == null)
                 {
@@ -96,10 +93,7 @@ namespace ClassicBasic.Interpreter.Commands
             {
                 while (true)
                 {
-                    if (_runEnvironment.ProgramStack.Count > 0)
-                    {
-                        currentLoop = _runEnvironment.ProgramStack.Peek();
-                    }
+                    currentLoop = _runEnvironment.ProgramStack.Count > 0 ? _runEnvironment.ProgramStack.Peek() : null;
 
                     if (currentLoop?.VariableName == null)
                     {

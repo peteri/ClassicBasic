@@ -2,7 +2,7 @@
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
-namespace ClassicBasic.Test
+namespace ClassicBasic.Test.InterpreterTests
 {
     using System;
     using System.Collections.Generic;
@@ -83,6 +83,28 @@ namespace ClassicBasic.Test
             Assert.IsTrue(programLine.EndOfLine);
             var nextToken = programLine.NextToken();
             Assert.AreEqual(TokenType.EndOfLine, nextToken.Seperator);
+        }
+
+        /// <summary>
+        /// Test End of line returns false if end of line token pushed back then previous tokens.
+        /// </summary>
+        [TestMethod]
+        public void ProgramLineEndOfLineIsFalseIfEolPlusTokenIsPushedBack()
+        {
+            ProgramLine programLine = new ProgramLine(30, _tokens);
+            programLine.NextToken();
+            var token1 = programLine.NextToken();
+            var token2 = programLine.NextToken();
+            var eolToken = programLine.NextToken();
+            programLine.PushToken(eolToken);
+            Assert.IsTrue(programLine.EndOfLine);
+            programLine.PushToken(token2);
+            programLine.PushToken(token1);
+            Assert.IsFalse(programLine.EndOfLine);
+            var nextToken = programLine.NextToken();
+            Assert.AreEqual(token1, nextToken);
+            nextToken = programLine.NextToken();
+            Assert.AreEqual(token2, nextToken);
         }
 
         /// <summary>

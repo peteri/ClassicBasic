@@ -6,6 +6,7 @@ namespace ClassicBasic.Console
 {
     using System;
     using ClassicBasic.Interpreter;
+    using System.Text;
 
     /// <summary>
     /// Glass teletype.
@@ -21,6 +22,8 @@ namespace ClassicBasic.Console
         public GlassTeletype(string initialCommand)
         {
             _initialCommand = initialCommand;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
         }
 
         /// <summary>

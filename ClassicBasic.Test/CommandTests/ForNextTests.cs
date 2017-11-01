@@ -792,6 +792,174 @@ namespace ClassicBasic.Test.CommandTests
             Assert.AreEqual(0, _runEnvironment.ProgramStack.Count);
         }
 
+        /// <summary>
+        /// For next loop with wrong variable name throws exception.
+        /// </summary>
+        [TestMethod]
+        public void ForNextLoopWithWrongVariableTest()
+        {
+            SetupSut();
+            var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
+            var nextCmd = new Next(_runEnvironment, _variableRepository);
+            _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
+                .Returns(new Accumulator(1.0))
+                .Returns(new Accumulator(4.0));
+            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
+            var line30 = new ProgramLine(30, new List<IToken> { new Token("B"), new Token("2") });
+
+            // Execute for
+            _runEnvironment.CurrentLine = line10;
+            forCmd.Execute();
+            line30.CurrentToken = 0;
+            _runEnvironment.CurrentLine = line30;
+            bool exceptionThrown = false;
+            try
+            {
+                nextCmd.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// For next loop with intermediate gosub and variable name.
+        /// </summary>
+        [TestMethod]
+        public void ForNextLoopWithIntermediateGosubThrowsErrorTest()
+        {
+            SetupSut();
+            var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
+            var nextCmd = new Next(_runEnvironment, _variableRepository);
+            _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
+                .Returns(new Accumulator(1.0))
+                .Returns(new Accumulator(4.0));
+            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
+            var line30 = new ProgramLine(30, new List<IToken> { new Token("A"), new Token("2") });
+
+            // Execute for
+            _runEnvironment.CurrentLine = line10;
+            forCmd.Execute();
+
+            // Pretend we've done a gosub
+            _runEnvironment.ProgramStack.Push(new StackEntry());
+            line30.CurrentToken = 0;
+            _runEnvironment.CurrentLine = line30;
+            bool exceptionThrown = false;
+            try
+            {
+                nextCmd.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// For next loop with intermediate gosub and no variable name.
+        /// </summary>
+        [TestMethod]
+        public void ForNextLoopWithNoVariableAndIntermediateGosubThrowsErrorTest()
+        {
+            SetupSut();
+            var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
+            var nextCmd = new Next(_runEnvironment, _variableRepository);
+            _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
+                .Returns(new Accumulator(1.0))
+                .Returns(new Accumulator(4.0));
+            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
+            var line30 = new ProgramLine(30, new List<IToken> { new Token("2") });
+
+            // Execute for
+            _runEnvironment.CurrentLine = line10;
+            forCmd.Execute();
+
+            // Pretend we've done a gosub
+            _runEnvironment.ProgramStack.Push(new StackEntry());
+            line30.CurrentToken = 0;
+            _runEnvironment.CurrentLine = line30;
+            bool exceptionThrown = false;
+            try
+            {
+                nextCmd.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// For next loop with empty stack and no variable name.
+        /// </summary>
+        [TestMethod]
+        public void ForNextLoopWithNoVariableAndEmptyStackThrowsErrorTest()
+        {
+            SetupSut();
+            var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
+            var nextCmd = new Next(_runEnvironment, _variableRepository);
+            _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
+                .Returns(new Accumulator(1.0))
+                .Returns(new Accumulator(4.0));
+            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
+            var line30 = new ProgramLine(30, new List<IToken> { new Token("2") });
+
+            _runEnvironment.CurrentLine = line30;
+            bool exceptionThrown = false;
+            try
+            {
+                nextCmd.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// For next loop with number instead of variable when using commas throws syntax error.
+        /// </summary>
+        [TestMethod]
+        public void ForNextLoopWithNumberInsteadOfVariableThrowsErrorTest()
+        {
+            SetupSut();
+            var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
+            var nextCmd = new Next(_runEnvironment, _variableRepository);
+            _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
+                .Returns(new Accumulator(1.0))
+                .Returns(new Accumulator(1.0));
+            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
+            var line30 = new ProgramLine(30, new List<IToken> { new Token("A"), _commaToken, new Token("2") });
+
+            // Execute for
+            _runEnvironment.CurrentLine = line10;
+            forCmd.Execute();
+
+            line30.CurrentToken = 0;
+            _runEnvironment.CurrentLine = line30;
+            bool exceptionThrown = false;
+            try
+            {
+                nextCmd.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
         private void RunnerInnerLoop(
             For forCmd,
             Next nextCmd,

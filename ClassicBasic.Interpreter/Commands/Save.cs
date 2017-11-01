@@ -5,60 +5,66 @@
 namespace ClassicBasic.Interpreter.Commands
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO.Abstractions;
+    using System.Text;
 
     /// <summary>
     /// Implements the Save command.
     /// </summary>
-    public class Save : Token, IInterruptableCommand
+    public class Save : Token, ICommand
     {
         private readonly IExpressionEvaluator _expressionEvaluator;
         private readonly IProgramRepository _programRepository;
-        private readonly ITeletype _teletype;
-        private ProgramLine _currentLine;
-        private int _endLine;
+        private readonly IFileSystem _fileSystem;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Save"/> class.
         /// </summary>
         /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="programRepository">Program Repository.</param>
-        /// <param name="teletype">Output teletype to use.</param>
+        /// <param name="fileSystem">Filesystem to use.</param>
         public Save(
             IExpressionEvaluator expressionEvaluator,
             IProgramRepository programRepository,
-            ITeletype teletype)
+            IFileSystem fileSystem)
             : base("SAVE", TokenType.ClassStatement)
         {
             _expressionEvaluator = expressionEvaluator;
             _programRepository = programRepository;
-            _teletype = teletype;
+            _fileSystem = fileSystem;
         }
 
         /// <summary>
-        /// Called before execute, used to setup the line number range.
+        /// Implements the SAVE command.
         /// </summary>
-        public void Setup()
+        public void Execute()
         {
-            _endLine = ushort.MaxValue;
-            _currentLine = _programRepository.GetFirstLine();
-        }
+            var filename = _expressionEvaluator.GetExpression().ValueAsString();
 
-        /// <inheritdoc />
-        public bool Execute()
-        {
-            if (_currentLine != null)
+            var lines = new List<string>();
+            var currentLine = _programRepository.GetFirstLine();
+            while (currentLine != null)
             {
-                _teletype.Write($"{_currentLine.LineNumber} ");
-                while (!_currentLine.EndOfLine)
+                var line = new StringBuilder();
+                line.Append($"{currentLine.LineNumber} ");
+                while (!currentLine.EndOfLine)
                 {
-                    _teletype.Write(_currentLine.NextToken().ToString());
+                    line.Append(currentLine.NextToken().ToString());
                 }
 
-                _teletype.Write(Environment.NewLine);
-                _currentLine = _programRepository.GetNextLine(_currentLine.LineNumber.Value);
+                lines.Add(line.ToString());
+                currentLine = _programRepository.GetNextLine(currentLine.LineNumber.Value);
             }
 
-            return _currentLine == null;
+            try
+            {
+                _fileSystem.File.WriteAllLines(filename, lines, System.Text.Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                throw new Exceptions.BasicException($"BAD SAVE {ex.Message}.");
+            }
         }
     }
 }
