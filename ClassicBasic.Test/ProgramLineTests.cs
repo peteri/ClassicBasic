@@ -6,7 +6,7 @@ namespace ClassicBasic.Test
 {
     using System;
     using System.Collections.Generic;
-    using ClassicBasic.Interpreter;
+    using Interpreter;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
