@@ -5,8 +5,8 @@
 namespace ClassicBasic.Test.CommandTests
 {
     using System.Collections.Generic;
-    using ClassicBasic.Interpreter;
-    using ClassicBasic.Interpreter.Commands;
+    using Interpreter;
+    using Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -206,13 +206,11 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator(1.0))
                 .Returns(new Accumulator("A"));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _stepToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
 
@@ -237,12 +235,10 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator("A"));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _stepToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
 
@@ -267,12 +263,10 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator("A"));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
 
@@ -297,11 +291,9 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator("A"));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
 
@@ -326,11 +318,9 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator("A"));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
 
@@ -355,11 +345,9 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator("A"));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("1"), _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
 
@@ -385,7 +373,6 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator(1.0));
@@ -393,9 +380,9 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = line10;
 
-            var variableA = _variableRepository.GetOrCreateVariable("A", new short[] { });
-            var variableB = _variableRepository.GetOrCreateVariable("B", new short[] { });
-            var variableC = _variableRepository.GetOrCreateVariable("C", new short[] { });
+            _variableRepository.GetOrCreateVariable("A", new short[] { });
+            _variableRepository.GetOrCreateVariable("B", new short[] { });
+            _variableRepository.GetOrCreateVariable("C", new short[] { });
 
             _runEnvironment.ProgramStack.Push(new StackEntry { LineToken = 1, VariableName = "A" });
             _runEnvironment.ProgramStack.Push(new StackEntry { LineToken = 2, VariableName = null });
@@ -433,7 +420,6 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator(1.0));
@@ -441,9 +427,9 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = line10;
 
-            var variableA = _variableRepository.GetOrCreateVariable("A", new short[] { });
-            var variableB = _variableRepository.GetOrCreateVariable("B", new short[] { });
-            var variableC = _variableRepository.GetOrCreateVariable("C", new short[] { });
+            _variableRepository.GetOrCreateVariable("A", new short[] { });
+            _variableRepository.GetOrCreateVariable("B", new short[] { });
+            _variableRepository.GetOrCreateVariable("C", new short[] { });
 
             _runEnvironment.ProgramStack.Push(new StackEntry { LineToken = 1, VariableName = "A" });
             _runEnvironment.ProgramStack.Push(new StackEntry { LineToken = 3, VariableName = "B" });
@@ -466,7 +452,6 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator(1.0));
@@ -474,9 +459,9 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = line10;
 
-            var variableA = _variableRepository.GetOrCreateVariable("A", new short[] { });
-            var variableB = _variableRepository.GetOrCreateVariable("B", new short[] { });
-            var variableC = _variableRepository.GetOrCreateVariable("C", new short[] { });
+            _variableRepository.GetOrCreateVariable("A", new short[] { });
+            _variableRepository.GetOrCreateVariable("B", new short[] { });
+            _variableRepository.GetOrCreateVariable("C", new short[] { });
 
             _runEnvironment.ProgramStack.Push(new StackEntry { LineToken = 1, VariableName = "A" });
             _runEnvironment.ProgramStack.Push(new StackEntry { LineToken = 3, VariableName = "B" });
@@ -504,12 +489,10 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             var forCmd = new For(_runEnvironment, _mockExpressionEvaluator.Object, _variableRepository);
-            var nextCmd = new Next(_runEnvironment, _variableRepository);
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(3.0))
                 .Returns(new Accumulator(1.0));
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
 
             _runEnvironment.CurrentLine = line10;
             for (int i = 0; i < 50; i++)
@@ -623,7 +606,7 @@ namespace ClassicBasic.Test.CommandTests
             // inner loop
             double expectedAValue = 1.0;
 
-            RunnerInnerLoop(forCmd, nextCmd, line20, line30, expectedAValue,"2");
+            RunnerInnerLoop(forCmd, nextCmd, line20, line30, expectedAValue,  "2");
 
             // variable should be A=1,B=5
             // Variable should be 5.0
@@ -776,9 +759,11 @@ namespace ClassicBasic.Test.CommandTests
             // inner loop
             double expectedAValue = 1.0;
 
-            RunnerInnerLoop(forCmd, nextCmd, line20, line30, expectedAValue, ",");
+            RunnerInnerLoop(forCmd, nextCmd, line20, line30, expectedAValue, ":");
 
-            // variable should be A=1,B=5
+            expectedAValue = 2.0;
+
+            // variable should be A=2,B=5
             // Variable should be 5.0
             Assert.AreEqual(expectedAValue, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
             Assert.AreEqual(5.0, _variableRepository.GetOrCreateVariable("B", new short[] { }).GetValue().ValueAsDouble());
@@ -788,15 +773,10 @@ namespace ClassicBasic.Test.CommandTests
             Assert.AreEqual(10, _runEnvironment.CurrentLine.LineNumber.Value);
             Assert.AreEqual(loopBackTokenA, _runEnvironment.CurrentLine.CurrentToken);
 
-            // variable should be A=2,B=5
-            // Variable should be 5.0
-            Assert.AreEqual(2.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
-            Assert.AreEqual(5.0, _variableRepository.GetOrCreateVariable("B", new short[] { }).GetValue().ValueAsDouble());
             Assert.AreEqual(1.0, _runEnvironment.ProgramStack.Count);
 
             // Do the inner loop.
-            expectedAValue = 2.0;
-            RunnerInnerLoop(forCmd, nextCmd, line20, line30, expectedAValue, ",");
+            RunnerInnerLoop(forCmd, nextCmd, line20, line30, expectedAValue, "3");
 
             // Should be have finished loops.
             Assert.AreEqual(30, _runEnvironment.CurrentLine.LineNumber.Value);
@@ -847,6 +827,7 @@ namespace ClassicBasic.Test.CommandTests
 
             // Did we leave behind the token.
             var token = _runEnvironment.CurrentLine.NextToken();
+            _runEnvironment.CurrentLine.PushToken(token);
             Assert.AreEqual(expectedTokenText, token.Text);
         }
 

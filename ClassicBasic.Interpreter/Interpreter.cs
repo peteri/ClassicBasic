@@ -4,8 +4,6 @@
 
 namespace ClassicBasic.Interpreter
 {
-    using System;
-
     /// <summary>
     /// The main interpreter.
     /// </summary>

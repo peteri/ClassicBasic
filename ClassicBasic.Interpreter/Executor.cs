@@ -44,9 +44,7 @@ namespace ClassicBasic.Interpreter
         /// <returns>true if the user type SYSTEM</returns>
         public bool ExecuteLine()
         {
-            IToken token;
-
-            _runEnvironment.KeyboardBreak = false;
+           _runEnvironment.KeyboardBreak = false;
             while (true)
             {
                 if (_runEnvironment.CurrentLine.LineNumber.HasValue)
@@ -82,7 +80,8 @@ namespace ClassicBasic.Interpreter
                 }
 
                 // Not at the beginning of the Line?
-                if (_runEnvironment.CurrentLine.CurrentToken != 0)
+               IToken token;
+               if (_runEnvironment.CurrentLine.CurrentToken != 0)
                 {
                     // Next token should be a colon or an else
                     token = _runEnvironment.CurrentLine.NextToken();
