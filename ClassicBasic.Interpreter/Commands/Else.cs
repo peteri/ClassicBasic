@@ -27,7 +27,7 @@ namespace ClassicBasic.Interpreter.Commands
 
         /// <summary>
         /// Executes the ELSE command, this only gets executed when an IF statement is true
-        /// and skips until we either hit end of line OR a colon.
+        /// and skips until we hit end of line.
         /// </summary>
         public void Execute()
         {

@@ -42,8 +42,12 @@ namespace ClassicBasic.Interpreter.Commands
                 throw new Exceptions.SyntaxErrorException();
             }
 
+            bool test = (result.Type == typeof(string))
+                ? (result.ValueAsString() == string.Empty)
+                : (result.ValueAsDouble() == 0.0);
+
             // Check the result
-            if (result.ValueAsDouble() == 0.0)
+            if (test)
             {
                 // Skip to the ELSE or EndOfLine
                 while (!_runEnvironment.CurrentLine.EndOfLine
