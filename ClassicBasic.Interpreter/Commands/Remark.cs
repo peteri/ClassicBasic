@@ -10,18 +10,15 @@ namespace ClassicBasic.Interpreter.Commands
     public class Remark : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Remark"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        public Remark(IRunEnvironment runEnvironment, IExpressionEvaluator expressionEvaluator)
+        public Remark(IRunEnvironment runEnvironment)
             : base("REM", TokenType.ClassStatement | TokenType.Remark)
         {
             _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
         }
 
         /// <summary>
