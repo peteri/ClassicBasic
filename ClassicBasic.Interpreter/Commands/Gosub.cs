@@ -38,7 +38,7 @@ namespace ClassicBasic.Interpreter.Commands
             var nextLine = _expressionEvaluator.GetLineNumber();
             if (!nextLine.HasValue)
             {
-                throw new Exceptions.SyntaxErrorException();
+                throw new Exceptions.UndefinedStatementException();
             }
 
             var returnAddress = new StackEntry

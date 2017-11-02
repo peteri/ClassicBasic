@@ -5,8 +5,8 @@
 namespace ClassicBasic.Console
 {
     using System;
-    using ClassicBasic.Interpreter;
     using System.Text;
+    using ClassicBasic.Interpreter;
 
     /// <summary>
     /// Glass teletype.

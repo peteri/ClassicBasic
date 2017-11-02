@@ -26,6 +26,17 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
+            StackEntry stackEntry;
+            do
+            {
+                if (_runEnvironment.ProgramStack.Count == 0)
+                {
+                    throw new Exceptions.ReturnWithoutGosubException();
+                }
+
+                stackEntry = _runEnvironment.ProgramStack.Pop();
+            }
+            while (stackEntry.VariableName != null);
         }
     }
 }
