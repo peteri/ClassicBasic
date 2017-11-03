@@ -249,7 +249,6 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.AreEqual(0, _mockTeletype.Output.Count);
         }
 
-
         /// <summary>
         /// Check interpreter handles break immediate nicely.
         /// </summary>

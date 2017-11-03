@@ -56,7 +56,7 @@ namespace ClassicBasic.Interpreter
                 if (char.IsDigit(c) && lineNumberValid)
                 {
                     lineNumber = (lineNumber.GetValueOrDefault() * 10) + (c - '0');
-                    if (lineNumber >= ushort.MaxValue)
+                    if (lineNumber > ushort.MaxValue)
                     {
                         throw new Exceptions.SyntaxErrorException();
                     }
