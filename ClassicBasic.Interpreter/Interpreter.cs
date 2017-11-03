@@ -54,31 +54,31 @@ namespace ClassicBasic.Interpreter
                     continue;
                 }
 
-                var parsedLine = _tokeniser.Tokenise(command);
-                if (parsedLine.LineNumber.HasValue)
+                try
                 {
-                    _programRepository.SetProgramLine(parsedLine);
-                }
-                else
-                {
-                    _runEnvironment.CurrentLine = parsedLine;
-                    try
+                    var parsedLine = _tokeniser.Tokenise(command);
+                    if (parsedLine.LineNumber.HasValue)
                     {
+                        _programRepository.SetProgramLine(parsedLine);
+                    }
+                    else
+                    {
+                        _runEnvironment.CurrentLine = parsedLine;
                         quit = _executor.ExecuteLine();
                     }
-                    catch (Exceptions.BreakException endError)
+                }
+                catch (Exceptions.BreakException endError)
+                {
+                    if (endError.ErrorMessage != string.Empty)
                     {
-                        if (endError.ErrorMessage != string.Empty)
-                        {
-                            WriteErrorToTeletype(_runEnvironment.CurrentLine.LineNumber, endError.ErrorMessage);
-                        }
+                        WriteErrorToTeletype(_runEnvironment.CurrentLine.LineNumber, endError.ErrorMessage);
                     }
-                    catch (Exceptions.BasicException basicError)
-                    {
-                        WriteErrorToTeletype(
-                            _runEnvironment.CurrentLine.LineNumber,
-                            "?" + basicError.ErrorMessage + " ERROR");
-                    }
+                }
+                catch (Exceptions.BasicException basicError)
+                {
+                    WriteErrorToTeletype(
+                        _runEnvironment.CurrentLine?.LineNumber,
+                        "?" + basicError.ErrorMessage + " ERROR");
                 }
             }
         }

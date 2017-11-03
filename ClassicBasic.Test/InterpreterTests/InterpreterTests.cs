@@ -219,6 +219,38 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Check interpreter handles syntax exception from tokeniser nicely.
+        /// </summary>
+        [TestMethod]
+        public void InterpreterHandlesTokeniserSyntaxError()
+        {
+            SetupSut();
+
+            _mockTeletype.Input.Enqueue("100000 PRINT");
+            _mockTeletype.Input.Enqueue("SYSTEM");
+
+            var syntaxException = new ClassicBasic.Interpreter.Exceptions.SyntaxErrorException();
+            _mockTokeniser.Setup(mt => mt.Tokenise("100000 PRINT"))
+                .Throws(syntaxException);
+
+            _mockRunEnvironment.Setup(mre => mre.CurrentLine).Returns((ProgramLine)null);
+
+            _sut.Execute();
+
+            // Run
+            CheckForPrompt();
+
+            CheckForError("?" + syntaxException.ErrorMessage + " ERROR");
+
+            // Prompt after Syntax error
+            CheckForPrompt();
+
+            // Nothing left
+            Assert.AreEqual(0, _mockTeletype.Output.Count);
+        }
+
+
+        /// <summary>
         /// Check interpreter handles break immediate nicely.
         /// </summary>
         [TestMethod]

@@ -19,10 +19,10 @@ See the games directory for the files.
 * Make ```PRINT 3.4.5.6. ,``` work the same way it does in Microsoft BASIC.
 * Make ```VAL("3.4.5.6")``` work the same way it does in Microsoft BASIC.
 * ~~Use of GOSUB from an immediate line doesn't return correctly.~~
-* LIST doesn't correctly get the beginning and end line numbers.
+* ~~LIST doesn't correctly get the beginning and end line numbers.~~
 * ~~RUN "filename.bas" doesn't work.~~
 * ~~FOR definition does not delete unwanted stack entries.~~
-* Numeric overflow is not trapped in the basic interpreter.
+* Numeric overflow is not trapped in the basic interpreter. (but try PRINT 8^8^8^8^8)
 * ~~GOSUB/FOR stack does not have endless recursion check.~~
 
 ## Issues  and future plans

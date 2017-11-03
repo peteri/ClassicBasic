@@ -6,8 +6,8 @@ namespace ClassicBasic.Test.CommandTests
 {
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ClassicBasic.Interpreter.Commands;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Tests the REM statement

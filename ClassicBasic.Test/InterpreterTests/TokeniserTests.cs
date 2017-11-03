@@ -155,6 +155,25 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.IsTrue(result.EndOfLine);
         }
 
+        /// <summary>
+        /// Tokeniser throws syntax error if line number > 65535
+        /// </summary>
+        [TestMethod]
+        public void TokeniserThrowsSyntaxErrorIfLineNumberToBig()
+        {
+            bool exceptionThrown = false;
+            try
+            {
+                _tokeniser.Tokenise("65536 ONX");
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
         private void TokenCheck(IToken token, string text, TokenType tokenType)
         {
             Assert.AreEqual(text, token.Text);
