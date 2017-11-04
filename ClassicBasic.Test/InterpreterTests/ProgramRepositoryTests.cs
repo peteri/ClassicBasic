@@ -132,6 +132,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
         /// <summary>
         /// Program lines can be got with a current token position of zero.
+        /// Also get line returns different instances of the ProgramLine class.
         /// </summary>
         [TestMethod]
         public void ProgramRepositoryCanGetLineResetsCurrentToken()
@@ -146,9 +147,10 @@ namespace ClassicBasic.Test.InterpreterTests
 
             Assert.IsTrue(line20.EndOfLine);
 
-            line20 = sut.GetLine(20);
-            Assert.IsFalse(line20.EndOfLine);
-            Assert.AreEqual(0, line20.CurrentToken);
+            var newLine20 = sut.GetLine(20);
+            Assert.IsFalse(newLine20.EndOfLine);
+            Assert.AreEqual(0, newLine20.CurrentToken);
+            Assert.AreNotEqual(line20, newLine20);
         }
 
         /// <summary>

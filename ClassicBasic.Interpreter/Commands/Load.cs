@@ -53,6 +53,7 @@ namespace ClassicBasic.Interpreter.Commands
                         throw new Exception("MISSING LINE NUMBER");
                     }
 
+                    lastProgramLine = programLine.LineNumber.Value;
                     _programRepository.SetProgramLine(programLine);
                 }
             }

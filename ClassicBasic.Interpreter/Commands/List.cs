@@ -45,7 +45,7 @@ namespace ClassicBasic.Interpreter.Commands
         public void Setup()
         {
             int? start = _expressionEvaluator.GetLineNumber();
-            int? end = null;
+            int? end = start;
 
             var token = _runEnvironment.CurrentLine.NextToken();
             if (token.Seperator == TokenType.Minus || token.Seperator == TokenType.Comma)
@@ -75,9 +75,9 @@ namespace ClassicBasic.Interpreter.Commands
         {
             if (_currentLine != null)
             {
-                if (_currentLine.LineNumber >= _endLine)
+                if (_currentLine.LineNumber > _endLine)
                 {
-                    return false;
+                    return true;
                 }
 
                 _teletype.Write($"{_currentLine.LineNumber} ");

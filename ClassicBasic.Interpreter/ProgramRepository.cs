@@ -40,8 +40,7 @@ namespace ClassicBasic.Interpreter
         {
             if (_program.ContainsKey(lineNumber))
             {
-                _program[lineNumber].CurrentToken = 0;
-                return _program[lineNumber];
+                return new ProgramLine(lineNumber, _program[lineNumber]);
             }
 
             throw new Exceptions.UndefinedStatementException();

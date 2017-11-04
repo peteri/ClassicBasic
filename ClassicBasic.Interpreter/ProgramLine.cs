@@ -28,6 +28,18 @@ namespace ClassicBasic.Interpreter
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProgramLine"/> class.
+        /// </summary>
+        /// <param name="lineNumber">Line number.</param>
+        /// <param name="original">Original program line to clone.</param>
+        public ProgramLine(int? lineNumber, ProgramLine original)
+        {
+            LineNumber = lineNumber;
+            _tokens = original._tokens;
+            CurrentToken = 0;
+        }
+
+        /// <summary>
         /// Gets or sets the current token position.
         /// </summary>
         public int CurrentToken { get; set; }
