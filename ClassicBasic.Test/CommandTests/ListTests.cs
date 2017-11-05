@@ -102,7 +102,6 @@ namespace ClassicBasic.Test.CommandTests
             _programRepository.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("THREE") }));
             _programRepository.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("FOUR") }));
             _sut = new List(_mockExpressionEvaluator.Object, _programRepository, _teletype, _runEnvironment);
-
         }
     }
 }
