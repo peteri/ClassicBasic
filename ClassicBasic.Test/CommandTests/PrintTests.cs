@@ -9,6 +9,7 @@ namespace ClassicBasic.Test.CommandTests
     using ClassicBasic.Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
+    using System;
 
     /// <summary>
     /// Tests the PRINT command.
@@ -19,7 +20,8 @@ namespace ClassicBasic.Test.CommandTests
         private Print _sut;
         private IRunEnvironment _runEnvironment;
         private IExpressionEvaluator _expressionEvaluator;
-        private Mock<ITeletypeWithPosition> _teletype;
+        private TeletypeWithPosition _teletypeWithPosition;
+        private MockTeletype _teletype;
         private Mock<IVariableRepository> _mockVariableRepository;
 
         /// <summary>
@@ -36,6 +38,10 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
@@ -53,6 +59,9 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
@@ -70,6 +79,10 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
@@ -88,10 +101,12 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
-        /// Test prints HELLO with a semicolon doesn't call comma or Newline
+        /// Test prints HELLO with a comma.
         /// </summary>
         [TestMethod]
         public void PrintPrintsStringFollowedByCommaWithoutNewline()
@@ -106,13 +121,16 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(new string(' ', 14 - 5), _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
-        /// Test prints HELLO with a semicolon doesn't call comma or Newline
+        /// Test prints HELLO with a comma and expression evaluates expression.
         /// </summary>
         [TestMethod]
-        public void PrintPrintsStringFollowedExpressionWithoutNewline()
+        public void PrintPrintsStringFollowedExpressionWithNewline()
         {
             SetupSut();
             var tokens = new List<IToken>
@@ -127,13 +145,44 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(new string(' ', 14 - 5), _teletype.Output.Dequeue());
+            Assert.AreEqual("6", _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
-        /// Test prints HELLO with a semicolon doesn't call comma or Newline
+        /// Test prints HELLO with a comma and expression evaluates expression.
         /// </summary>
         [TestMethod]
-        public void PrintPrintsUsingSpaceCallsTeletypeFunctionNewline()
+        public void PrintPrintsStringFollowedExpressionWithoutNewline()
+        {
+            SetupSut();
+            var tokens = new List<IToken>
+            {
+                new Token("HELLO", TokenType.ClassString),
+                new Token(";", TokenType.ClassSeperator | TokenType.Semicolon),
+                new Token("4"),
+                new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
+                new Token("4"),
+                new Token(";", TokenType.ClassSeperator | TokenType.Semicolon),
+            };
+
+            _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
+            _sut.Execute();
+
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual("16", _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
+        }
+
+        /// <summary>
+        /// Test prints HELLO followed by SPC(3+3) gives expected result.
+        /// </summary>
+        [TestMethod]
+        public void PrintPrintsUsingSpaceCallsTeletypeCorrectly()
         {
             SetupSut();
             var tokens = new List<IToken>
@@ -148,30 +197,39 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(new string(' ', 6), _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
+            Assert.AreEqual(0, _teletype.Output.Count);
         }
 
         /// <summary>
-        /// Test prints HELLO with a semicolon doesn't call comma or Newline
+        /// Test prints HELLO with tab does expected result.
         /// </summary>
         [TestMethod]
-        public void PrintPrintsUsingTaballsTeletypeFunctionNewline()
+        public void PrintPrintsUsingTabAdvancesTeletypeCorrectly()
         {
             SetupSut();
             var tokens = new List<IToken>
             {
                 new Token("HELLO", TokenType.ClassString),
                 new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
-                new Token("3"),
+                new Token("9"),
                 new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
                 new Token(":", TokenType.ClassSeperator | TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
             _sut.Execute();
+
+            Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
+            Assert.AreEqual(new string(' ', 3), _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
         }
 
         /// <summary>
-        /// Test prints HELLO with a semicolon doesn't call comma or Newline
+        /// Test prints which uses tab without a closing base throws SyntaxError
         /// </summary>
         [TestMethod]
         public void PrintPrintsUsingTabThrowsIfNoCloseBracket()
@@ -181,21 +239,32 @@ namespace ClassicBasic.Test.CommandTests
             {
                 new Token("HELLO", TokenType.ClassString),
                 new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
-                new Token("3"),
+                new Token("9"),
                 new Token(":", TokenType.ClassSeperator | TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
-            _sut.Execute();
+            bool exceptionThrown = false;
+            try
+            {
+                _sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
         }
 
         private void SetupSut()
         {
             _runEnvironment = new RunEnvironment();
             _mockVariableRepository = new Mock<IVariableRepository>();
-            _teletype = new Mock<ITeletypeWithPosition>();
+            _teletype = new MockTeletype();
+            _teletypeWithPosition = new TeletypeWithPosition(_teletype);
             _expressionEvaluator = new ExpressionEvaluator(_mockVariableRepository.Object, _runEnvironment);
-            _sut = new Print(_runEnvironment, _expressionEvaluator, _teletype.Object);
+            _sut = new Print(_runEnvironment, _expressionEvaluator, _teletypeWithPosition);
         }
     }
 }
