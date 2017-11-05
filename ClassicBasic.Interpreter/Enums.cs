@@ -105,6 +105,12 @@ namespace ClassicBasic.Interpreter
         /// <summary>Token is for a Goto statement</summary>
         Goto,
 
+        /// <summary>Token is for a Gosub statement</summary>
+        Gosub,
+
+        /// <summary>Token is for a FN statement</summary>
+        Fn,
+
         /// <summary>Mask for token.</summary>
         ClassMask = 0xff00,
 

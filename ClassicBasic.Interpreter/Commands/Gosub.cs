@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter.Commands
             IRunEnvironment runEnvironment,
             IExpressionEvaluator expressionEvaluator,
             IProgramRepository programRepository)
-            : base("GOSUB", TokenType.ClassStatement)
+            : base("GOSUB", TokenType.ClassStatement | TokenType.Gosub)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;

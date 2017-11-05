@@ -14,12 +14,16 @@ namespace ClassicBasic.Interpreter.Modules
         /// <inheritdoc/>
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<Commands.Clear>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Cont>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.Data>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.Def>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Del>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Dim>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.End>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Else>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.For>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.Get>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Gosub>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Goto>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.If>().As<IToken>().SingleInstance();
@@ -27,7 +31,9 @@ namespace ClassicBasic.Interpreter.Modules
             builder.RegisterType<Commands.Let>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.List>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Load>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.New>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Next>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.On>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.OnErr>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Pop>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Print>().As<IToken>().SingleInstance();

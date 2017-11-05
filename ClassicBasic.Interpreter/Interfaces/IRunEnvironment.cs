@@ -37,6 +37,11 @@ namespace ClassicBasic.Interpreter
         Stack<StackEntry> ProgramStack { get; }
 
         /// <summary>
+        /// Gets the user defined functions dictionary.
+        /// </summary>
+        Dictionary<string, UserDefinedFunction> DefinedFunctions { get; }
+
+        /// <summary>
         /// Tests if the program stack has more than 50 entries, if so throws out of memory exception
         /// </summary>
         void TestForStackOverflow();

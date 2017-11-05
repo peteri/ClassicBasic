@@ -71,5 +71,15 @@ namespace ClassicBasic.Console
         {
             Console.Write(output);
         }
+
+        /// <summary>
+        /// Read a character from the keyboard.
+        /// </summary>
+        /// <returns>Character user typed in.</returns>
+        public char ReadChar()
+        {
+            var keyInfo = Console.ReadKey(true);
+            return keyInfo.KeyChar;
+        }
     }
 }

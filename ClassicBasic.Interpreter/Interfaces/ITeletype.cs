@@ -32,5 +32,11 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         /// <returns>String user typed in.</returns>
         string Read();
+
+        /// <summary>
+        /// Read a character from the keyboard.
+        /// </summary>
+        /// <returns>Character user typed in.</returns>
+        char ReadChar();
     }
 }

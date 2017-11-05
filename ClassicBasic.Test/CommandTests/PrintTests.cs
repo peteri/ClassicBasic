@@ -4,12 +4,12 @@
 
 namespace ClassicBasic.Test.CommandTests
 {
+    using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
-    using System;
 
     /// <summary>
     /// Tests the PRINT command.

@@ -45,6 +45,17 @@ namespace ClassicBasic.Interpreter
         /// <returns>Reference to a variable.</returns>
         public VariableReference GetLeftValue()
         {
+            string name = GetVariableName();
+
+            return _variableRepository.GetOrCreateVariable(name, GetIndexes());
+        }
+
+        /// <summary>
+        /// Gets a variable name including the % or $
+        /// </summary>
+        /// <returns>Name of the variable.</returns>
+        public string GetVariableName()
+        {
             var token = _runEnvironment.CurrentLine.NextToken();
             if (token.TokenClass != TokenType.ClassVariable)
             {
@@ -60,8 +71,18 @@ namespace ClassicBasic.Interpreter
                 _runEnvironment.CurrentLine.PushToken(token);
             }
 
+            return name;
+        }
+
+        /// <summary>
+        /// Parses an array of indexes from the current command stream.
+        /// Eats the outer set of brackets.
+        /// </summary>
+        /// <returns>Array of indexes</returns>
+        public short[] GetIndexes()
+        {
             var indexes = new List<short>();
-            token = _runEnvironment.CurrentLine.NextToken();
+            var token = _runEnvironment.CurrentLine.NextToken();
             if (token.Seperator == TokenType.OpenBracket)
             {
                 do
@@ -80,7 +101,7 @@ namespace ClassicBasic.Interpreter
                 _runEnvironment.CurrentLine.PushToken(token);
             }
 
-            return _variableRepository.GetOrCreateVariable(name, indexes.ToArray());
+            return indexes.ToArray();
         }
 
         /// <summary>
@@ -104,6 +125,30 @@ namespace ClassicBasic.Interpreter
 
             _runEnvironment.CurrentLine.PushToken(token);
             return null;
+        }
+
+        private IList<Accumulator> GetFunctionParameters()
+        {
+            var parameters = new List<Accumulator>();
+            IToken token = _runEnvironment.CurrentLine.NextToken();
+            if (token.Seperator != TokenType.OpenBracket)
+            {
+                throw new Exceptions.SyntaxErrorException();
+            }
+
+            do
+            {
+                parameters.Add(GetExpression());
+                token = _runEnvironment.CurrentLine.NextToken();
+            }
+            while (token.Seperator == TokenType.Comma);
+
+            if (token.Seperator != TokenType.CloseBracket)
+            {
+                throw new Exceptions.SyntaxErrorException();
+            }
+
+            return parameters;
         }
 
         private Accumulator GetExpressionWithDepthCheck()
@@ -370,6 +415,8 @@ namespace ClassicBasic.Interpreter
                     var function = token as IFunction;
                     var parameters = GetFunctionParameters();
                     return function.Execute(parameters);
+                case TokenType.ClassStatement:
+                    return CheckForUserFunction(token);
                 default:
                     break;
             }
@@ -377,28 +424,31 @@ namespace ClassicBasic.Interpreter
             throw new Exceptions.SyntaxErrorException();
         }
 
-        private IList<Accumulator> GetFunctionParameters()
+        private Accumulator CheckForUserFunction(IToken token)
         {
-            var parameters = new List<Accumulator>();
-            IToken token = _runEnvironment.CurrentLine.NextToken();
-            if (token.Seperator != TokenType.OpenBracket)
+            if (token.Statement != TokenType.Fn)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            do
-            {
-                parameters.Add(GetExpression());
-                token = _runEnvironment.CurrentLine.NextToken();
-            }
-            while (token.Seperator == TokenType.Comma);
-
-            if (token.Seperator != TokenType.CloseBracket)
+            var functionName = _runEnvironment.CurrentLine.NextToken();
+            if (functionName.TokenClass != TokenType.ClassVariable)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            return parameters;
+            if (!_runEnvironment.DefinedFunctions.TryGetValue(functionName.Text, out UserDefinedFunction userDefinedFunction))
+            {
+                throw new Exceptions.UndefinedFunctionException();
+            }
+
+            var parameters = GetFunctionParameters();
+            if (parameters.Count != 1)
+            {
+                throw new Exceptions.SyntaxErrorException();
+            }
+
+            return userDefinedFunction.Execute(parameters[0], _runEnvironment, this, _variableRepository);
         }
     }
 }

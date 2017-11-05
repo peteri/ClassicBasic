@@ -1,35 +1,39 @@
-﻿// <copyright file="Else.cs" company="Peter Ibbotson">
+﻿// <copyright file="Data.cs" company="Peter Ibbotson">
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
 namespace ClassicBasic.Interpreter.Commands
 {
     /// <summary>
-    /// Implements the ELSE command.
+    /// Implements the DATA command.
     /// </summary>
-    public class Else : Token, ICommand
+    public class Data : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Else"/> class.
+        /// Initializes a new instance of the <see cref="Data"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        public Else(IRunEnvironment runEnvironment)
-            : base("ELSE", TokenType.ClassStatement | TokenType.Else)
+        public Data(IRunEnvironment runEnvironment)
+            : base("DATA", TokenType.ClassStatement | TokenType.Data)
         {
             _runEnvironment = runEnvironment;
         }
 
         /// <summary>
-        /// Executes the ELSE command, this only gets executed when an IF statement is true
-        /// and skips until we hit end of line.
+        /// Executes the DATA command, skips until we hit end of line or colon.
         /// </summary>
         public void Execute()
         {
             while (!_runEnvironment.CurrentLine.EndOfLine)
             {
                 var token = _runEnvironment.CurrentLine.NextToken();
+                if (token.Statement == TokenType.Colon)
+                {
+                    _runEnvironment.CurrentLine.PushToken(token);
+                    return;
+                }
             }
         }
     }

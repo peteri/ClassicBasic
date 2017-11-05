@@ -120,5 +120,14 @@ namespace ClassicBasic.Interpreter
         {
             return (short)(_currentPosition + 1);
         }
+
+        /// <summary>
+        /// Read a character from the keyboard.
+        /// </summary>
+        /// <returns>Character user typed in.</returns>
+        public char ReadChar()
+        {
+            return _teletype.ReadChar();
+        }
     }
 }

@@ -48,5 +48,11 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         /// <returns>Current position.</returns>
         short Position();
+
+        /// <summary>
+        /// Read a character from the keyboard.
+        /// </summary>
+        /// <returns>Character user typed in.</returns>
+        char ReadChar();
     }
 }

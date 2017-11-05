@@ -17,6 +17,7 @@ namespace ClassicBasic.Interpreter
         public RunEnvironment()
         {
             ProgramStack = new Stack<StackEntry>();
+            DefinedFunctions = new Dictionary<string, UserDefinedFunction>();
         }
 
         /// <summary>
@@ -45,7 +46,12 @@ namespace ClassicBasic.Interpreter
         public Stack<StackEntry> ProgramStack { get; }
 
         /// <summary>
-        /// Tests if the program stack has more than 50 entries, if so throws out of memory exception
+        /// Gets the user defined functions dictionary.
+        /// </summary>
+        public Dictionary<string, UserDefinedFunction> DefinedFunctions { get; }
+
+        /// <summary>
+        /// Tests if the program stack has more than 50 entries, if so throws out of memory exception.
         /// </summary>
         public void TestForStackOverflow()
         {

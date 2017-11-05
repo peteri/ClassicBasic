@@ -15,13 +15,7 @@ namespace ClassicBasic.Interpreter
 
         private IToken[] _staticTokens =
         {
-            new Token("ON", TokenType.ClassStatement),
-            new Token("FN", TokenType.ClassStatement),
-            new Token("NEW", TokenType.ClassStatement),
-            new Token("DEF", TokenType.ClassStatement),
-            new Token("GET", TokenType.ClassStatement),
-            new Token("DATA", TokenType.ClassStatement),
-            new Token("CLEAR", TokenType.ClassStatement),
+            new Token("FN", TokenType.ClassStatement | TokenType.Fn),
             new Token("TO", TokenType.ClassStatement | TokenType.To),
             new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
             new Token("THEN", TokenType.ClassStatement | TokenType.Then),

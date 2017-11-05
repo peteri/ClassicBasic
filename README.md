@@ -10,9 +10,8 @@ See the games directory for the files.
 * Fix outstanding bugs.
 * Write the following commands (loosely clustered)
 * ```INPUT, DATA, READ, RESTORE```
-* ```ON GOTO, ON GOSUB, ON ERR```
-* ```NEW,  CLEAR, DEL, DIM```
-* ```DEF FN```
+* ```ON ERR, RESUME```
+* ```DEL```
 
 ## Known bugs
 * Parsing of floating point numbers has a bug when an exponent is specified it get split into '3.03', '-', 'E04' tokens so it needs merging.

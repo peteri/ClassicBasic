@@ -86,5 +86,14 @@ namespace ClassicBasic.Test
             CancelEventHandler.Invoke(this, cancelEventArgs);
             return cancelEventArgs;
         }
+
+        /// <summary>
+        /// Read a character from the keyboard.
+        /// </summary>
+        /// <returns>Character user typed in.</returns>
+        public char ReadChar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

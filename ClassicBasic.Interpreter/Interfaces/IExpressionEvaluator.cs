@@ -27,5 +27,18 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         /// <returns>null or a line number.</returns>
         int? GetLineNumber();
+
+        /// <summary>
+        /// Parses an array of indexes from the current command stream.
+        /// Eats the outer set of brackets.
+        /// </summary>
+        /// <returns>Array of indexes</returns>
+        short[] GetIndexes();
+
+        /// <summary>
+        /// Gets a variable name including the % or $
+        /// </summary>
+        /// <returns>Name of the variable.</returns>
+        string GetVariableName();
     }
 }
