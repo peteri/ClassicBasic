@@ -9,23 +9,19 @@ namespace ClassicBasic.Interpreter.Commands
     public class Def : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
-        private readonly IProgramRepository _programRepository;
         private readonly IExpressionEvaluator _expressionEvaluator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Def"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="programRepository">Program Repository.</param>
         /// <param name="expressionEvaluator">Expression evaluator.</param>
         public Def(
             IRunEnvironment runEnvironment,
-            IProgramRepository programRepository,
             IExpressionEvaluator expressionEvaluator)
             : base("DEF", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
-            _programRepository = programRepository;
             _expressionEvaluator = expressionEvaluator;
         }
 
@@ -70,7 +66,7 @@ namespace ClassicBasic.Interpreter.Commands
             while (!_runEnvironment.CurrentLine.EndOfLine)
             {
                 token = _runEnvironment.CurrentLine.NextToken();
-                if (token.Statement == TokenType.Colon)
+                if (token.Seperator == TokenType.Colon)
                 {
                     _runEnvironment.CurrentLine.PushToken(token);
                     return;
