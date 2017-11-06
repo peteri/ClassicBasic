@@ -26,10 +26,15 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
+            if (!_runEnvironment.CurrentLine.LineNumber.HasValue)
+            {
+                throw new Exceptions.IllegalDirectException();
+            }
+
             while (!_runEnvironment.CurrentLine.EndOfLine)
             {
                 var token = _runEnvironment.CurrentLine.NextToken();
-                if (token.Statement == TokenType.Colon)
+                if (token.Seperator == TokenType.Colon)
                 {
                     _runEnvironment.CurrentLine.PushToken(token);
                     return;

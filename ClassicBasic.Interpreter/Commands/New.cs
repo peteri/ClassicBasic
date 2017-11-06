@@ -11,7 +11,6 @@ namespace ClassicBasic.Interpreter.Commands
     {
         private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
-        private readonly IExpressionEvaluator _expressionEvaluator;
         private readonly IVariableRepository _variableRepository;
 
         /// <summary>
@@ -19,18 +18,15 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program Repository.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="variableRepository">Variable Repository.</param>
         public New(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
-            IExpressionEvaluator expressionEvaluator,
             IVariableRepository variableRepository)
             : base("NEW", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
-            _expressionEvaluator = expressionEvaluator;
             _variableRepository = variableRepository;
         }
 

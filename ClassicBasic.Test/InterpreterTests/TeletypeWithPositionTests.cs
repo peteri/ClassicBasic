@@ -31,7 +31,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
             _sut.NewLine();
 
-            _mockTeletype.Verify(mt => mt.Write(Environment.NewLine));
+            _mockTeletype.Verify(mt => mt.Write(Environment.NewLine), Times.Once);
             Assert.AreEqual(1, _sut.Position());
         }
 
@@ -47,8 +47,24 @@ namespace ClassicBasic.Test.InterpreterTests
 
             _sut.Write("HELLO");
 
-            _mockTeletype.Verify(mt => mt.Write("HELLO"));
+            _mockTeletype.Verify(mt => mt.Write("HELLO"), Times.Once);
             Assert.AreEqual(6, _sut.Position());
+        }
+
+        /// <summary>
+        /// TeletypeWithPosition Forwards ReadChar to underlying teletype.
+        /// </summary>
+        [TestMethod]
+        public void TeletypeWithPositionForwardsReadChar()
+        {
+            _mockTeletype = new Mock<ITeletype>();
+            _mockTeletype.Setup(mt => mt.ReadChar()).Returns('A');
+            _sut = new TeletypeWithPosition(_mockTeletype.Object);
+
+            var readChar = _sut.ReadChar();
+
+            _mockTeletype.Verify(mt => mt.ReadChar(), Times.Once);
+            Assert.AreEqual('A', readChar);
         }
 
         /// <summary>

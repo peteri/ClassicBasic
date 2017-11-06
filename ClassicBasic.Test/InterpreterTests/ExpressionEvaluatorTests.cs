@@ -4,6 +4,7 @@
 
 namespace ClassicBasic.Test.InterpreterTests
 {
+    using System.Collections.Generic;
     using Autofac;
     using ClassicBasic.Interpreter;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,9 +18,9 @@ namespace ClassicBasic.Test.InterpreterTests
     {
         private static ITokeniser _tokeniser;
         private static MockTeletype _mockTeletype;
+        private static IRunEnvironment _runEnvironment;
+        private static IVariableRepository _variableRepository;
         private IExpressionEvaluator _expressionEvaluator;
-        private IRunEnvironment _runEnvironment;
-        private IVariableRepository _variableRepository;
 
         /// <summary>
         /// Initialises the tokeniser.
@@ -35,6 +36,8 @@ namespace ClassicBasic.Test.InterpreterTests
 
             var container = builder.Build();
             _tokeniser = container.Resolve<ITokeniser>();
+            _runEnvironment = container.Resolve<IRunEnvironment>();
+            _variableRepository = container.Resolve<IVariableRepository>();
         }
 
         /// <summary>
@@ -43,8 +46,7 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestInitialize]
         public void SetupSut()
         {
-            _runEnvironment = new RunEnvironment();
-            _variableRepository = new VariableRepository();
+            _variableRepository.Clear();
             _expressionEvaluator = new ExpressionEvaluator(_variableRepository, _runEnvironment);
         }
 
@@ -536,6 +538,29 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test evaluator throws syntax exception if remark text statement evaluated.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorTestRemarkException()
+        {
+            var exceptionThrown = false;
+            _runEnvironment.CurrentLine = new ProgramLine(
+                null,
+                new List<IToken> { new Token("Hello world", TokenType.ClassRemark) });
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            try
+            {
+                _expressionEvaluator.GetExpression();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
         /// Test the evaluator can get a double variable
         /// </summary>
         [TestMethod]
@@ -735,6 +760,80 @@ namespace ClassicBasic.Test.InterpreterTests
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
             var result = _expressionEvaluator.GetExpression();
             Assert.AreEqual("AB", result.ValueAsString());
+        }
+
+        /// <summary>
+        /// Test user defined function.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorUserDefinedFunction()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 DEF FN TRP(X)=X*X*X");
+            var define = _runEnvironment.CurrentLine.NextToken() as ICommand;
+            define.Execute();
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("20 PRINT FN TRP(3)");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            var value = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(27.0, value.ValueAsDouble());
+        }
+
+        /// <summary>
+        /// Test user defined function errors correctly.
+        /// </summary>
+        /// <param name="command">Command string.</param>
+        /// <param name="throwsSyntax">Throws syntax error.</param>
+        /// <param name="throwsUndef">Throws undefined function error.</param>
+        [DataTestMethod]
+        [DataRow("20 PRINT FN TRP", true, false)]
+        [DataRow("20 PRINT FN TRP()", true, false)]
+        [DataRow("20 PRINT FN TRP(3,2)", true, false)]
+        [DataRow("20 PRINT FN 4(3)", true, false)]
+        [DataRow("20 PRINT FN TRPX(3)", false, true)]
+        public void EvaluatorUserDefinedFunctionErrors(string command, bool throwsSyntax, bool throwsUndef)
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 DEF FN TRP(X)=X*X*X");
+            var define = _runEnvironment.CurrentLine.NextToken() as ICommand;
+            define.Execute();
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise(command);
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            var syntaxThrown = false;
+            var undefinedFunctionThrown = false;
+            try
+            {
+                var value = _expressionEvaluator.GetExpression();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                syntaxThrown = true;
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.UndefinedFunctionException)
+            {
+                undefinedFunctionThrown = true;
+            }
+
+            Assert.AreEqual(throwsSyntax, syntaxThrown);
+            Assert.AreEqual(throwsUndef, undefinedFunctionThrown);
+        }
+
+        /// <summary>
+        /// Test user defined function saves and restores location and variables.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorUserDefinedFunctionSavesAndRestores()
+        {
+            var xVariable = _variableRepository.GetOrCreateVariable("X", new short[] { });
+            xVariable.SetValue(new Accumulator(12.0));
+
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 DEF FN TRP(X)=X*X*X");
+            var define = _runEnvironment.CurrentLine.NextToken() as ICommand;
+            define.Execute();
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("20 PRINT FN TRP(3):REM");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            var value = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(27.0, value.ValueAsDouble());
+            Assert.AreEqual(12.0, xVariable.GetValue().ValueAsDouble());
+            Assert.AreEqual(":", _runEnvironment.CurrentLine.NextToken().Text);
+            Assert.AreEqual("REM", _runEnvironment.CurrentLine.NextToken().Text);
         }
     }
 }
