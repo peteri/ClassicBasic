@@ -12,5 +12,14 @@ namespace ClassicBasic.Test.CommandTests
     [TestClass]
     public class DefTests
     {
+        /// <summary>
+        /// Stub.
+        /// </summary>
+        [TestMethod]
+        public void DefDoesSomething()
+        {
+            Assert.Inconclusive();
+        }
+
     }
 }

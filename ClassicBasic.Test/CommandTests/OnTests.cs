@@ -12,5 +12,13 @@ namespace ClassicBasic.Test.CommandTests
     [TestClass]
     public class OnTests
     {
+        /// <summary>
+        /// Stub.
+        /// </summary>
+        [TestMethod]
+        public void OnDoesSomething()
+        {
+            Assert.Inconclusive();
+        }
     }
 }
