@@ -63,11 +63,17 @@ namespace ClassicBasic.Test.CommandTests
         /// <summary>
         /// Tests Get throws syntax error for Alpha in numeric mode.
         /// </summary>
-        [TestMethod]
-        public void GetThrowsForAlphaInNumeric()
+        /// <param name="character">Character to test.</param>
+        /// <param name="throwsException">Should throw exception</param>
+        [DataTestMethod]
+        [DataRow('0', false)]
+        [DataRow('9', false)]
+        [DataRow('/', true)]
+        [DataRow(':', true)]
+        public void GetThrowsForAlphaInNumeric(char character, bool throwsException)
         {
             SetupSut();
-            _mockTeletypeWithPosition.Setup(mtwp => mtwp.ReadChar()).Returns('A');
+            _mockTeletypeWithPosition.Setup(mtwp => mtwp.ReadChar()).Returns(character);
             var variableReference = _variableRepository.GetOrCreateVariable("A", new short[] { });
             _mockExpressionEvaluator.Setup(mee => mee.GetLeftValue()).Returns(variableReference);
             bool exceptionThrown = false;
@@ -80,7 +86,7 @@ namespace ClassicBasic.Test.CommandTests
                 exceptionThrown = true;
             }
 
-            Assert.IsTrue(exceptionThrown);
+            Assert.AreEqual(throwsException, exceptionThrown);
         }
 
         /// <summary>
