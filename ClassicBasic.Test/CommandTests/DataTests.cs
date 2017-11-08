@@ -23,7 +23,7 @@ namespace ClassicBasic.Test.CommandTests
         {
             var runEnvironment = new RunEnvironment
             {
-                CurrentLine = new ProgramLine(10, new List<IToken> { new Token("1") })
+                CurrentLine = new ProgramLine(10, new List<IToken> { new Token("1,abc def, ", TokenType.ClassData) })
             };
             var sut = new Data(runEnvironment);
             sut.Execute();
@@ -40,7 +40,7 @@ namespace ClassicBasic.Test.CommandTests
             {
                 CurrentLine = new ProgramLine(
                 10,
-                new List<IToken> { new Token("1"), new Token(":", TokenType.Colon | TokenType.ClassSeperator) })
+                new List<IToken> { new Token("1", TokenType.ClassData), new Token(":", TokenType.Colon | TokenType.ClassSeperator) })
             };
             var sut = new Data(runEnvironment);
             sut.Execute();
@@ -66,6 +66,32 @@ namespace ClassicBasic.Test.CommandTests
                 sut.Execute();
             }
             catch (ClassicBasic.Interpreter.Exceptions.IllegalDirectException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Data statement Throws Syntax error if not followed by ClassData.
+        /// </summary>
+        [TestMethod]
+        public void DataSkipsThrowsSyntaxExceptionIfNotFollowedByClassData()
+        {
+            var runEnvironment = new RunEnvironment
+            {
+                CurrentLine = new ProgramLine(
+                10,
+                new List<IToken> { new Token("1"), new Token(":", TokenType.Colon | TokenType.ClassSeperator) })
+            };
+            var sut = new Data(runEnvironment);
+            var exceptionThrown = false;
+            try
+            {
+                sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
             {
                 exceptionThrown = true;
             }

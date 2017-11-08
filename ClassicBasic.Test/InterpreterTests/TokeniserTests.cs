@@ -77,6 +77,58 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test that DATA keep spaces and case correctly.
+        /// </summary>
+        [TestMethod]
+        public void DataKeepSpacesAndCase()
+        {
+            var result = _tokeniser.Tokenise("DATA   Hello World,\"DEF GH\"");
+            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "Hello World,\"DEF GH\"", TokenType.ClassData);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
+        /// Test that DATA keep spaces, case and breaks on colon correctly.
+        /// </summary>
+        [TestMethod]
+        public void DataKeepSpacesAndCaseAndBreaksOnColon()
+        {
+            var result = _tokeniser.Tokenise("DATA   Hello World,\"DEF GH\" : PRINT");
+            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "Hello World,\"DEF GH\" ", TokenType.ClassData);
+            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
+        /// Test that blank DATA adds ClassDataToken.
+        /// </summary>
+        [TestMethod]
+        public void BlankDataAddsClassDataTokenWithNoColon()
+        {
+            var result = _tokeniser.Tokenise("DATA    ");
+            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), string.Empty, TokenType.ClassData);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
+        /// Test that blank DATA adds ClassDataToken.
+        /// </summary>
+        [TestMethod]
+        public void BlankDataAddsClassDataTokenWithColon()
+        {
+            var result = _tokeniser.Tokenise("DATA    : PRINT");
+            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), string.Empty, TokenType.ClassData);
+            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
         /// Test that the tokeniser terminates strings that don't have a closing quote.
         /// </summary>
         [TestMethod]

@@ -22,7 +22,7 @@ namespace ClassicBasic.Interpreter.Commands
         }
 
         /// <summary>
-        /// Executes the DATA command, skips until we hit end of line or colon.
+        /// Executes the DATA command, skips the next token if it's class is ClassData.
         /// </summary>
         public void Execute()
         {
@@ -31,14 +31,11 @@ namespace ClassicBasic.Interpreter.Commands
                 throw new Exceptions.IllegalDirectException();
             }
 
-            while (!_runEnvironment.CurrentLine.EndOfLine)
+            var token = _runEnvironment.CurrentLine.NextToken();
+
+            if (token.TokenClass != TokenType.ClassData)
             {
-                var token = _runEnvironment.CurrentLine.NextToken();
-                if (token.Seperator == TokenType.Colon)
-                {
-                    _runEnvironment.CurrentLine.PushToken(token);
-                    return;
-                }
+                throw new Exceptions.SyntaxErrorException();
             }
         }
     }

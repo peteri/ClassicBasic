@@ -36,6 +36,7 @@ namespace ClassicBasic.Interpreter
             bool inQuotes = false;
             bool lineNumberValid = true;
             bool remarkMode = false;
+            bool dataMode = false;
             foreach (var c in command)
             {
                 // Skip white space.
@@ -50,6 +51,21 @@ namespace ClassicBasic.Interpreter
                     currentTokenText += c;
                     inQuotes = true;
                     continue;
+                }
+
+                // If it's data mode then keep on going until we see a colon
+                if (dataMode)
+                {
+                    if (c != ':')
+                    {
+                        currentTokenText += c;
+                        inQuotes = true;
+                        continue;
+                    }
+
+                    inQuotes = false;
+                    tokens.Add(new Token(currentTokenText, TokenType.ClassData));
+                    currentTokenText = string.Empty;
                 }
 
                 // Deal with line numbers.
@@ -122,6 +138,7 @@ namespace ClassicBasic.Interpreter
                             tokens.Add(matches[0]);
                             currentTokenText = string.Empty;
                             remarkMode = matches[0].Statement == TokenType.Remark;
+                            dataMode = matches[0].Statement == TokenType.Data;
                         }
 
                         // Okay don't try the mid match
@@ -148,7 +165,12 @@ namespace ClassicBasic.Interpreter
                 while (retryMatch);
             }
 
-            if (currentTokenText != string.Empty)
+            // If we're in datamode always create token.
+            if (dataMode)
+            {
+                tokens.Add(new Token(currentTokenText, TokenType.ClassData));
+            }
+            else if (currentTokenText != string.Empty)
             {
                 if (remarkMode)
                 {

@@ -114,6 +114,9 @@ namespace ClassicBasic.Interpreter
         /// <summary>Mask for token.</summary>
         ClassMask = 0xff00,
 
+        /// <summary>Token is textual bit of a data statement.</summary>
+        ClassData = 0x0100,
+
         /// <summary>Token is a statement.</summary>
         ClassStatement = 0x0200,
 
