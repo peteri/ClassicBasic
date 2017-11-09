@@ -43,7 +43,7 @@ namespace ClassicBasic.Interpreter.Commands
          var variableReference = _expressionEvaluator.GetLeftValue();
          var newChar = _teletypeWithPosition.ReadChar();
          Accumulator newValue;
-         if (variableReference.GetValue().Type == typeof(string))
+         if (variableReference.IsString)
          {
             newValue = new Accumulator(newChar.ToString());
          }

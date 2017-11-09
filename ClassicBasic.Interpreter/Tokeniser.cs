@@ -4,6 +4,7 @@
 
 namespace ClassicBasic.Interpreter
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -23,6 +24,13 @@ namespace ClassicBasic.Interpreter
             _tokensProvider = tokensProvider;
         }
 
+        private enum DataState
+        {
+            SearchingForComma,
+            FoundComma,
+            FoundQuote
+        }
+
         /// <summary>
         /// Tokenises a line of text.
         /// </summary>
@@ -37,6 +45,7 @@ namespace ClassicBasic.Interpreter
             bool lineNumberValid = true;
             bool remarkMode = false;
             bool dataMode = false;
+            DataState dataState = DataState.SearchingForComma;
             foreach (var c in command)
             {
                 // Skip white space.
@@ -56,7 +65,8 @@ namespace ClassicBasic.Interpreter
                 // If it's data mode then keep on going until we see a colon
                 if (dataMode)
                 {
-                    if (c != ':')
+                    dataState = GetNextDataState(dataState, c);
+                    if ((c != ':') || (dataState == DataState.FoundQuote))
                     {
                         currentTokenText += c;
                         inQuotes = true;
@@ -139,6 +149,7 @@ namespace ClassicBasic.Interpreter
                             currentTokenText = string.Empty;
                             remarkMode = matches[0].Statement == TokenType.Remark;
                             dataMode = matches[0].Statement == TokenType.Data;
+                            dataState = 0;
                         }
 
                         // Okay don't try the mid match
@@ -204,6 +215,40 @@ namespace ClassicBasic.Interpreter
             }
 
             return new ProgramLine(lineNumber, tokens);
+        }
+
+        private DataState GetNextDataState(DataState dataState, char c)
+        {
+            switch (dataState)
+            {
+                case DataState.SearchingForComma:
+                    if (c == ',')
+                    {
+                        dataState = DataState.FoundComma;
+                    }
+
+                    break;
+                case DataState.FoundComma:
+                    if (c == '\"')
+                    {
+                        dataState = DataState.FoundQuote;
+                    }
+                    else if (!char.IsWhiteSpace(c))
+                    {
+                        dataState = DataState.SearchingForComma;
+                    }
+
+                    break;
+                case DataState.FoundQuote:
+                    if (c == '\"')
+                    {
+                        dataState = DataState.SearchingForComma;
+                    }
+
+                    break;
+            }
+
+            return dataState;
         }
     }
 }

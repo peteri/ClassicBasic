@@ -27,6 +27,11 @@ namespace ClassicBasic.Interpreter
         }
 
         /// <summary>
+        /// Gets a value indicating whether underlying variable is a string.
+        /// </summary>
+        public bool IsString => (_variable.Value.GetType().GetElementType() ?? _variable.Value.GetType()) == typeof(string);
+
+        /// <summary>
         /// Gets the value of variable. If the value is a string array, converts the
         /// value to an empty string if the value is null.
         /// </summary>

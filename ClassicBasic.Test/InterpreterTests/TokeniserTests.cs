@@ -103,6 +103,20 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test that DATA keep spaces, case and breaks on colon correctly.
+        /// </summary>
+        [TestMethod]
+        public void DataKeepSpacesAndCaseAndBreaksOnColonUnlessQuoted()
+        {
+            var result = _tokeniser.Tokenise("DATA  ab,cd\"ef,\"g:h\" : PRINT");
+            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "ab,cd\"ef,\"g:h\" ", TokenType.ClassData);
+            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
         /// Test that blank DATA adds ClassDataToken.
         /// </summary>
         [TestMethod]

@@ -23,6 +23,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new VariableReference(variable, new short[] { });
             sut.SetValue(new Accumulator(40000.25));
             Assert.AreEqual(40000.25, sut.GetValue().ValueAsDouble());
+            Assert.IsFalse(sut.IsString);
         }
 
         /// <summary>
@@ -35,6 +36,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new VariableReference(variable, new short[] { });
             sut.SetValue(new Accumulator(-3000.0));
             Assert.AreEqual(-3000, sut.GetValue().ValueAsShort());
+            Assert.IsFalse(sut.IsString);
         }
 
         /// <summary>
@@ -47,6 +49,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new VariableReference(variable, new short[] { });
             sut.SetValue(new Accumulator("HELLO"));
             Assert.AreEqual("HELLO", sut.GetValue().ValueAsString());
+            Assert.IsTrue(sut.IsString);
         }
 
         /// <summary>
@@ -101,6 +104,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new VariableReference(variable, new short[] { 4, 4 });
             sut.SetValue(new Accumulator(40000.25));
             Assert.AreEqual(40000.25, sut.GetValue().ValueAsDouble());
+            Assert.IsFalse(sut.IsString);
         }
 
         /// <summary>
@@ -113,10 +117,11 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new VariableReference(variable, new short[] { 2, 2 });
             sut.SetValue(new Accumulator(-3000.0));
             Assert.AreEqual(-3000, sut.GetValue().ValueAsShort());
+            Assert.IsFalse(sut.IsString);
         }
 
         /// <summary>
-        /// Can read and write to a string variable.
+        /// Can read and write to a string array variable.
         /// </summary>
         [TestMethod]
         public void CanWriteAndReadToStringArrayVariable()
@@ -125,6 +130,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new VariableReference(variable, new short[] { 3, 3 });
             sut.SetValue(new Accumulator("HELLO"));
             Assert.AreEqual("HELLO", sut.GetValue().ValueAsString());
+            Assert.IsTrue(sut.IsString);
         }
 
         /// <summary>
