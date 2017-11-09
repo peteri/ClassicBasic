@@ -4,11 +4,11 @@
 
 namespace ClassicBasic.Test.CommandTests
 {
+    using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
 
     /// <summary>
     /// Tests the INPUT statement
@@ -67,7 +67,7 @@ namespace ClassicBasic.Test.CommandTests
 
             _teletype.Input.Enqueue("23");
             _teletype.Input.Enqueue("\"456,abc\"");
-            _teletype.Input.Enqueue("456 abc");
+            _teletype.Input.Enqueue("  456 abc");
             _sut.Execute();
             Assert.AreEqual("Prompt", _teletype.Output.Dequeue());
             Assert.AreEqual("??", _teletype.Output.Dequeue());
@@ -111,6 +111,122 @@ namespace ClassicBasic.Test.CommandTests
             Assert.AreEqual("456 abc ", _variableRepository.GetOrCreateVariable("C$", new short[] { }).GetValue().ValueAsString());
         }
 
+        /// <summary>
+        /// Test we can output extra ignored.
+        /// </summary>
+        [TestMethod]
+        public void InputPrintsParsesNumbersAndDisplaysExtraInput()
+        {
+            SetupSut();
+            var tokens = new List<IToken>
+            {
+                new Token("A"), _comma,
+                new Token("B"), _dollar
+            };
+            _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
+
+            _teletype.Input.Enqueue(string.Empty);
+            _teletype.Input.Enqueue("456\"abc  , extra");
+            _sut.Execute();
+            Assert.AreEqual("?", _teletype.Output.Dequeue());
+            Assert.AreEqual("??", _teletype.Output.Dequeue());
+            Assert.AreEqual("?EXTRA IGNORED", _teletype.Output.Dequeue());
+            Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
+            Assert.AreEqual(0.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual("456\"abc  ", _variableRepository.GetOrCreateVariable("B$", new short[] { }).GetValue().ValueAsString());
+        }
+
+        /// <summary>
+        /// Test we throw syntax error on missing semicolon with prompt.
+        /// </summary>
+        [TestMethod]
+        public void InputThrowsExceptionOnMissingSemiColon()
+        {
+            SetupSut();
+            var tokens = new List<IToken>
+            {
+                new Token("Prompt", TokenType.ClassString),
+                new Token("A"), _comma,
+                new Token("B"), _dollar
+            };
+
+            _teletype.Input.Enqueue(string.Empty);
+            _teletype.Input.Enqueue("456\"abc  , extra");
+            _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
+
+            bool exceptionThrown = false;
+            try
+            {
+                _sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test we throw syntax error on missing variable.
+        /// </summary>
+        [TestMethod]
+
+        public void InputThrowsExceptionOnMissingVariable()
+        {
+            SetupSut();
+            var tokens = new List<IToken>
+            {
+                new Token("1"), _comma,
+                new Token("B"), _dollar
+            };
+
+            _teletype.Input.Enqueue(string.Empty);
+            _teletype.Input.Enqueue("456\"abc  , extra");
+            _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
+
+            bool exceptionThrown = false;
+            try
+            {
+                _sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test we throw illegal direct exception.
+        /// </summary>
+        [TestMethod]
+        public void InputThrowsExceptionInDirectMode()
+        {
+            SetupSut();
+            var tokens = new List<IToken>
+            {
+                new Token("1"), _comma,
+                new Token("B"), _dollar
+            };
+
+            _teletype.Input.Enqueue(string.Empty);
+            _teletype.Input.Enqueue("456\"abc  , extra");
+            _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
+
+            bool exceptionThrown = false;
+            try
+            {
+                _sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.IllegalDirectException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
 
         private void SetupSut()
         {

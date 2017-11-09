@@ -79,11 +79,6 @@ namespace ClassicBasic.Interpreter.Commands
 
             _runEnvironment.CurrentLine.PushToken(token);
 
-            if (variableReferences.Count == 0)
-            {
-                throw new Exceptions.SyntaxErrorException();
-            }
-
             bool reenterInput = false;
             do
             {
