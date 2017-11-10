@@ -148,7 +148,7 @@ namespace ClassicBasic.Test.CommandTests
 
             Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
             Assert.AreEqual(new string(' ', 14 - 5), _teletype.Output.Dequeue());
-            Assert.AreEqual("6", _teletype.Output.Dequeue());
+            Assert.AreEqual(" 6 ", _teletype.Output.Dequeue());
             Assert.AreEqual(Environment.NewLine, _teletype.Output.Dequeue());
             Assert.AreEqual(0, _teletype.Output.Count);
         }
@@ -174,7 +174,7 @@ namespace ClassicBasic.Test.CommandTests
             _sut.Execute();
 
             Assert.AreEqual("HELLO", _teletype.Output.Dequeue());
-            Assert.AreEqual("16", _teletype.Output.Dequeue());
+            Assert.AreEqual(" 16 ", _teletype.Output.Dequeue());
             Assert.AreEqual(0, _teletype.Output.Count);
         }
 

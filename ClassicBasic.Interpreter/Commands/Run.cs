@@ -13,6 +13,7 @@ namespace ClassicBasic.Interpreter.Commands
         private readonly IProgramRepository _programRepository;
         private readonly IExpressionEvaluator _expressionEvaluator;
         private readonly IVariableRepository _variableRepository;
+        private readonly IDataStatementReader _dataStatementReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Run"/> class.
@@ -21,17 +22,20 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="programRepository">Program Repository.</param>
         /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="variableRepository">Variable Repository.</param>
+        /// <param name="dataStatementReader">Data statement reader.</param>
         public Run(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
             IExpressionEvaluator expressionEvaluator,
-            IVariableRepository variableRepository)
+            IVariableRepository variableRepository,
+            IDataStatementReader dataStatementReader)
             : base("RUN", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
             _expressionEvaluator = expressionEvaluator;
             _variableRepository = variableRepository;
+            _dataStatementReader = dataStatementReader;
         }
 
         /// <summary>
@@ -60,6 +64,7 @@ namespace ClassicBasic.Interpreter.Commands
             _variableRepository.Clear();
             _runEnvironment.ProgramStack.Clear();
             _runEnvironment.DefinedFunctions.Clear();
+            _dataStatementReader.RestoreToLineNumber(null);
             int? startingLineNumber = _expressionEvaluator.GetLineNumber();
             _runEnvironment.CurrentLine = startingLineNumber.HasValue ?
                 _programRepository.GetLine(startingLineNumber.Value) :

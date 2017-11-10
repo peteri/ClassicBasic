@@ -30,6 +30,7 @@ namespace ClassicBasic.Interpreter
             builder.RegisterType<TokensProvider>().As<ITokensProvider>().SingleInstance();
             builder.RegisterType<ProgramRepository>().As<IProgramRepository>().SingleInstance();
             builder.RegisterType<VariableRepository>().As<IVariableRepository>().SingleInstance();
+            builder.RegisterType<DataStatementReader>().As<IDataStatementReader>().SingleInstance();
             builder.RegisterType<ExpressionEvaluator>().As<IExpressionEvaluator>().SingleInstance();
             builder.RegisterType<TeletypeWithPosition>().As<ITeletypeWithPosition>().SingleInstance();
         }

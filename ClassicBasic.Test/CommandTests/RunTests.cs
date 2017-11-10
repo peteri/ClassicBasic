@@ -24,6 +24,7 @@ namespace ClassicBasic.Test.CommandTests
         private Mock<IProgramRepository> _mockProgramRepository;
         private Mock<IExpressionEvaluator> _mockExpressionEvaluator;
         private Mock<IVariableRepository> _mockVariableRepository;
+        private Mock<IDataStatementReader> _mockDataStatementReader;
 
         /// <summary>
         /// Run clears Program stack and variables.
@@ -36,6 +37,7 @@ namespace ClassicBasic.Test.CommandTests
             _sut.Execute(_mockTokeniser.Object);
             Assert.AreEqual(10, _runEnvironment.CurrentLine.LineNumber);
             _mockVariableRepository.Verify(mvr => mvr.Clear(), Times.Once);
+            _mockDataStatementReader.Verify(mdsr => mdsr.RestoreToLineNumber(null), Times.Once);
             Assert.AreEqual(0, _runEnvironment.ProgramStack.Count);
         }
 
@@ -71,8 +73,10 @@ namespace ClassicBasic.Test.CommandTests
 
         private void SetupSut()
         {
-            _runEnvironment = new RunEnvironment();
-            _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { });
+            _runEnvironment = new RunEnvironment
+            {
+                CurrentLine = new ProgramLine(null, new List<IToken> { })
+            };
             _line10 = new ProgramLine(10, new List<IToken> { });
             _line20 = new ProgramLine(20, new List<IToken> { });
             _mockTokeniser = new Mock<ITokeniser>();
@@ -81,11 +85,13 @@ namespace ClassicBasic.Test.CommandTests
             _mockProgramRepository.Setup(mpr => mpr.GetLine(20)).Returns(_line20);
             _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _mockVariableRepository = new Mock<IVariableRepository>();
+            _mockDataStatementReader = new Mock<IDataStatementReader>();
             _sut = new Run(
                 _runEnvironment,
                 _mockProgramRepository.Object,
                 _mockExpressionEvaluator.Object,
-                _mockVariableRepository.Object);
+                _mockVariableRepository.Object,
+                _mockDataStatementReader.Object);
         }
     }
 }

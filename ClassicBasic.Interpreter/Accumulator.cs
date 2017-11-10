@@ -132,7 +132,15 @@ namespace ClassicBasic.Interpreter
         /// <returns>Converted version of string.</returns>
         public override string ToString()
         {
-            return _value.ToString();
+            var type = _value.GetType().GetElementType() ?? _value.GetType();
+            if (type == typeof(string))
+            {
+                return _value.ToString();
+            }
+            else
+            {
+                return " " + _value.ToString() + " ";
+            }
         }
 
         private void TestOverlongString()

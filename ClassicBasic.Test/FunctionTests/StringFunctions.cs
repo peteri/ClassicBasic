@@ -433,12 +433,12 @@ namespace ClassicBasic.Test.FunctionTests
         /// <param name="expectedResult">Expected result.</param>
         /// <param name="throwsTypeMismatch">Throws type mismatch exception.</param>
         [DataTestMethod]
-        [DataRow((short)-32, "-32", false)]
-        [DataRow((short)0, "0", false)]
-        [DataRow((short)32, "32", false)]
-        [DataRow(-32.25, "-32.25", false)]
-        [DataRow(0.0, "0", false)]
-        [DataRow(32.75, "32.75", false)]
+        [DataRow((short)-32, " -32", false)]
+        [DataRow((short)0, " 0", false)]
+        [DataRow((short)32, " 32", false)]
+        [DataRow(-32.25, " -32.25", false)]
+        [DataRow(0.0, " 0", false)]
+        [DataRow(32.75, " 32.75", false)]
         [DataRow("A", "XX", true)]
         public void StringTestStrDollar(object parameter, string expectedResult, bool throwsTypeMismatch)
         {

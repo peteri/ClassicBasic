@@ -23,7 +23,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new Accumulator(3.25);
             Assert.AreEqual(typeof(double), sut.Type);
             Assert.AreEqual(3.25, sut.ValueAsDouble());
-            Assert.AreEqual("3.25", sut.ToString());
+            Assert.AreEqual(" 3.25 ", sut.ToString());
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var sut = new Accumulator((short)-3);
             Assert.AreEqual(typeof(short), sut.Type);
             Assert.AreEqual((short)-3, sut.ValueAsShort());
-            Assert.AreEqual("-3", sut.ToString());
+            Assert.AreEqual(" -3 ", sut.ToString());
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace ClassicBasic.Test.InterpreterTests
             sut.SetValue(3.25);
             Assert.AreEqual(typeof(double), sut.Type);
             Assert.AreEqual(3.25, sut.ValueAsDouble());
-            Assert.AreEqual("3.25", sut.ToString());
+            Assert.AreEqual(" 3.25 ", sut.ToString());
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace ClassicBasic.Test.InterpreterTests
             sut.SetValue((short)-3);
             Assert.AreEqual(typeof(short), sut.Type);
             Assert.AreEqual((short)-3, sut.ValueAsShort());
-            Assert.AreEqual("-3", sut.ToString());
+            Assert.AreEqual(" -3 ", sut.ToString());
         }
 
         /// <summary>

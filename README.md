@@ -9,7 +9,6 @@ See the games directory for the files.
 * Add tests for commands.
 * Fix outstanding bugs.
 * Write the following commands (loosely clustered)
-* ```INPUT, DATA, READ, RESTORE```
 * ```ON ERR, RESUME```
 * ```DEL```
 
@@ -27,7 +26,7 @@ See the games directory for the files.
 ## Issues  and future plans
 * Allow editing of lines of code.
 * Currently uses double for the underlying floating point format, probably should be a float so we can have doubles if implement Microsoft extended /  disk BASIC.
-* Numbers are printed without leading/trailing space like the Apple ][ interpreter. Possibly should change to be the same as PET / 8080 BASIC.
+* ~~Numbers are printed without leading/trailing space like the Apple ][ interpreter. Possibly should change to be the same as PET / 8080 BASIC.~~
 * Need to sort out how to package the code.
 * Add Appveyor integration.
 * Make Microsoft extended basic with disk commands an option.

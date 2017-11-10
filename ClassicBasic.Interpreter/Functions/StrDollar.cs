@@ -32,7 +32,7 @@ namespace ClassicBasic.Interpreter.Functions
             }
 
             var returnValue = parameters[0].ValueAsDouble();
-            return new Accumulator(returnValue.ToString());
+            return new Accumulator(" " + returnValue.ToString());
         }
     }
 }
