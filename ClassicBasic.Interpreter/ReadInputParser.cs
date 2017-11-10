@@ -11,8 +11,8 @@ namespace ClassicBasic.Interpreter
     /// <summary>
     /// ReadInputParser used by read and input to parse data.
     /// </summary>
-    public class ReadInputParser
-    {
+    public class ReadInputParser : IReadInputParser
+   {
         private Func<string> _moreData;
         private string _currentLine = null;
         private int _currentIndex;

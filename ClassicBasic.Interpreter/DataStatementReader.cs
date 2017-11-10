@@ -11,6 +11,7 @@ namespace ClassicBasic.Interpreter
     {
         private readonly IProgramRepository _programRepository;
         private ProgramLine _currentDataLine;
+        private bool _faulted;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataStatementReader"/> class.
@@ -25,7 +26,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Gets the shared read input parser.
         /// </summary>
-        public ReadInputParser ReadInputParser { get; }
+        public IReadInputParser ReadInputParser { get; }
 
         /// <summary>
         /// Implements moving the current data pointer to a new line number
@@ -37,13 +38,19 @@ namespace ClassicBasic.Interpreter
                 ? _programRepository.GetLine(lineNumber.Value)
                 : _programRepository.GetFirstLine();
             ReadInputParser.Clear();
+            _faulted = true;
         }
 
         private string GetNextDataStatement()
         {
             if (_currentDataLine == null)
             {
-                throw new Exceptions.OutOfDataException();
+               if (_faulted)
+               {
+                  throw new Exceptions.OutOfDataException();
+               }
+
+               RestoreToLineNumber(null);
             }
 
             while (_currentDataLine != null)
@@ -60,6 +67,7 @@ namespace ClassicBasic.Interpreter
                 _currentDataLine = _programRepository.GetNextLine(_currentDataLine.LineNumber.Value);
             }
 
+            _faulted = true;
             throw new Exceptions.OutOfDataException();
         }
     }

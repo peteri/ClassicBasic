@@ -91,6 +91,7 @@ namespace ClassicBasic.Interpreter
                 case TokenType.ClassNumber:
                 case TokenType.ClassSeperator:
                 case TokenType.ClassRemark:
+                case TokenType.ClassData:
                     return _text;
                 case TokenType.ClassString:
                     return "\"" + _text + "\"";

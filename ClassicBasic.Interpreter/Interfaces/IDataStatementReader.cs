@@ -12,7 +12,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Gets the shared read input parser.
         /// </summary>
-        ReadInputParser ReadInputParser { get; }
+        IReadInputParser ReadInputParser { get; }
 
         /// <summary>
         /// Implements moving the current data pointer to a new line number
