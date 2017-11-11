@@ -1,0 +1,27 @@
+version: 0.9.{build}
+image: Visual Studio 2017
+init:
+- ps: 
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+before_build:
+- ps: >-
+    dotnet restore ClassicBasic
+
+    dotnet restore ClassicBasic.Interpreter
+
+    dotnet restore ClassicBasic.Test
+build:
+  project: ClassicBasic.sln
+  verbosity: minimal
+test_script:
+    - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework netcoreapp2.0 --logger:trx "ClassicBasic.Test\ClassicBasic.Test.csproj\" -output:"ClassicBasic_coverage.xml" -oldstyle -log:Warn -filter:"+[ClassicBasic]*  " -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All  -returntargetcode
+    - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+    - pip install codecov
+    - codecov -f "ClassicBasic_coverage.xml"
