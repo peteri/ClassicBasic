@@ -65,6 +65,22 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test that we find tokens at the end of the line.
+        /// </summary>
+        [TestMethod]
+        public void FindOddTokensAtEnd()
+        {
+            var result = _tokeniser.Tokenise("LET AFOR=ONER");
+            TokenCheck(result.NextToken(), "LET", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "A", TokenType.ClassVariable);
+            TokenCheck(result.NextToken(), "FOR", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "=", TokenType.ClassSeperator);
+            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "ER", TokenType.ClassVariable);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
         /// Test that remarks keep spaces and case correctly.
         /// </summary>
         [TestMethod]
@@ -94,9 +110,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void DataKeepSpacesAndCaseAndBreaksOnColon()
         {
-            var result = _tokeniser.Tokenise("DATA   Hello World,\"DEF GH\" : PRINT");
+            var result = _tokeniser.Tokenise("DATA   Hello World, \"DEF GH\" : PRINT");
             TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "Hello World,\"DEF GH\" ", TokenType.ClassData);
+            TokenCheck(result.NextToken(), "Hello World, \"DEF GH\" ", TokenType.ClassData);
             TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
             TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
             Assert.IsTrue(result.EndOfLine);
