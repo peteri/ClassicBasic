@@ -219,33 +219,30 @@ namespace ClassicBasic.Interpreter
 
         private DataState GetNextDataState(DataState dataState, char c)
         {
-            switch (dataState)
+            if (dataState == DataState.SearchingForComma && c == ',')
             {
-                case DataState.SearchingForComma:
-                    if (c == ',')
-                    {
-                        dataState = DataState.FoundComma;
-                    }
+                return DataState.FoundComma;
+            }
 
-                    break;
-                case DataState.FoundComma:
-                    if (c == '\"')
-                    {
-                        dataState = DataState.FoundQuote;
-                    }
-                    else if (!char.IsWhiteSpace(c))
-                    {
-                        dataState = DataState.SearchingForComma;
-                    }
+            if (dataState == DataState.FoundComma)
+            {
+                if (c == '\"')
+                {
+                    return DataState.FoundQuote;
+                }
 
-                    break;
-                case DataState.FoundQuote:
-                    if (c == '\"')
-                    {
-                        dataState = DataState.SearchingForComma;
-                    }
+                if (!char.IsWhiteSpace(c))
+                {
+                    return DataState.SearchingForComma;
+                }
+            }
 
-                    break;
+            if (dataState == DataState.FoundQuote)
+            {
+                if (c == '\"')
+                {
+                    return DataState.SearchingForComma;
+                }
             }
 
             return dataState;
