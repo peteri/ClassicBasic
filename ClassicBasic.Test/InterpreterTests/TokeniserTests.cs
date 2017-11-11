@@ -94,9 +94,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void DataKeepSpacesAndCaseAndBreaksOnColon()
         {
-            var result = _tokeniser.Tokenise("DATA   Hello World,\"DEF GH\" : PRINT");
+            var result = _tokeniser.Tokenise("DATA   Hello World, \"DEF GH\" : PRINT");
             TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "Hello World,\"DEF GH\" ", TokenType.ClassData);
+            TokenCheck(result.NextToken(), "Hello World, \"DEF GH\" ", TokenType.ClassData);
             TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
             TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
             Assert.IsTrue(result.EndOfLine);

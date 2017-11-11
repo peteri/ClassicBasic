@@ -69,10 +69,7 @@ namespace ClassicBasic.Interpreter.Commands
             while (token.Seperator == TokenType.Comma);
 
             // Put back next token.
-            if (token.Seperator != TokenType.Comma)
-            {
-                _runEnvironment.CurrentLine.PushToken(token);
-            }
+            _runEnvironment.CurrentLine.PushToken(token);
 
             if (foundLine.HasValue)
             {
