@@ -21,7 +21,7 @@ build:
   project: ClassicBasic.sln
   verbosity: minimal
 test_script:
-    - ps: iex ((Get-ChildItem ($env:USERPROFILE + '\.nuget\packages\OpenCover'))[0].FullName + '\tools\OpenCover.Console.exe' + '- register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework netcoreapp2.0 -c Debug ClassicBasic.Test\ClassicBasic.Test.csproj" -output:"ClassicBasic_coverage.xml" -oldstyle -log:Warn -filter:"+[ClassicBasic]*  " -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All  -returntargetcode ')
+    - ps: iex ((Get-ChildItem ($env:USERPROFILE + '\.nuget\packages\OpenCover'))[0].FullName + '\tools\OpenCover.Console.exe' + ' -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework netcoreapp2.0 -c Debug ClassicBasic.Test\ClassicBasic.Test.csproj" -output:"ClassicBasic_coverage.xml" -oldstyle -log:Warn -filter:"+[ClassicBasic]*  " -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All  -returntargetcode ')
     - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
     - pip install codecov
     - codecov -f "ClassicBasic_coverage.xml"
