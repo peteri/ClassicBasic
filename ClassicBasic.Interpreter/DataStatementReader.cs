@@ -38,7 +38,7 @@ namespace ClassicBasic.Interpreter
                 ? _programRepository.GetLine(lineNumber.Value)
                 : _programRepository.GetFirstLine();
             ReadInputParser.Clear();
-            _faulted = true;
+            _faulted = false;
         }
 
         private string GetNextDataStatement()

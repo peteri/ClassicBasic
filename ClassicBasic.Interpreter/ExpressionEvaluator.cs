@@ -398,13 +398,7 @@ namespace ClassicBasic.Interpreter
             switch (token.TokenClass)
             {
                 case TokenType.ClassNumber:
-                    double doubleResult;
-                    if (double.TryParse(token.Text, out doubleResult))
-                    {
-                        return new Accumulator(doubleResult);
-                    }
-
-                    break;
+                    return ParseNumber(token);
                 case TokenType.ClassString:
                     return new Accumulator(token.Text);
                 case TokenType.ClassVariable:
@@ -419,6 +413,30 @@ namespace ClassicBasic.Interpreter
                     return CheckForUserFunction(token);
                 default:
                     break;
+            }
+
+            throw new Exceptions.SyntaxErrorException();
+        }
+
+        private Accumulator ParseNumber(IToken token)
+        {
+            string text = token.Text;
+            if (text.EndsWith("E"))
+            {
+                var plusMinus = _runEnvironment.CurrentLine.NextToken();
+                var exponent = _runEnvironment.CurrentLine.NextToken();
+                if ((plusMinus.Seperator != TokenType.Plus && plusMinus.Seperator != TokenType.Minus)
+                    || exponent.TokenClass != TokenType.ClassNumber)
+                {
+                    throw new Exceptions.SyntaxErrorException();
+                }
+
+                text = text + plusMinus.Text + exponent.Text;
+            }
+
+            if (double.TryParse(text, out double doubleResult))
+            {
+                return new Accumulator(doubleResult);
             }
 
             throw new Exceptions.SyntaxErrorException();

@@ -205,6 +205,41 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test Number parser.
+        /// </summary>
+        /// <param name="number">Number to try to parse.</param>
+        /// <param name="expectedValue">Expected value.</param>
+        /// <param name="throwsException">Throws an exception.</param>
+        [DataTestMethod]
+        [DataRow("1", 1.0, false)]
+        [DataRow("1 E 4", 10000.0, false)]
+        [DataRow("2.25 E 4", 22500.0, false)]
+        [DataRow("2.25E+03", 2250.0, false)]
+        [DataRow("2x25 E 4", 2250.0, true)]
+        [DataRow("2x25 E+4", 2250.0, true)]
+        [DataRow("25E-03", 0.025, false)]
+        [DataRow("2.25E*03", 2250.0, true)]
+        [DataRow("2.25E*XX", 2250.0, true)]
+        [DataRow("25E-03X", 0.025, true)]
+        public void EvaluatorTestParsingNumerics(string number, double expectedValue, bool throwsException)
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT " + number);
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            bool exceptionThrown = false;
+            try
+            {
+                var value = _expressionEvaluator.GetExpression();
+                Assert.AreEqual(expectedValue, value.ValueAsDouble());
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.AreEqual(throwsException, exceptionThrown);
+        }
+
+        /// <summary>
         /// Test divide.
         /// </summary>
         [TestMethod]
@@ -230,6 +265,27 @@ namespace ClassicBasic.Test.InterpreterTests
                 _expressionEvaluator.GetExpression();
             }
             catch (ClassicBasic.Interpreter.Exceptions.DivisionByZeroException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test divide by zero.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorTestOverflow()
+        {
+            var exceptionThrown = false;
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT 8^8^8^8");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            try
+            {
+                _expressionEvaluator.GetExpression();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.OverflowException)
             {
                 exceptionThrown = true;
             }

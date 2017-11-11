@@ -12,6 +12,7 @@ namespace ClassicBasic.Interpreter.Commands
         private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
         private readonly IVariableRepository _variableRepository;
+        private readonly IDataStatementReader _dataStatementReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="New"/> class.
@@ -19,15 +20,18 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program Repository.</param>
         /// <param name="variableRepository">Variable Repository.</param>
+        /// <param name="dataStatementReader">Data statement reader.</param>
         public New(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
-            IVariableRepository variableRepository)
+            IVariableRepository variableRepository,
+            IDataStatementReader dataStatementReader)
             : base("NEW", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
             _variableRepository = variableRepository;
+            _dataStatementReader = dataStatementReader;
         }
 
         /// <summary>
@@ -39,6 +43,7 @@ namespace ClassicBasic.Interpreter.Commands
             _runEnvironment.ProgramStack.Clear();
             _runEnvironment.DefinedFunctions.Clear();
             _runEnvironment.ContinueLineNumber = null;
+            _dataStatementReader.RestoreToLineNumber(null);
             _programRepository.Clear();
         }
     }

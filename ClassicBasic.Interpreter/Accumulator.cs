@@ -22,6 +22,7 @@ namespace ClassicBasic.Interpreter
             _value = initialValue;
             Type = initialValue.GetType();
             TestOverlongString();
+            TestOverflow();
         }
 
         /// <summary>
@@ -124,6 +125,7 @@ namespace ClassicBasic.Interpreter
             _value = newValue;
             Type = newValue.GetType();
             TestOverlongString();
+            TestOverflow();
         }
 
         /// <summary>
@@ -148,6 +150,14 @@ namespace ClassicBasic.Interpreter
             if (_value is string text && (text.Length > 256))
             {
                 throw new Exceptions.StringToLongException();
+            }
+        }
+
+        private void TestOverflow()
+        {
+            if (_value is double && double.IsInfinity((double)_value))
+            {
+                throw new Exceptions.OverflowException();
             }
         }
     }

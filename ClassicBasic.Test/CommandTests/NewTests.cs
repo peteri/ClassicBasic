@@ -21,16 +21,25 @@ namespace ClassicBasic.Test.CommandTests
         [TestMethod]
         public void NewClearsEverything()
         {
-            var runEnvironment = new RunEnvironment();
-            runEnvironment.ContinueLineNumber = 1;
+            var runEnvironment = new RunEnvironment
+            {
+                ContinueLineNumber = 1
+            };
             runEnvironment.ProgramStack.Push(new StackEntry());
             runEnvironment.DefinedFunctions.Add("X", new UserDefinedFunction());
             var mockProgramRepository = new Mock<IProgramRepository>();
             var mockVariableRepository = new Mock<IVariableRepository>();
-            var sut = new New(runEnvironment, mockProgramRepository.Object, mockVariableRepository.Object);
+            var mockDataStatementReader = new Mock<IDataStatementReader>();
+
+            var sut = new New(
+                    runEnvironment,
+                    mockProgramRepository.Object,
+                    mockVariableRepository.Object,
+                    mockDataStatementReader.Object);
             sut.Execute();
             mockVariableRepository.Verify(mvr => mvr.Clear(), Times.Once);
             mockProgramRepository.Verify(mpr => mpr.Clear(), Times.Once);
+            mockDataStatementReader.Verify(mdsr => mdsr.RestoreToLineNumber(null), Times.Once);
             Assert.AreEqual(0, runEnvironment.ProgramStack.Count);
             Assert.AreEqual(0, runEnvironment.DefinedFunctions.Count);
             Assert.IsFalse(runEnvironment.ContinueLineNumber.HasValue);
