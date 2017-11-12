@@ -35,7 +35,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
-            int? lineNumber = _expressionEvaluator.GetLineNumber();
+            int? lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
             if (lineNumber.HasValue)
             {
                 _runEnvironment.CurrentLine = _programRepository.GetLine(lineNumber.Value);

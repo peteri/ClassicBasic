@@ -39,9 +39,6 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(value));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(() =>
-                int.Parse(_runEnvironment.CurrentLine.NextToken().Text));
             var tokens = new List<IToken>
             {
                 new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
@@ -86,9 +83,6 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(value));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(() =>
-                int.Parse(_runEnvironment.CurrentLine.NextToken().Text));
             var tokens = new List<IToken>
             {
                 new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub),
@@ -135,14 +129,6 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(2.0));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(() =>
-                {
-                    var token = _runEnvironment.CurrentLine.NextToken();
-                    int? returnValue;
-                    returnValue = (token.Statement == TokenType.ClassNumber) ? int.Parse(token.Text) : (int?)null;
-                    return returnValue;
-                });
             var tokens = new List<IToken>
             {
                 new Token("TO", TokenType.ClassStatement | TokenType.To),
@@ -170,21 +156,13 @@ namespace ClassicBasic.Test.CommandTests
         }
 
         /// <summary>
-        /// Test On throws SyntaxErrorOnMissingComma.
+        /// Test On stops parsing on missing comma.
         /// </summary>
         [TestMethod]
-        public void OnThrowsSyntaxErrorOnMissingComma()
+        public void OnStopsParsingOnMissingComma()
         {
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(2.0));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(() =>
-                {
-                    var token = _runEnvironment.CurrentLine.NextToken();
-                    int? returnValue;
-                    returnValue = (token.Statement == TokenType.ClassNumber) ? int.Parse(token.Text) : (int?)null;
-                    return returnValue;
-                });
             var tokens = new List<IToken>
             {
                 new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub),
@@ -196,43 +174,25 @@ namespace ClassicBasic.Test.CommandTests
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            _sut.Execute();
+            Assert.AreEqual("2000", _runEnvironment.CurrentLine.NextToken().Text);
         }
 
         /// <summary>
-        /// Test On throws SyntaxErrorOnMissingComma.
+        /// Test On throws SyntaxErrorOnMissingLineNumber.
         /// </summary>
         [TestMethod]
         public void OnThrowsSyntaxErrorOnMissingLineNumber()
         {
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(2.0));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(() =>
-                {
-                    var token = _runEnvironment.CurrentLine.NextToken();
-                    int? returnValue;
-                    returnValue = (token.Statement == TokenType.ClassNumber) ? int.Parse(token.Text) : (int?)null;
-                    return returnValue;
-                });
             var tokens = new List<IToken>
             {
                 new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub),
                 new Token("1000"),
                 new Token(",", TokenType.ClassSeperator | TokenType.Comma),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
                 new Token("3000"),
+                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
                 new Token(":", TokenType.ClassSeperator | TokenType.Colon),
             };
 

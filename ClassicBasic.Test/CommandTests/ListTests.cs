@@ -16,7 +16,6 @@ namespace ClassicBasic.Test.CommandTests
     [TestClass]
     public class ListTests
     {
-        private Mock<IExpressionEvaluator> _mockExpressionEvaluator;
         private IProgramRepository _programRepository;
         private IRunEnvironment _runEnvironment;
         private MockTeletype _teletype;
@@ -42,24 +41,19 @@ namespace ClassicBasic.Test.CommandTests
             var currentLine = new ProgramLine(null, tokens);
             SetupSut();
             _runEnvironment.CurrentLine = currentLine;
+            if (start.HasValue)
+            {
+                tokens.Add(new Token(start.Value.ToString()));
+            }
+
             if (token != null)
             {
                 tokens.Add(new Token(token, TokenType.ClassSeperator | (token == "-" ? TokenType.Minus : TokenType.Comma)));
             }
 
-            var seq = _mockExpressionEvaluator.SetupSequence(mee => mee.GetLineNumber());
-            if (start.HasValue)
-            {
-                seq.Returns(start.Value);
-            }
-            else
-            {
-                seq.Returns(null);
-            }
-
             if (end.HasValue)
             {
-                seq.Returns(end.Value);
+                tokens.Add(new Token(end.Value.ToString()));
             }
 
             _sut.Setup();
@@ -93,7 +87,6 @@ namespace ClassicBasic.Test.CommandTests
 
         private void SetupSut()
         {
-            _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _programRepository = new ProgramRepository();
             _runEnvironment = new RunEnvironment();
             _teletype = new MockTeletype();
@@ -101,7 +94,7 @@ namespace ClassicBasic.Test.CommandTests
             _programRepository.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("TWO") }));
             _programRepository.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("THREE") }));
             _programRepository.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("FOUR") }));
-            _sut = new List(_mockExpressionEvaluator.Object, _programRepository, _teletype, _runEnvironment);
+            _sut = new List(_programRepository, _teletype, _runEnvironment);
         }
     }
 }

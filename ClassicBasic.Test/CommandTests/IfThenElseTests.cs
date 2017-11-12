@@ -169,12 +169,15 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression())
                 .Returns(new Accumulator(1.0));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(100);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(100))
                 .Returns(new ProgramLine(100, new List<IToken> { }));
-            _runEnvironment.CurrentLine =
-                new ProgramLine(10, new List<IToken> { new Token("THEN", TokenType.ClassStatement | TokenType.Then) });
+            var tokens = new List<IToken>
+            {
+                new Token("THEN", TokenType.ClassStatement | TokenType.Then),
+                new Token("100")
+            };
+
+            _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
 
             _sut.Execute();
 
@@ -182,7 +185,7 @@ namespace ClassicBasic.Test.CommandTests
         }
 
         /// <summary>
-        /// Test that IF Calls program repostiory if followed by number.
+        /// Test that IF Calls program repostiory if followed by goto.
         /// </summary>
         [TestMethod]
         public void IfExpressionNonZeroDoubleGotoFollowedByNumberJumpsToLine()
@@ -190,12 +193,14 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression())
                 .Returns(new Accumulator(1.0));
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber())
-                .Returns(100);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(100))
                 .Returns(new ProgramLine(100, new List<IToken> { }));
-            _runEnvironment.CurrentLine =
-                new ProgramLine(10, new List<IToken> { new Token("GOTO", TokenType.ClassStatement | TokenType.Goto) });
+            var tokens = new List<IToken>
+            {
+                new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
+                new Token("100")
+            };
+            _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
 
             _sut.Execute();
 

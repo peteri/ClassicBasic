@@ -514,44 +514,6 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
-        /// Evaluate get line number
-        /// </summary>
-        [TestMethod]
-        public void EvaluatorGetLine()
-        {
-            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 goto 2000");
-            _runEnvironment.CurrentLine.NextToken();    // Eat the goto
-            var result = _expressionEvaluator.GetLineNumber();
-            Assert.AreEqual(2000, result);
-        }
-
-        /// <summary>
-        /// Evaluate get line number returns null if token is not number.
-        /// </summary>
-        [TestMethod]
-        public void EvaluatorGetLineReturnsNullAndTokenIsNotEaten()
-        {
-            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 goto print");
-            _runEnvironment.CurrentLine.NextToken();    // Eat the goto
-            var result = _expressionEvaluator.GetLineNumber();
-            Assert.AreEqual(null, result);
-            Assert.AreEqual("PRINT", _runEnvironment.CurrentLine.NextToken().Text);
-        }
-
-        /// <summary>
-        /// Evaluate get line number returns null if unparsable.
-        /// </summary>
-        [TestMethod]
-        public void EvaluatorGetLineThrowsExceptionOnBadLineNumber()
-        {
-            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 goto 20X00");
-            _runEnvironment.CurrentLine.NextToken();    // Eat the goto
-            var result = _expressionEvaluator.GetLineNumber();
-            Assert.IsNull(result);
-            Assert.AreEqual("20X00", _runEnvironment.CurrentLine.NextToken().Text);
-        }
-
-        /// <summary>
         /// Test evaluator throws syntax exception if bad number evaluated.
         /// </summary>
         [TestMethod]

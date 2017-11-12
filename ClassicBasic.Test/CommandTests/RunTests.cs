@@ -22,7 +22,6 @@ namespace ClassicBasic.Test.CommandTests
         private ProgramLine _line20;
         private Mock<ITokeniser> _mockTokeniser;
         private Mock<IProgramRepository> _mockProgramRepository;
-        private Mock<IExpressionEvaluator> _mockExpressionEvaluator;
         private Mock<IVariableRepository> _mockVariableRepository;
         private Mock<IDataStatementReader> _mockDataStatementReader;
 
@@ -48,7 +47,7 @@ namespace ClassicBasic.Test.CommandTests
         public void RunStartsFromALineNumber()
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns(20);
+            _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { new Token("20") });
             _runEnvironment.ProgramStack.Push(new StackEntry());
             _sut.Execute(_mockTokeniser.Object);
             Assert.AreEqual(20, _runEnvironment.CurrentLine.LineNumber);
@@ -83,13 +82,11 @@ namespace ClassicBasic.Test.CommandTests
             _mockProgramRepository = new Mock<IProgramRepository>();
             _mockProgramRepository.Setup(mpr => mpr.GetFirstLine()).Returns(_line10);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(20)).Returns(_line20);
-            _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _mockVariableRepository = new Mock<IVariableRepository>();
             _mockDataStatementReader = new Mock<IDataStatementReader>();
             _sut = new Run(
                 _runEnvironment,
                 _mockProgramRepository.Object,
-                _mockExpressionEvaluator.Object,
                 _mockVariableRepository.Object,
                 _mockDataStatementReader.Object);
         }

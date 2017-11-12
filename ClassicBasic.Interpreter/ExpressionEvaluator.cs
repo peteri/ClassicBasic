@@ -104,29 +104,6 @@ namespace ClassicBasic.Interpreter
             return indexes.ToArray();
         }
 
-        /// <summary>
-        /// If the next token can be evaluated as line number returns the
-        /// line number. If not returns null and puts the token back.
-        /// </summary>
-        /// <returns>null or a line number.</returns>
-        public int? GetLineNumber()
-        {
-            var token = _runEnvironment.CurrentLine.NextToken();
-            if (token.TokenClass != TokenType.ClassNumber)
-            {
-                _runEnvironment.CurrentLine.PushToken(token);
-                return null;
-            }
-
-            if (int.TryParse(token.Text, out int lineNumber))
-            {
-                return lineNumber;
-            }
-
-            _runEnvironment.CurrentLine.PushToken(token);
-            return null;
-        }
-
         private IList<Accumulator> GetFunctionParameters()
         {
             var parameters = new List<Accumulator>();
@@ -418,14 +395,17 @@ namespace ClassicBasic.Interpreter
 
         private Accumulator GetVariableValue(IToken token)
         {
-            if (token.Text == "ERR")
+            if (token.Text.Length > 2)
             {
-                return new Accumulator((double)_runEnvironment.LastErrorNumber);
-            }
+                if (token.Text == "ERR")
+                {
+                    return new Accumulator((double)_runEnvironment.LastErrorNumber);
+                }
 
-            if (token.Text == "ERL")
-            {
-                return new Accumulator((double)(_runEnvironment.LastErrorLine ?? 0));
+                if (token.Text == "ERL")
+                {
+                    return new Accumulator((double)(_runEnvironment.LastErrorLine ?? 0));
+                }
             }
 
             _runEnvironment.CurrentLine.PushToken(token);

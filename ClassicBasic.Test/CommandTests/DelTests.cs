@@ -34,11 +34,20 @@ namespace ClassicBasic.Test.CommandTests
         public void DeleteTestsFromImmediateMode(int? start, bool hasComma, int? end, bool throwsException)
         {
             var mockProgramRepository = new Mock<IProgramRepository>();
-            var mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             var tokens = new List<IToken>();
+            if (start.HasValue)
+            {
+                tokens.Add(new Token(start.Value.ToString()));
+            }
+
             if (hasComma)
             {
                 tokens.Add(new Token(",", TokenType.ClassSeperator | TokenType.Comma));
+            }
+
+            if (end.HasValue)
+            {
+                tokens.Add(new Token(end.Value.ToString()));
             }
 
             var runEnvironment = new RunEnvironment
@@ -46,11 +55,7 @@ namespace ClassicBasic.Test.CommandTests
                 CurrentLine = new ProgramLine(null, tokens)
             };
 
-            mockExpressionEvaluator.SetupSequence(mee => mee.GetLineNumber())
-                .Returns(start)
-                .Returns(end);
-
-            var sut = new Del(runEnvironment, mockProgramRepository.Object, mockExpressionEvaluator.Object);
+            var sut = new Del(runEnvironment, mockProgramRepository.Object);
             var exceptionThrown = false;
             try
             {
@@ -72,10 +77,11 @@ namespace ClassicBasic.Test.CommandTests
         public void DeleteEndsProgramFromDeferredMode()
         {
             var mockProgramRepository = new Mock<IProgramRepository>();
-            var mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             var tokens = new List<IToken>
             {
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma)
+                new Token("30"),
+                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token("40")
             };
 
             var runEnvironment = new RunEnvironment
@@ -84,11 +90,7 @@ namespace ClassicBasic.Test.CommandTests
                 ContinueLineNumber = 10
             };
 
-            mockExpressionEvaluator.SetupSequence(mee => mee.GetLineNumber())
-                .Returns(30)
-                .Returns(40);
-
-            var sut = new Del(runEnvironment, mockProgramRepository.Object, mockExpressionEvaluator.Object);
+            var sut = new Del(runEnvironment, mockProgramRepository.Object);
             var exceptionThrown = false;
             try
             {

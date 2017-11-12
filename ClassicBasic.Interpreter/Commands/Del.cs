@@ -10,23 +10,19 @@ namespace ClassicBasic.Interpreter.Commands
     {
         private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
-        private readonly IExpressionEvaluator _expressionEvaluator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Del"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run environment.</param>
         /// <param name="programRepository">Program Repository.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
         public Del(
             IRunEnvironment runEnvironment,
-            IProgramRepository programRepository,
-            IExpressionEvaluator expressionEvaluator)
+            IProgramRepository programRepository)
             : base("DEL", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
-            _expressionEvaluator = expressionEvaluator;
         }
 
         /// <summary>
@@ -34,14 +30,14 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
-            int? start = _expressionEvaluator.GetLineNumber();
+            int? start = _runEnvironment.CurrentLine.GetLineNumber();
             int? end = null;
             if (start.HasValue)
             {
                 var token = _runEnvironment.CurrentLine.NextToken();
                 if (token.Seperator == TokenType.Comma)
                 {
-                    end = _expressionEvaluator.GetLineNumber();
+                    end = _runEnvironment.CurrentLine.GetLineNumber();
                 }
             }
 

@@ -27,10 +27,10 @@ namespace ClassicBasic.Test.CommandTests
         /// Tests GOTO sets current line to target.
         /// </summary>
         [TestMethod]
-        public void GotoPushesReturnAddressAndSetsCurrentLineToTarget()
+        public void GotoSetsCurrentLineToTarget()
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns(100);
+            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("100") });
             _sut.Execute();
             _mockProgramRepository.Verify(mpr => mpr.GetLine(100), Times.Once);
             Assert.AreEqual(100, _runEnvironment.CurrentLine.LineNumber.Value);
@@ -44,7 +44,7 @@ namespace ClassicBasic.Test.CommandTests
         public void GotoThrowsExceptionIfLineNumberDoesExist()
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns(110);
+            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("110") });
             var exceptionThrown = false;
             try
             {
@@ -65,7 +65,7 @@ namespace ClassicBasic.Test.CommandTests
         public void GotoThrowsExceptionIfNoLineNumber()
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns((int?)null);
+            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("A") });
             var exceptionThrown = false;
             try
             {

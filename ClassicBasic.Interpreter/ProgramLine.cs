@@ -79,5 +79,28 @@ namespace ClassicBasic.Interpreter
                CurrentToken--;
             }
         }
+
+        /// <summary>
+        /// If the next token can be evaluated as line number returns the
+        /// line number. If not returns null and puts the token back.
+        /// </summary>
+        /// <returns>null or a line number.</returns>
+        public int? GetLineNumber()
+        {
+            var token = NextToken();
+            if (token.TokenClass != TokenType.ClassNumber)
+            {
+                PushToken(token);
+                return null;
+            }
+
+            if (int.TryParse(token.Text, out int lineNumber))
+            {
+                return lineNumber;
+            }
+
+            PushToken(token);
+            return null;
+        }
     }
 }

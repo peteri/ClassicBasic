@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// Initializes a new instance of the <see cref="Resume"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="programRepository"></param>
+        /// <param name="programRepository">Program repository.</param>
         public Resume(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository)

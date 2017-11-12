@@ -22,13 +22,6 @@ namespace ClassicBasic.Interpreter
         VariableReference GetLeftValue();
 
         /// <summary>
-        /// If the next token can be evaluated as line number returns the
-        /// line number. If not returns null and puts the token back.
-        /// </summary>
-        /// <returns>null or a line number.</returns>
-        int? GetLineNumber();
-
-        /// <summary>
         /// Parses an array of indexes from the current command stream.
         /// Eats the outer set of brackets.
         /// </summary>

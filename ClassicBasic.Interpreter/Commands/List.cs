@@ -11,7 +11,6 @@ namespace ClassicBasic.Interpreter.Commands
     /// </summary>
     public class List : Token, IInterruptableCommand
     {
-        private readonly IExpressionEvaluator _expressionEvaluator;
         private readonly IProgramRepository _programRepository;
         private readonly ITeletype _teletype;
         private readonly IRunEnvironment _runEnvironment;
@@ -22,18 +21,15 @@ namespace ClassicBasic.Interpreter.Commands
         /// <summary>
         /// Initializes a new instance of the <see cref="List"/> class.
         /// </summary>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="programRepository">Program Repository.</param>
         /// <param name="teletype">Output teletype to use.</param>
         /// <param name="runEnvironment">Run environment.</param>
         public List(
-            IExpressionEvaluator expressionEvaluator,
             IProgramRepository programRepository,
             ITeletype teletype,
             IRunEnvironment runEnvironment)
             : base("LIST", TokenType.ClassStatement)
         {
-            _expressionEvaluator = expressionEvaluator;
             _programRepository = programRepository;
             _teletype = teletype;
             _runEnvironment = runEnvironment;
@@ -44,13 +40,13 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Setup()
         {
-            int? start = _expressionEvaluator.GetLineNumber();
+            int? start = _runEnvironment.CurrentLine.GetLineNumber();
             int? end = start;
 
             var token = _runEnvironment.CurrentLine.NextToken();
             if (token.Seperator == TokenType.Minus || token.Seperator == TokenType.Comma)
             {
-                end = _expressionEvaluator.GetLineNumber();
+                end = _runEnvironment.CurrentLine.GetLineNumber();
             }
             else
             {

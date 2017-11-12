@@ -186,5 +186,52 @@ namespace ClassicBasic.Test.InterpreterTests
 
             Assert.IsTrue(exceptionThrown);
         }
+
+        /// <summary>
+        /// Evaluate get line number
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorGetLine()
+        {
+            var tokens = new List<IToken>
+            {
+                new Token("2000")
+            };
+            ProgramLine programLine = new ProgramLine(30, tokens);
+            var result = programLine.GetLineNumber();
+            Assert.AreEqual(2000, result);
+        }
+
+        /// <summary>
+        /// Evaluate get line number returns null if token is not number.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorGetLineReturnsNullAndTokenIsNotEaten()
+        {
+            var tokens = new List<IToken>
+            {
+                new Token("DATA", TokenType.ClassStatement | TokenType.Data)
+            };
+            ProgramLine programLine = new ProgramLine(30, tokens);
+            var result = programLine.GetLineNumber();
+            Assert.AreEqual(null, result);
+            Assert.AreEqual("DATA", programLine.NextToken().Text);
+        }
+
+        /// <summary>
+        /// Evaluate get line number returns null if unparsable.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorGetLineThrowsExceptionOnBadLineNumber()
+        {
+            var tokens = new List<IToken>
+            {
+                new Token("20X00")
+            };
+            ProgramLine programLine = new ProgramLine(30, tokens);
+            var result = programLine.GetLineNumber();
+            Assert.IsNull(result);
+            Assert.AreEqual("20X00", programLine.NextToken().Text);
+        }
     }
 }

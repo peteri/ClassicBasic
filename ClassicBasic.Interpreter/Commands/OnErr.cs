@@ -10,18 +10,15 @@ namespace ClassicBasic.Interpreter.Commands
     public class OnErr : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OnErr"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        public OnErr(IRunEnvironment runEnvironment, IExpressionEvaluator expressionEvaluator)
+        public OnErr(IRunEnvironment runEnvironment)
             : base("ONERR", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
         }
 
         /// <summary>
@@ -30,7 +27,7 @@ namespace ClassicBasic.Interpreter.Commands
         public void Execute()
         {
             var token = _runEnvironment.CurrentLine.NextToken();
-            var lineNumber = _expressionEvaluator.GetLineNumber();
+            var lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
             if (token.Statement != TokenType.Goto || !lineNumber.HasValue)
             {
                 throw new Exceptions.SyntaxErrorException();
