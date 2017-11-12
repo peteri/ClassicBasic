@@ -22,8 +22,6 @@ namespace ClassicBasic.Test.InterpreterTests
         private VariableReference[] _numericVariables = new VariableReference[3];
         private VariableReference[] _stringVariables = new VariableReference[3];
 
-#warning Need test for error line number
-
         /// <summary>
         /// Data statement reader throws when no data in program.
         /// </summary>
@@ -43,6 +41,7 @@ namespace ClassicBasic.Test.InterpreterTests
             }
 
             Assert.IsTrue(exceptionThrown);
+            Assert.IsNull(_sut.CurrentDataLine);
         }
 
         /// <summary>
@@ -187,6 +186,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
             for (double i = 3.0; i <= 4.0; i++)
             {
+                Assert.AreEqual(20, _sut.CurrentDataLine);
                 _sut.ReadInputParser.ReadVariables(new List<VariableReference> { _numericVariables[0] });
                 Assert.AreEqual(i, _numericVariables[0].GetValue().ValueAsDouble());
             }

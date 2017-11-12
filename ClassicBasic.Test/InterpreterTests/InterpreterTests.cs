@@ -184,6 +184,53 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Check interpreter handles syntax exception in code nicely.
+        /// </summary>
+        [TestMethod]
+        public void InterpreterHandlesSyntaxErrorForDataRead()
+        {
+            SetupSut();
+            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
+            var runLine = new ProgramLine(null, new List<IToken> { new Token("A") });
+            IRunEnvironment runEnvironment = new RunEnvironment();
+            _sut = new Interpreter(
+                new TeletypeWithPosition(_mockTeletype),
+                _mockTokeniser.Object,
+                runEnvironment,
+                _mockProgramRepository.Object,
+                _mockExecutor.Object);
+
+            _mockTeletype.Input.Enqueue("20 PRINT");
+            _mockTeletype.Input.Enqueue("RUN");
+            _mockTeletype.Input.Enqueue("SYSTEM");
+
+            _mockTokeniser.Setup(mt => mt.Tokenise("20 PRINT")).Returns(line20);
+            _mockTokeniser.Setup(mt => mt.Tokenise("RUN")).Returns(runLine);
+
+            var syntaxException = new ClassicBasic.Interpreter.Exceptions.SyntaxErrorException();
+            _mockExecutor.SetupSequence(me => me.ExecuteLine())
+                .Throws(syntaxException)
+                .Returns(true);
+            runEnvironment.CurrentLine = line20;
+            runEnvironment.DataErrorLine = 40;
+            _sut.Execute();
+
+            // Input of line 20
+            CheckForPrompt();
+
+            // Run
+            CheckForPrompt();
+
+            CheckForError("?" + syntaxException.ErrorMessage + " ERROR IN 40");
+
+            // Prompt after STOP
+            CheckForPrompt();
+
+            // Nothing left
+            Assert.AreEqual(0, _mockTeletype.Output.Count);
+        }
+
+        /// <summary>
         /// Check interpreter handles syntax exception in immediate nicely.
         /// </summary>
         [TestMethod]

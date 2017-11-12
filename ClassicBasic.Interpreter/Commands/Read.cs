@@ -49,6 +49,7 @@ namespace ClassicBasic.Interpreter.Commands
             _runEnvironment.CurrentLine.PushToken(token);
             _runEnvironment.DataErrorLine = _dataStatementReader.CurrentDataLine;
             _dataStatementReader.ReadInputParser.ReadVariables(variableReferences);
+            _runEnvironment.DataErrorLine = null;
         }
     }
 }
