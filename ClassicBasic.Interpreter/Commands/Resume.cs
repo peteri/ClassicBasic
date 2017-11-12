@@ -36,16 +36,14 @@ namespace ClassicBasic.Interpreter.Commands
                 _runEnvironment.ProgramStack.Pop();
             }
 
-            if (_runEnvironment.LastErrorLine.HasValue)
-            {
-                _runEnvironment.CurrentLine = _programRepository.GetLine(_runEnvironment.LastErrorLine.Value);
-                _runEnvironment.CurrentLine.CurrentToken = _runEnvironment.LastErrorToken;
-            }
-            else
+            if (!_runEnvironment.LastErrorLine.HasValue)
             {
                 _runEnvironment.OnErrorGotoLineNumber = null;
                 throw new Exceptions.UndefinedStatementException();
             }
+
+            _runEnvironment.CurrentLine = _programRepository.GetLine(_runEnvironment.LastErrorLine.Value);
+            _runEnvironment.CurrentLine.CurrentToken = _runEnvironment.LastErrorToken;
         }
     }
 }

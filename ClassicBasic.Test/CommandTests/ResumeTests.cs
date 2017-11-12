@@ -27,6 +27,42 @@ namespace ClassicBasic.Test.CommandTests
         public void ResumePopsAnyProgramStackEntries()
         {
             SetupSut();
+            _sut.Execute();
+            Assert.AreEqual(1, _runEnvironment.ProgramStack.Count);
+        }
+
+        /// <summary>
+        /// Test resume sets progrma line back.
+        /// </summary>
+        [TestMethod]
+        public void ResumeSetsCurrentProgramLineAndToken()
+        {
+            SetupSut();
+            _sut.Execute();
+            Assert.AreEqual(20, _runEnvironment.CurrentLine.LineNumber);
+            Assert.AreEqual(1, _runEnvironment.CurrentLine.CurrentToken);
+        }
+
+        /// <summary>
+        /// Test resume with no error line number, clears error handler and throws exception..
+        /// </summary>
+        [TestMethod]
+        public void ResumeResets()
+        {
+            bool exceptionThrown = false;
+            SetupSut();
+            _runEnvironment.LastErrorLine = null;
+            try
+            {
+                _sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsNull( _runEnvironment.OnErrorGotoLineNumber);
+            Assert.IsTrue(exceptionThrown);
         }
 
         private void SetupSut()
@@ -38,7 +74,8 @@ namespace ClassicBasic.Test.CommandTests
             _runEnvironment.LastErrorStackCount = _runEnvironment.ProgramStack.Count;
             _runEnvironment.ProgramStack.Push(new StackEntry());
             _runEnvironment.ProgramStack.Push(new StackEntry());
-            _runEnvironment.LastErrorNumber = 20;
+            _runEnvironment.LastErrorLine = 20;
+            _runEnvironment.LastErrorNumber = 999;
             _runEnvironment.LastErrorToken = 1;
 
             var tokens = new List<IToken>
