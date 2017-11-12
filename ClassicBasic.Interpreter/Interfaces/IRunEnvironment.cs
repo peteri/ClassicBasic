@@ -80,8 +80,7 @@ namespace ClassicBasic.Interpreter
         /// Handles on error calls.
         /// </summary>
         /// <param name="programRepository">Program repository to use</param>
-        /// <param name="errorCode">Error code of the exception.</param>
-        void OnErrorHandler(IProgramRepository programRepository, int errorCode);
+        void OnErrorHandler(IProgramRepository programRepository);
 
         /// <summary>
         /// Tests if the program stack has more than 50 entries, if so throws out of memory exception

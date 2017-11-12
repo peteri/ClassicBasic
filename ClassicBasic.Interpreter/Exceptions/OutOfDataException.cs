@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="OutOfDataException"/> class.
         /// </summary>
         public OutOfDataException()
-            : base("OUT OF DATA")
+            : base("OUT OF DATA", 4)
         {
         }
     }

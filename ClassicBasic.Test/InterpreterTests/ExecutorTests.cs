@@ -373,7 +373,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
             var result = _sut.ExecuteLine();
             Assert.AreEqual(10, _runEnvironment.LastErrorLine);
-            Assert.AreEqual(999, _runEnvironment.LastErrorNumber);
+            Assert.AreEqual(2, _runEnvironment.LastErrorNumber);
             Assert.AreEqual(3, _runEnvironment.LastErrorStackCount);
             Assert.AreEqual(2, _runEnvironment.LastErrorToken);
         }

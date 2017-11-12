@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="SyntaxErrorException"/> class.
         /// </summary>
         public SyntaxErrorException()
-            : base("SYNTAX")
+            : base("SYNTAX", 2)
         {
         }
     }

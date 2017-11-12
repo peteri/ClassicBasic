@@ -59,7 +59,7 @@ namespace ClassicBasic.Interpreter.Commands
             }
             catch (Exception ex)
             {
-                throw new Exceptions.BasicException($"BAD LOAD {ex.Message}, LAST GOOD LINE WAS {lastProgramLine}");
+                throw new Exceptions.BasicException($"BAD LOAD {ex.Message}, LAST GOOD LINE WAS {lastProgramLine}", 100);
             }
         }
     }

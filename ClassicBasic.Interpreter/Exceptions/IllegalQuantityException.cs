@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="IllegalQuantityException"/> class.
         /// </summary>
         public IllegalQuantityException()
-            : base("ILLEGAL QUANTITY")
+            : base("ILLEGAL QUANTITY", 5)
         {
         }
     }

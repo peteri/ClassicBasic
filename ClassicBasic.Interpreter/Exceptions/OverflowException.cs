@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="OverflowException"/> class.
         /// </summary>
         public OverflowException()
-           : base("OVERFLOW")
+           : base("OVERFLOW", 6)
         {
         }
     }

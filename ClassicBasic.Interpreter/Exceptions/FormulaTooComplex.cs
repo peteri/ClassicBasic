@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="FormulaTooComplex"/> class.
         /// </summary>
         public FormulaTooComplex()
-            : base("FORMULA TOO COMPLEX")
+            : base("FORMULA TOO COMPLEX", 16)
         {
         }
     }

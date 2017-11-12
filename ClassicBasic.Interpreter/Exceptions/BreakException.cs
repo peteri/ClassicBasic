@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// </summary>
         /// <param name="message">Message for the user.</param>
         public BreakException(string message)
-            : base(message)
+            : base(message, 0)
         {
         }
     }

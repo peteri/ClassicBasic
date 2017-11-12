@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="TypeMismatchException"/> class.
         /// </summary>
         public TypeMismatchException()
-            : base("TYPE MISMATCH")
+            : base("TYPE MISMATCH", 13)
         {
         }
     }

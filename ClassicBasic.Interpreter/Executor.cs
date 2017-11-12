@@ -51,14 +51,17 @@ namespace ClassicBasic.Interpreter
                 {
                     returnValue = ExecuteLineWithoutErrorHandler();
                 }
-                catch (Exceptions.BasicException)
+                catch (Exceptions.BasicException exception)
                 {
+                    _runEnvironment.LastErrorLine = _runEnvironment.ContinueLineNumber;
+                    _runEnvironment.LastErrorNumber = exception.ErrorCode;
+
                     if (!_runEnvironment.OnErrorGotoLineNumber.HasValue)
                     {
                         throw;
                     }
 
-                    _runEnvironment.OnErrorHandler(_programRepository, 999);
+                    _runEnvironment.OnErrorHandler(_programRepository);
                 }
             }
 

@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="CantContinueException"/> class.
         /// </summary>
         public CantContinueException()
-            : base("CAN\'T CONTINUE")
+            : base("CAN\'T CONTINUE", 17)
         {
         }
     }

@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="RedimensionedArrayException"/> class.
         /// </summary>
         public RedimensionedArrayException()
-            : base("REDIM\'D ARRAY")
+            : base("REDIM\'D ARRAY", 10)
         {
         }
     }

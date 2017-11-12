@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="BadSubscriptException"/> class.
         /// </summary>
         public BadSubscriptException()
-            : base("BAD SUBSCRIPT")
+            : base("BAD SUBSCRIPT", 9)
         {
         }
     }

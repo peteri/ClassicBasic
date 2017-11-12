@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="StringToLongException"/> class.
         /// </summary>
         public StringToLongException()
-            : base("STRING TOO LONG")
+            : base("STRING TOO LONG", 15)
         {
         }
     }

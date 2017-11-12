@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="UndefinedFunctionException"/> class.
         /// </summary>
         public UndefinedFunctionException()
-            : base("UNDEF\'D FUNCTION")
+            : base("UNDEF\'D FUNCTION", 18)
         {
         }
     }

@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="ReturnWithoutGosubException"/> class.
         /// </summary>
         public ReturnWithoutGosubException()
-            : base("RETURN WITHOUT GOSUB")
+            : base("RETURN WITHOUT GOSUB", 3)
         {
         }
     }

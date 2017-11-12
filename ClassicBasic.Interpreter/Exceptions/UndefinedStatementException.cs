@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="UndefinedStatementException"/> class.
         /// </summary>
         public UndefinedStatementException()
-            : base("UNDEF\'D STATEMENT")
+            : base("UNDEF\'D STATEMENT", 8)
         {
         }
     }

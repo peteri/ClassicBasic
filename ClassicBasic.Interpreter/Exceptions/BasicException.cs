@@ -15,14 +15,21 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="BasicException"/> class.
         /// </summary>
         /// <param name="errorMessage">Message text to display to the user.</param>
-        public BasicException(string errorMessage)
+        /// <param name="errorCode">Error code.</param>
+        public BasicException(string errorMessage, int errorCode)
         {
             ErrorMessage = errorMessage;
+            ErrorCode = errorCode;
         }
 
         /// <summary>
         /// Gets the error message for the user.
         /// </summary>
         public string ErrorMessage { get; }
+
+        /// <summary>
+        /// Gets the error code for an exception.
+        /// </summary>
+        public int ErrorCode { get; }
     }
 }

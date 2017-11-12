@@ -63,7 +63,7 @@ namespace ClassicBasic.Interpreter.Commands
             }
             catch (Exception ex)
             {
-                throw new Exceptions.BasicException($"BAD SAVE {ex.Message}.");
+                throw new Exceptions.BasicException($"BAD SAVE {ex.Message}.", 101);
             }
         }
     }

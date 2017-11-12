@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="OutOfMemoryException"/> class.
         /// </summary>
         public OutOfMemoryException()
-            : base("OUT OF MEMORY")
+            : base("OUT OF MEMORY", 7)
         {
         }
     }

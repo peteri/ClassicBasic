@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="NextWithoutForException"/> class.
         /// </summary>
         public NextWithoutForException()
-            : base("NEXT WITHOUT FOR")
+            : base("NEXT WITHOUT FOR", 1)
         {
         }
     }

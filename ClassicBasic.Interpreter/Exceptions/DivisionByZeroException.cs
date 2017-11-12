@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter.Exceptions
         /// Initializes a new instance of the <see cref="DivisionByZeroException"/> class.
         /// </summary>
         public DivisionByZeroException()
-            : base("DIVISION BY ZERO")
+            : base("DIVISION BY ZERO", 11)
         {
         }
     }

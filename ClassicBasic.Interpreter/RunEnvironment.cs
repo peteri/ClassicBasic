@@ -97,12 +97,9 @@ namespace ClassicBasic.Interpreter
         /// Handles on error calls.
         /// </summary>
         /// <param name="programRepository">Program repository to use</param>
-        /// <param name="errorCode">Error code of the exception.</param>
-        public void OnErrorHandler(IProgramRepository programRepository, int errorCode)
+        public void OnErrorHandler(IProgramRepository programRepository)
         {
-            LastErrorLine = ContinueLineNumber;
             LastErrorToken = ContinueToken;
-            LastErrorNumber = errorCode;
             LastErrorStackCount = ProgramStack.Count;
 
             // This might throw an undefined statement error and loop

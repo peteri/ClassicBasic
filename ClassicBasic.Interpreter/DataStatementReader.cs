@@ -34,7 +34,13 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Gets the current data line number.
         /// </summary>
-        public int? CurrentDataLine { get { return _currentDataLine?.LineNumber; } }
+        public int? CurrentDataLine
+        {
+            get
+            {
+                return _currentDataLine?.LineNumber;
+            }
+        }
 
         /// <summary>
         /// Implements moving the current data pointer to a new line number
