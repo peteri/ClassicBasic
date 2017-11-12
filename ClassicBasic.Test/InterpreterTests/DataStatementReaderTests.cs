@@ -16,6 +16,7 @@ namespace ClassicBasic.Test.InterpreterTests
     public class DataStatementReaderTests
     {
         private DataStatementReader _sut;
+        private IRunEnvironment _runEnvironment;
         private Mock<IProgramRepository> _mockProgramRepository;
         private IVariableRepository _variableRepository;
         private VariableReference[] _numericVariables = new VariableReference[3];
@@ -194,7 +195,8 @@ namespace ClassicBasic.Test.InterpreterTests
         private void SetupSut()
         {
             _mockProgramRepository = new Mock<IProgramRepository>();
-            _sut = new DataStatementReader(_mockProgramRepository.Object);
+            _runEnvironment = new RunEnvironment();
+            _sut = new DataStatementReader(_runEnvironment, _mockProgramRepository.Object);
             _variableRepository = new VariableRepository();
             _numericVariables[0] = _variableRepository.GetOrCreateVariable("A", new short[] { });
             _numericVariables[1] = _variableRepository.GetOrCreateVariable("B", new short[] { });

@@ -29,6 +29,14 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
+            var token = _runEnvironment.CurrentLine.NextToken();
+            var lineNumber = _expressionEvaluator.GetLineNumber();
+            if (token.Statement != TokenType.Goto || !lineNumber.HasValue)
+            {
+                throw new Exceptions.SyntaxErrorException();
+            }
+
+            _runEnvironment.OnErrorGotoLineNumber = (lineNumber.Value == 0) ? (int?)null : lineNumber.Value;
         }
     }
 }

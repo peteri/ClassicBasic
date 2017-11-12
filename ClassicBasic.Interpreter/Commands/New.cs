@@ -40,9 +40,7 @@ namespace ClassicBasic.Interpreter.Commands
         public void Execute()
         {
             _variableRepository.Clear();
-            _runEnvironment.ProgramStack.Clear();
-            _runEnvironment.DefinedFunctions.Clear();
-            _runEnvironment.ContinueLineNumber = null;
+            _runEnvironment.Clear();
             _dataStatementReader.RestoreToLineNumber(null);
             _programRepository.Clear();
         }

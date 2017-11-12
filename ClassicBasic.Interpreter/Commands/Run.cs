@@ -62,8 +62,7 @@ namespace ClassicBasic.Interpreter.Commands
             }
 
             _variableRepository.Clear();
-            _runEnvironment.ProgramStack.Clear();
-            _runEnvironment.DefinedFunctions.Clear();
+            _runEnvironment.Clear();
             _dataStatementReader.RestoreToLineNumber(null);
             int? startingLineNumber = _expressionEvaluator.GetLineNumber();
             _runEnvironment.CurrentLine = startingLineNumber.HasValue ?

@@ -47,6 +47,7 @@ namespace ClassicBasic.Interpreter.Commands
             while (token.Seperator == TokenType.Comma);
 
             _runEnvironment.CurrentLine.PushToken(token);
+            _runEnvironment.DataErrorLine = _dataStatementReader.CurrentDataLine;
             _dataStatementReader.ReadInputParser.ReadVariables(variableReferences);
         }
     }

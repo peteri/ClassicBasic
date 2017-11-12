@@ -73,8 +73,10 @@ namespace ClassicBasic.Test.CommandTests
         {
             var mockProgramRepository = new Mock<IProgramRepository>();
             var mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
-            var tokens = new List<IToken>();
-                tokens.Add(new Token(",", TokenType.ClassSeperator | TokenType.Comma));
+            var tokens = new List<IToken>
+            {
+                new Token(",", TokenType.ClassSeperator | TokenType.Comma)
+            };
 
             var runEnvironment = new RunEnvironment
             {

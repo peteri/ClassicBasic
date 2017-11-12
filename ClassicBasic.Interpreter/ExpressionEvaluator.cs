@@ -402,9 +402,7 @@ namespace ClassicBasic.Interpreter
                 case TokenType.ClassString:
                     return new Accumulator(token.Text);
                 case TokenType.ClassVariable:
-                    _runEnvironment.CurrentLine.PushToken(token);
-                    var variable = GetLeftValue();
-                    return variable.GetValue();
+                    return GetVariableValue(token);
                 case TokenType.ClassFunction:
                     var function = token as IFunction;
                     var parameters = GetFunctionParameters();
@@ -416,6 +414,23 @@ namespace ClassicBasic.Interpreter
             }
 
             throw new Exceptions.SyntaxErrorException();
+        }
+
+        private Accumulator GetVariableValue(IToken token)
+        {
+            if (token.Text == "ERR")
+            {
+                return new Accumulator((double)_runEnvironment.LastErrorNumber);
+            }
+
+            if (token.Text == "ERL")
+            {
+                return new Accumulator((double)(_runEnvironment.LastErrorLine ?? 0));
+            }
+
+            _runEnvironment.CurrentLine.PushToken(token);
+            var variable = GetLeftValue();
+            return variable.GetValue();
         }
 
         private Accumulator ParseNumber(IToken token)

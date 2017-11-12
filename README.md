@@ -8,4 +8,4 @@ The initial aim is to get the code to be able to run the contents of "BASIC comp
 See the games directory for the files from the book.
 
 ## Installing and running
-Currently not sorted out yet.
+Currently not sorted out yet, build from source is the current advice.

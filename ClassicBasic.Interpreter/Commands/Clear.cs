@@ -9,16 +9,25 @@ namespace ClassicBasic.Interpreter.Commands
     /// </summary>
     public class Clear : Token, ICommand
     {
+        private readonly IRunEnvironment _runEnvironment;
         private readonly IVariableRepository _variableRepository;
+        private readonly IDataStatementReader _dataStatementReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Clear"/> class.
         /// </summary>
-        /// <param name="variableRepository">Variable repository to clear.</param>
-        public Clear(IVariableRepository variableRepository)
+        /// <param name="runEnvironment">Run time environment.</param>
+        /// <param name="variableRepository">Variable Repository.</param>
+        /// <param name="dataStatementReader">Data statement reader.</param>
+        public Clear(
+            IRunEnvironment runEnvironment,
+            IVariableRepository variableRepository,
+            IDataStatementReader dataStatementReader)
             : base("CLEAR", TokenType.ClassStatement)
         {
+            _runEnvironment = runEnvironment;
             _variableRepository = variableRepository;
+            _dataStatementReader = dataStatementReader;
         }
 
         /// <summary>
@@ -27,6 +36,8 @@ namespace ClassicBasic.Interpreter.Commands
         public void Execute()
         {
             _variableRepository.Clear();
+            _runEnvironment.Clear();
+            _dataStatementReader.RestoreToLineNumber(null);
         }
     }
 }
