@@ -592,6 +592,19 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test the evaluator can get a double variable using just two letters
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorGetsDoubleVariableUsingTwoAlphas()
+        {
+            _variableRepository.GetOrCreateVariable("BB", new short[] { }).SetValue(new Accumulator(5.5));
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT BBC");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            var result = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(5.5, result.ValueAsDouble());
+        }
+
+        /// <summary>
         /// Test the evaluator can get a string variable
         /// </summary>
         [TestMethod]
@@ -852,6 +865,45 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.AreEqual(12.0, xVariable.GetValue().ValueAsDouble());
             Assert.AreEqual(":", _runEnvironment.CurrentLine.NextToken().Text);
             Assert.AreEqual("REM", _runEnvironment.CurrentLine.NextToken().Text);
+        }
+
+        /// <summary>
+        /// For a simple case, test the evaluator returns an error line.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorReturnsErrorLineNumber()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 ERL:");
+            _runEnvironment.LastErrorLine = 2000;
+            var value = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(2000.0, value.ValueAsDouble());
+            Assert.AreEqual(TokenType.Colon, _runEnvironment.CurrentLine.NextToken().Seperator);
+        }
+
+        /// <summary>
+        /// For a null case, test the evaluator returns an error line.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorNullReturnsErrorLineNumberZero()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 ERL:");
+            _runEnvironment.LastErrorLine = null;
+            var value = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(0.0, value.ValueAsDouble());
+            Assert.AreEqual(TokenType.Colon, _runEnvironment.CurrentLine.NextToken().Seperator);
+        }
+
+        /// <summary>
+        /// For a simple case, test the evaluator returns an error line.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorReturnsErrorNumber()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 ERR:");
+            _runEnvironment.LastErrorNumber = 100;
+            var value = _expressionEvaluator.GetExpression();
+            Assert.AreEqual(100.0, value.ValueAsDouble());
+            Assert.AreEqual(TokenType.Colon, _runEnvironment.CurrentLine.NextToken().Seperator);
         }
     }
 }

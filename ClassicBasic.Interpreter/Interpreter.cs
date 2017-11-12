@@ -72,7 +72,7 @@ namespace ClassicBasic.Interpreter
                     if (endError.ErrorMessage != string.Empty)
                     {
                         WriteErrorToTeletype(
-                            _runEnvironment.DataErrorLine ?? _runEnvironment.CurrentLine.LineNumber,
+                            _runEnvironment.CurrentLine.LineNumber,
                             endError.ErrorMessage);
                     }
                 }

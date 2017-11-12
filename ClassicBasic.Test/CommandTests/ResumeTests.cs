@@ -61,7 +61,7 @@ namespace ClassicBasic.Test.CommandTests
                 exceptionThrown = true;
             }
 
-            Assert.IsNull( _runEnvironment.OnErrorGotoLineNumber);
+            Assert.IsNull(_runEnvironment.OnErrorGotoLineNumber);
             Assert.IsTrue(exceptionThrown);
         }
 
