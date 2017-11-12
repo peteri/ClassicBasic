@@ -2,7 +2,7 @@
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
-namespace ClassicBasic.Test
+namespace ClassicBasic.Test.InterpreterTests
 {
     using ClassicBasic.Interpreter;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
