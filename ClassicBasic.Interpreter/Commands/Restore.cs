@@ -9,18 +9,18 @@ namespace ClassicBasic.Interpreter.Commands
     /// </summary>
     public class Restore : Token, ICommand
     {
-        private readonly IExpressionEvaluator _expressionEvaluator;
+        private readonly IRunEnvironment _runEnvironment;
         private readonly IDataStatementReader _dataStatementReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Restore"/> class.
         /// </summary>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
+        /// <param name="runEnvironment">Run environment.</param>
         /// <param name="dataStatementReader">Data statement reader to use.</param>
-        public Restore(IExpressionEvaluator expressionEvaluator, IDataStatementReader dataStatementReader)
+        public Restore(IRunEnvironment runEnvironment, IDataStatementReader dataStatementReader)
             : base("RESTORE", TokenType.ClassStatement)
         {
-            _expressionEvaluator = expressionEvaluator;
+            _runEnvironment = runEnvironment;
             _dataStatementReader = dataStatementReader;
         }
 
@@ -29,7 +29,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
-            int? lineNumber = _expressionEvaluator.GetLineNumber();
+            int? lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
             _dataStatementReader.RestoreToLineNumber(lineNumber);
         }
     }

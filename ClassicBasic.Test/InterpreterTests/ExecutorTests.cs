@@ -37,7 +37,7 @@ namespace ClassicBasic.Test.InterpreterTests
         private Mock<IToken> _mockNotStatement;
 
         private Mock<ITokensProvider> _mockTokensProvider;
-        private IRunEnvironment _mockRunEnvironment;
+        private IRunEnvironment _runEnvironment;
         private Mock<IProgramRepository> _mockProgramRepository;
         private IExecutor _sut;
 
@@ -48,7 +48,7 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ExecutingSystemCommandReturnsTrue()
         {
             SetupSut();
-            _mockRunEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { _mockSystemToken.Object });
+            _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { _mockSystemToken.Object });
             var result = _sut.ExecuteLine();
             Assert.IsTrue(result);
         }
@@ -60,7 +60,7 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ExecutingStatementStartingWithAVariableInsertsLetCommand()
         {
             SetupSut();
-            _mockRunEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { new Token("VAR") });
+            _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { new Token("VAR") });
             var result = _sut.ExecuteLine();
             Assert.IsFalse(result);
             _mockLetCmd.Verify(c => c.Execute(), Times.Once);
@@ -76,7 +76,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("VAR") });
             var line20 = new ProgramLine(20, new List<IToken> { _mockPrintToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns(line20);
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
@@ -95,7 +95,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("VAR"), _mockColonToken.Object, _mockPrintToken.Object });
             var line20 = new ProgramLine(20, new List<IToken> { _mockPrintToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns(line20);
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
@@ -113,7 +113,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockColonToken.Object, _mockColonToken.Object, _mockPrintToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
             Assert.IsFalse(result);
@@ -129,7 +129,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockColonToken.Object, _mockPrintToken.Object, _mockColonToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
             Assert.IsFalse(result);
@@ -145,7 +145,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockPrintToken.Object, _mockColonToken.Object, _mockColonToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
             Assert.IsFalse(result);
@@ -166,7 +166,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockPrintToken.Object, mockElseToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
             Assert.IsFalse(result);
@@ -187,7 +187,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { mockIfToken.Object, _mockPrintToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             var result = _sut.ExecuteLine();
             Assert.IsFalse(result);
@@ -203,7 +203,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockNotStatement.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
 
             var exceptionThrown = false;
@@ -228,7 +228,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockPrintToken.Object, _mockNotStatement.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
 
             var exceptionThrown = false;
@@ -257,10 +257,10 @@ namespace ClassicBasic.Test.InterpreterTests
                 .Returns(false)
                 .Returns(false)
                 .Returns(true);
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
 
-             var result = _sut.ExecuteLine();
+            var result = _sut.ExecuteLine();
 
             Assert.IsFalse(result);
             _mockListCmd.Verify(mlc => mlc.Setup(), Times.Once);
@@ -276,7 +276,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockRunToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
 
             var result = _sut.ExecuteLine();
@@ -305,7 +305,7 @@ namespace ClassicBasic.Test.InterpreterTests
                         _mockTeletype.RaiseCancelEvent();
                     }
                 });
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
 
             var result = _sut.ExecuteLine();
@@ -327,7 +327,7 @@ namespace ClassicBasic.Test.InterpreterTests
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockColonToken.Object, _mockPrintToken.Object, _mockColonToken.Object });
 
-            _mockRunEnvironment.CurrentLine = line10;
+            _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             _mockPrintCmd.Setup(mpc => mpc.Execute()).Callback(() => cancelEventArgs = _mockTeletype.RaiseCancelEvent());
             try
@@ -341,9 +341,41 @@ namespace ClassicBasic.Test.InterpreterTests
 
             Assert.IsTrue(exceptionThrown);
             Assert.IsTrue(cancelEventArgs.Cancel);
-            Assert.AreEqual(10, _mockRunEnvironment.ContinueLineNumber);
-            Assert.AreEqual(1, _mockRunEnvironment.ContinueToken);
+            Assert.AreEqual(10, _runEnvironment.ContinueLineNumber);
+            Assert.AreEqual(1, _runEnvironment.ContinueToken);
             _mockPrintCmd.Verify(c => c.Execute(), Times.Once);
+        }
+
+        /// <summary>
+        /// Check if we get an error error if first token is not a variable or statement.
+        /// </summary>
+        [TestMethod]
+        public void ExecutingProgramThrowsSyntaxErrorCallsErrorHandlingWhenSet()
+        {
+            SetupSut();
+            var tokens = new List<IToken>
+            {
+                _mockPrintToken.Object,
+                _mockColonToken.Object,
+                _mockPrintToken.Object,
+                _mockNotStatement.Object
+            };
+
+            var line10 = new ProgramLine(10, tokens);
+            _runEnvironment.CurrentLine = line10;
+            _runEnvironment.OnErrorGotoLineNumber = 30;
+            _runEnvironment.ProgramStack.Push(new StackEntry());
+            _runEnvironment.ProgramStack.Push(new StackEntry());
+            _runEnvironment.ProgramStack.Push(new StackEntry());
+            _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
+            _mockProgramRepository.Setup(mpr => mpr.GetLine(30))
+                .Returns(new ProgramLine(30, new List<IToken> { _mockPrintToken.Object }));
+
+            var result = _sut.ExecuteLine();
+            Assert.AreEqual(10, _runEnvironment.LastErrorLine);
+            Assert.AreEqual(999, _runEnvironment.LastErrorNumber);
+            Assert.AreEqual(3, _runEnvironment.LastErrorStackCount);
+            Assert.AreEqual(2, _runEnvironment.LastErrorToken);
         }
 
         private void SetupSut()
@@ -351,7 +383,7 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockTeletype = new MockTeletype();
 
             // Use a real RunEnvironment
-            _mockRunEnvironment = new RunEnvironment();
+            _runEnvironment = new RunEnvironment();
 
             _mockListToken = new Mock<IToken>();
             _mockListToken.Setup(mlt => mlt.Statement).Returns(TokenType.Unknown);
@@ -367,7 +399,7 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockLetToken.Setup(mlt => mlt.Statement).Returns(TokenType.Let);
             _mockLetCmd = _mockLetToken.As<ICommand>();
             _mockLetCmd.Setup(mlt => mlt.Execute())
-                .Callback(() => _mockRunEnvironment.CurrentLine.NextToken());
+                .Callback(() => _runEnvironment.CurrentLine.NextToken());
 
             _mockPrintToken = new Mock<IToken>();
             _mockPrintToken.Setup(mpt => mpt.TokenClass).Returns(TokenType.ClassStatement);
@@ -393,7 +425,7 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockProgramRepository = new Mock<IProgramRepository>();
             _sut = new Executor(
                 _mockTeletype,
-                _mockRunEnvironment,
+                _runEnvironment,
                 _mockProgramRepository.Object,
                 _mockTokensProvider.Object,
                 Mock.Of<ITokeniser>());

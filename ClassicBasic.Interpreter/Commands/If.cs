@@ -59,7 +59,7 @@ namespace ClassicBasic.Interpreter.Commands
             else
             {
                 // We have a winner, just a line number?
-                int? lineNumber = _expressionEvaluator.GetLineNumber();
+                int? lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
                 if (lineNumber.HasValue)
                 {
                     // Go there

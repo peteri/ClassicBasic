@@ -11,7 +11,6 @@ namespace ClassicBasic.Interpreter.Commands
     {
         private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
-        private readonly IExpressionEvaluator _expressionEvaluator;
         private readonly IVariableRepository _variableRepository;
         private readonly IDataStatementReader _dataStatementReader;
 
@@ -20,20 +19,17 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program Repository.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="variableRepository">Variable Repository.</param>
         /// <param name="dataStatementReader">Data statement reader.</param>
         public Run(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
-            IExpressionEvaluator expressionEvaluator,
             IVariableRepository variableRepository,
             IDataStatementReader dataStatementReader)
             : base("RUN", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
-            _expressionEvaluator = expressionEvaluator;
             _variableRepository = variableRepository;
             _dataStatementReader = dataStatementReader;
         }
@@ -62,10 +58,9 @@ namespace ClassicBasic.Interpreter.Commands
             }
 
             _variableRepository.Clear();
-            _runEnvironment.ProgramStack.Clear();
-            _runEnvironment.DefinedFunctions.Clear();
+            _runEnvironment.Clear();
             _dataStatementReader.RestoreToLineNumber(null);
-            int? startingLineNumber = _expressionEvaluator.GetLineNumber();
+            int? startingLineNumber = _runEnvironment.CurrentLine.GetLineNumber();
             _runEnvironment.CurrentLine = startingLineNumber.HasValue ?
                 _programRepository.GetLine(startingLineNumber.Value) :
                 _programRepository.GetFirstLine();

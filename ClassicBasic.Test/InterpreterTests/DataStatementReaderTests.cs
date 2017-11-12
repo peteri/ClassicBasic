@@ -16,12 +16,11 @@ namespace ClassicBasic.Test.InterpreterTests
     public class DataStatementReaderTests
     {
         private DataStatementReader _sut;
+        private IRunEnvironment _runEnvironment;
         private Mock<IProgramRepository> _mockProgramRepository;
         private IVariableRepository _variableRepository;
         private VariableReference[] _numericVariables = new VariableReference[3];
         private VariableReference[] _stringVariables = new VariableReference[3];
-
-#warning Need test for error line number
 
         /// <summary>
         /// Data statement reader throws when no data in program.
@@ -42,6 +41,7 @@ namespace ClassicBasic.Test.InterpreterTests
             }
 
             Assert.IsTrue(exceptionThrown);
+            Assert.IsNull(_sut.CurrentDataLine);
         }
 
         /// <summary>
@@ -186,6 +186,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
             for (double i = 3.0; i <= 4.0; i++)
             {
+                Assert.AreEqual(20, _sut.CurrentDataLine);
                 _sut.ReadInputParser.ReadVariables(new List<VariableReference> { _numericVariables[0] });
                 Assert.AreEqual(i, _numericVariables[0].GetValue().ValueAsDouble());
             }
@@ -194,7 +195,8 @@ namespace ClassicBasic.Test.InterpreterTests
         private void SetupSut()
         {
             _mockProgramRepository = new Mock<IProgramRepository>();
-            _sut = new DataStatementReader(_mockProgramRepository.Object);
+            _runEnvironment = new RunEnvironment();
+            _sut = new DataStatementReader(_runEnvironment, _mockProgramRepository.Object);
             _variableRepository = new VariableRepository();
             _numericVariables[0] = _variableRepository.GetOrCreateVariable("A", new short[] { });
             _numericVariables[1] = _variableRepository.GetOrCreateVariable("B", new short[] { });

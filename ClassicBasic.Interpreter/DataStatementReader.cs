@@ -9,6 +9,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class DataStatementReader : IDataStatementReader
     {
+        private readonly IRunEnvironment _runEnvironment;
         private readonly IProgramRepository _programRepository;
         private ProgramLine _currentDataLine;
         private bool _faulted;
@@ -16,9 +17,11 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Initializes a new instance of the <see cref="DataStatementReader"/> class.
         /// </summary>
+        /// <param name="runEnvironment">Run environment.</param>
         /// <param name="programRepository">Program repository to use.</param>
-        public DataStatementReader(IProgramRepository programRepository)
+        public DataStatementReader(IRunEnvironment runEnvironment, IProgramRepository programRepository)
         {
+            _runEnvironment = runEnvironment;
             _programRepository = programRepository;
             ReadInputParser = new ReadInputParser(GetNextDataStatement);
         }
@@ -27,6 +30,11 @@ namespace ClassicBasic.Interpreter
         /// Gets the shared read input parser.
         /// </summary>
         public IReadInputParser ReadInputParser { get; }
+
+        /// <summary>
+        /// Gets the current data line number.
+        /// </summary>
+        public int? CurrentDataLine { get { return _currentDataLine?.LineNumber; } }
 
         /// <summary>
         /// Implements moving the current data pointer to a new line number
@@ -65,6 +73,7 @@ namespace ClassicBasic.Interpreter
                 }
 
                 _currentDataLine = _programRepository.GetNextLine(_currentDataLine.LineNumber.Value);
+                _runEnvironment.DataErrorLine = _currentDataLine?.LineNumber;
             }
 
             _faulted = true;

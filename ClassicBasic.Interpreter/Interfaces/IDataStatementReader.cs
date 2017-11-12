@@ -15,6 +15,11 @@ namespace ClassicBasic.Interpreter
         IReadInputParser ReadInputParser { get; }
 
         /// <summary>
+        /// Gets the current data line number.
+        /// </summary>
+        int? CurrentDataLine { get; }
+
+        /// <summary>
         /// Implements moving the current data pointer to a new line number
         /// </summary>
         /// <param name="lineNumber">line number to move to, null moves to beginning of program.</param>

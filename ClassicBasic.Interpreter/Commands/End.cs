@@ -28,6 +28,8 @@ namespace ClassicBasic.Interpreter.Commands
         public void Execute()
         {
             _runEnvironment.ContinueToken = _runEnvironment.CurrentLine.CurrentToken;
+            _runEnvironment.OnErrorGotoLineNumber = null;
+
             throw new Exceptions.EndException();
         }
     }

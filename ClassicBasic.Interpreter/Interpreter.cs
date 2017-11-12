@@ -71,13 +71,15 @@ namespace ClassicBasic.Interpreter
                 {
                     if (endError.ErrorMessage != string.Empty)
                     {
-                        WriteErrorToTeletype(_runEnvironment.CurrentLine.LineNumber, endError.ErrorMessage);
+                        WriteErrorToTeletype(
+                            _runEnvironment.CurrentLine.LineNumber,
+                            endError.ErrorMessage);
                     }
                 }
                 catch (Exceptions.BasicException basicError)
                 {
                     WriteErrorToTeletype(
-                        _runEnvironment.CurrentLine?.LineNumber,
+                            _runEnvironment.DataErrorLine ?? _runEnvironment.CurrentLine?.LineNumber,
                         "?" + basicError.ErrorMessage + " ERROR");
                 }
             }

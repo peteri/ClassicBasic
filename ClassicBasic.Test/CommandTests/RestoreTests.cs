@@ -4,6 +4,7 @@
 
 namespace ClassicBasic.Test.CommandTests
 {
+    using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +17,7 @@ namespace ClassicBasic.Test.CommandTests
     public class RestoreTests
     {
         private Restore _sut;
-        private Mock<IExpressionEvaluator> _mockExpressionEvaluator;
+        private IRunEnvironment _runEnvironment;
         private Mock<IDataStatementReader> _mockDataStatementReader;
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace ClassicBasic.Test.CommandTests
         public void RestoreWithoutLineNumber()
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns((int?)null);
+            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("A") });
             _sut.Execute();
             _mockDataStatementReader.Verify(mdsr => mdsr.RestoreToLineNumber(null), Times.Once);
         }
@@ -38,7 +39,7 @@ namespace ClassicBasic.Test.CommandTests
         public void RestoreWithLineNumber()
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns(1000);
+            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("1000") });
             _sut.Execute();
             _mockDataStatementReader.Verify(mdsr => mdsr.RestoreToLineNumber(1000), Times.Once);
         }
@@ -46,8 +47,8 @@ namespace ClassicBasic.Test.CommandTests
         private void SetupSut()
         {
             _mockDataStatementReader = new Mock<IDataStatementReader>();
-            _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
-            _sut = new Restore(_mockExpressionEvaluator.Object, _mockDataStatementReader.Object);
+            _runEnvironment = new RunEnvironment();
+            _sut = new Restore(_runEnvironment, _mockDataStatementReader.Object);
         }
     }
 }

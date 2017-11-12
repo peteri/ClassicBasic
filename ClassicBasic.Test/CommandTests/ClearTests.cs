@@ -21,10 +21,25 @@ namespace ClassicBasic.Test.CommandTests
         [TestMethod]
         public void ClearTest()
         {
-            var variableRepository = new Mock<IVariableRepository>();
-            var sut = new Clear(variableRepository.Object);
+            var runEnvironment = new RunEnvironment
+            {
+                ContinueLineNumber = 1
+            };
+            runEnvironment.ProgramStack.Push(new StackEntry());
+            runEnvironment.DefinedFunctions.Add("X", new UserDefinedFunction());
+            var mockVariableRepository = new Mock<IVariableRepository>();
+            var mockDataStatementReader = new Mock<IDataStatementReader>();
+
+            var sut = new Clear(
+                    runEnvironment,
+                    mockVariableRepository.Object,
+                    mockDataStatementReader.Object);
             sut.Execute();
-            variableRepository.Verify(mvr => mvr.Clear(), Times.Once);
+            mockVariableRepository.Verify(mvr => mvr.Clear(), Times.Once);
+            mockDataStatementReader.Verify(mdsr => mdsr.RestoreToLineNumber(null), Times.Once);
+            Assert.AreEqual(0, runEnvironment.ProgramStack.Count);
+            Assert.AreEqual(0, runEnvironment.DefinedFunctions.Count);
+            Assert.IsFalse(runEnvironment.ContinueLineNumber.HasValue);
         }
     }
 }

@@ -39,12 +39,39 @@ namespace ClassicBasic.Interpreter
         }
 
         /// <summary>
-        /// Executes a line.
+        /// Executes multiple lines.
         /// </summary>
         /// <returns>true if the user type SYSTEM</returns>
         public bool ExecuteLine()
         {
-           _runEnvironment.KeyboardBreak = false;
+            bool? returnValue = null;
+            while (!returnValue.HasValue)
+            {
+                try
+                {
+                    returnValue = ExecuteLineWithoutErrorHandler();
+                }
+                catch (Exceptions.BasicException)
+                {
+                    if (!_runEnvironment.OnErrorGotoLineNumber.HasValue)
+                    {
+                        throw;
+                    }
+
+                    _runEnvironment.OnErrorHandler(_programRepository, 999);
+                }
+            }
+
+            return returnValue.Value;
+        }
+
+        /// <summary>
+        /// Executes multiple lines without calling the BASIC error handler.
+        /// </summary>
+        /// <returns>true if the user type SYSTEM</returns>
+        private bool ExecuteLineWithoutErrorHandler()
+        {
+            _runEnvironment.KeyboardBreak = false;
             while (true)
             {
                 if (_runEnvironment.CurrentLine.LineNumber.HasValue)
@@ -80,8 +107,8 @@ namespace ClassicBasic.Interpreter
                 }
 
                 // Not at the beginning of the Line?
-               IToken token;
-               if (_runEnvironment.CurrentLine.CurrentToken != 0)
+                IToken token;
+                if (_runEnvironment.CurrentLine.CurrentToken != 0)
                 {
                     // Next token should be a colon or an else
                     token = _runEnvironment.CurrentLine.NextToken();
@@ -114,6 +141,8 @@ namespace ClassicBasic.Interpreter
                 _runEnvironment.ContinueLineNumber = _runEnvironment.CurrentLine.LineNumber;
                 _runEnvironment.ContinueToken = _runEnvironment.CurrentLine.CurrentToken;
             }
+
+            _runEnvironment.DataErrorLine = null;
 
             IToken token;
             do

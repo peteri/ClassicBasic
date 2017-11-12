@@ -52,7 +52,7 @@ namespace ClassicBasic.Interpreter.Commands
 
             do
             {
-                var lineNumber = _expressionEvaluator.GetLineNumber();
+                var lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
                 if (!lineNumber.HasValue)
                 {
                     throw new Exceptions.SyntaxErrorException();

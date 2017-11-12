@@ -10,23 +10,19 @@ namespace ClassicBasic.Interpreter.Commands
     public class Gosub : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
         private readonly IProgramRepository _programRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Gosub"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="programRepository">Program Repository.</param>
         public Gosub(
             IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator,
             IProgramRepository programRepository)
             : base("GOSUB", TokenType.ClassStatement | TokenType.Gosub)
         {
             _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
             _programRepository = programRepository;
         }
 
@@ -35,7 +31,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
-            var nextLine = _expressionEvaluator.GetLineNumber();
+            var nextLine = _runEnvironment.CurrentLine.GetLineNumber();
             if (!nextLine.HasValue)
             {
                 throw new Exceptions.UndefinedStatementException();

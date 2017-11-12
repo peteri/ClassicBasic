@@ -16,7 +16,6 @@ namespace ClassicBasic.Test.CommandTests
     [TestClass]
     public class GosubReturnTests
     {
-        private Mock<IExpressionEvaluator> _mockExpressionEvaluator;
         private Mock<IProgramRepository> _mockProgramRepository;
         private IRunEnvironment _runEnvironment;
         private ProgramLine _gosubProgramLine;
@@ -115,8 +114,7 @@ namespace ClassicBasic.Test.CommandTests
         [TestMethod]
         public void GosubPushesReturnAddressAndSetsCurrentLineToTarget()
         {
-            SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns(100);
+            SetupSut(100);
             _sut.Execute();
             _mockProgramRepository.Verify(mpr => mpr.GetLine(100), Times.Once);
             Assert.AreEqual(100, _runEnvironment.CurrentLine.LineNumber.Value);
@@ -134,8 +132,7 @@ namespace ClassicBasic.Test.CommandTests
         [TestMethod]
         public void GosubThrowsExceptionIfLineNumberDoesExist()
         {
-            SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns(110);
+            SetupSut(110);
             var exceptionThrown = false;
             try
             {
@@ -155,8 +152,7 @@ namespace ClassicBasic.Test.CommandTests
         [TestMethod]
         public void GosubThrowsExceptionIfNoLineNumber()
         {
-            SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetLineNumber()).Returns((int?)null);
+            SetupSut((int?)null);
             var exceptionThrown = false;
             try
             {
@@ -170,20 +166,26 @@ namespace ClassicBasic.Test.CommandTests
             Assert.IsTrue(exceptionThrown);
         }
 
-        private void SetupSut()
+        private void SetupSut(int? lineNumber)
         {
-            _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _mockProgramRepository = new Mock<IProgramRepository>();
             _runEnvironment = new RunEnvironment();
-            _gosubProgramLine = new ProgramLine(10, new List<IToken> { });
+            var tokens = new List<IToken>();
+            if (lineNumber.HasValue)
+            {
+                tokens.Add(new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub));
+                tokens.Add(new Token(lineNumber.ToString()));
+            }
+
+            _gosubProgramLine = new ProgramLine(10, tokens);
             _targetProgramLine = new ProgramLine(100, new List<IToken> { });
 
-            _sut = new Gosub(_runEnvironment, _mockExpressionEvaluator.Object, _mockProgramRepository.Object);
+            _sut = new Gosub(_runEnvironment, _mockProgramRepository.Object);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(100)).Returns(_targetProgramLine);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(110))
                 .Throws(new ClassicBasic.Interpreter.Exceptions.UndefinedStatementException());
             _runEnvironment.CurrentLine = _gosubProgramLine;
-            _gosubProgramLine.CurrentToken = 2;
+            _gosubProgramLine.CurrentToken = 1;
         }
     }
 }

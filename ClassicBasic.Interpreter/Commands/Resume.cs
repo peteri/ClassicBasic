@@ -10,15 +10,20 @@ namespace ClassicBasic.Interpreter.Commands
     public class Resume : Token, ICommand
     {
         private readonly IRunEnvironment _runEnvironment;
+        private readonly IProgramRepository _programRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Resume"/> class.
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
-        public Resume(IRunEnvironment runEnvironment)
+        /// <param name="programRepository">Program repository.</param>
+        public Resume(
+            IRunEnvironment runEnvironment,
+            IProgramRepository programRepository)
             : base("RESUME", TokenType.ClassStatement)
         {
             _runEnvironment = runEnvironment;
+            _programRepository = programRepository;
         }
 
         /// <summary>
@@ -26,6 +31,19 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         public void Execute()
         {
+            while (_runEnvironment.ProgramStack.Count > _runEnvironment.LastErrorStackCount)
+            {
+                _runEnvironment.ProgramStack.Pop();
+            }
+
+            if (!_runEnvironment.LastErrorLine.HasValue)
+            {
+                _runEnvironment.OnErrorGotoLineNumber = null;
+                throw new Exceptions.UndefinedStatementException();
+            }
+
+            _runEnvironment.CurrentLine = _programRepository.GetLine(_runEnvironment.LastErrorLine.Value);
+            _runEnvironment.CurrentLine.CurrentToken = _runEnvironment.LastErrorToken;
         }
     }
 }
