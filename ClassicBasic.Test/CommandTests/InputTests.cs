@@ -26,8 +26,6 @@ namespace ClassicBasic.Test.CommandTests
         private IToken _semi;
         private IToken _colon;
 
-#warning need to add a test for ctrl-c
-
         /// <summary>
         /// Test we can parse numbers and strings.
         /// </summary>
@@ -228,6 +226,40 @@ namespace ClassicBasic.Test.CommandTests
             }
 
             Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Test we throw on break.
+        /// </summary>
+        [TestMethod]
+        public void InputThrowsBreakOnInput()
+        {
+            SetupSut();
+            _teletype.CancelEventHandler += TeletypeCancelEventHandler;
+            var tokens = new List<IToken>
+            {
+                new Token("A"), _dollar, _comma,
+                new Token("B"), _dollar
+            };
+
+            _teletype.Input.Enqueue("BREAK");
+            _runEnvironment.CurrentLine = new ProgramLine(20, tokens);
+
+            bool exceptionThrown = false;
+            try
+            {
+                _sut.Execute();
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.BreakException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        private void TeletypeCancelEventHandler(object sender, ConsoleCancelEventArgs e)
+        {
         }
 
         private void SetupSut()

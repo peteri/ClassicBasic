@@ -108,7 +108,13 @@ namespace ClassicBasic.Interpreter.Commands
         {
             _teletype.Write(_firstLine ? _prompt : "??");
             _firstLine = false;
-            return _teletype.Read();
+            var input = _teletype.Read();
+            if (input == null)
+            {
+                throw new Exceptions.BreakException();
+            }
+
+            return input;
         }
     }
 }
