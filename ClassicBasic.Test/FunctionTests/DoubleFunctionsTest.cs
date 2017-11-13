@@ -38,6 +38,27 @@ namespace ClassicBasic.Test.FunctionTests
         }
 
         /// <summary>
+        /// Check that double functions requires at least one parameter (using log).
+        /// </summary>
+        [TestMethod]
+        public void PositiveFunctionsRequiresOneParameter()
+        {
+            var exceptionThrown = false;
+            var sut = new Log();
+
+            try
+            {
+                sut.Execute(new List<Accumulator> { new Accumulator(3.0), new Accumulator(3.0) });
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
         /// Test Positive Abs.
         /// </summary>
         [TestMethod]
@@ -148,6 +169,26 @@ namespace ClassicBasic.Test.FunctionTests
         }
 
         /// <summary>
+        /// Test Log throws with negative.
+        /// </summary>
+        [TestMethod]
+        public void DoubleFunctionLogNegative()
+        {
+            var sut = new Log();
+            var exceptionThrown = false;
+            try
+            {
+                var result = sut.Execute(new List<Accumulator> { new Accumulator(-4.0) });
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.IllegalQuantityException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
         /// Test Sgn.
         /// </summary>
         [TestMethod]
@@ -200,6 +241,26 @@ namespace ClassicBasic.Test.FunctionTests
             var sut = new Sqr();
             var result = sut.Execute(new List<Accumulator> { new Accumulator(4.0) });
             Assert.AreEqual(2.0, result.ValueAsDouble());
+        }
+
+        /// <summary>
+        /// Test Sqr throws with negative.
+        /// </summary>
+        [TestMethod]
+        public void DoubleFunctionSqrNegative()
+        {
+            var sut = new Sqr();
+            var exceptionThrown = false;
+            try
+            {
+                var result = sut.Execute(new List<Accumulator> { new Accumulator(-4.0) });
+            }
+            catch (ClassicBasic.Interpreter.Exceptions.IllegalQuantityException)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
         }
 
         /// <summary>

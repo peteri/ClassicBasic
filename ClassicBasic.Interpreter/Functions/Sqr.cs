@@ -9,7 +9,7 @@ namespace ClassicBasic.Interpreter.Functions
     /// <summary>
     /// Implements the Sqr function.
     /// </summary>
-    public class Sqr : DoubleFunction
+    public class Sqr : PositiveFunction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Sqr"/> class.
