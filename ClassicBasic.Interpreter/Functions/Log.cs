@@ -9,7 +9,7 @@ namespace ClassicBasic.Interpreter.Functions
     /// <summary>
     /// Implements the Log function.
     /// </summary>
-    public class Log : DoubleFunction
+    public class Log : PositiveFunction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Log"/> class.
