@@ -46,14 +46,7 @@ namespace ClassicBasic.Interpreter.Commands
             var currentLine = _programRepository.GetFirstLine();
             while (currentLine != null)
             {
-                var line = new StringBuilder();
-                line.Append($"{currentLine.LineNumber} ");
-                while (!currentLine.EndOfLine)
-                {
-                    line.Append(currentLine.NextToken().ToString());
-                }
-
-                lines.Add(line.ToString());
+                lines.Add(currentLine.ToString());
                 currentLine = _programRepository.GetNextLine(currentLine.LineNumber.Value);
             }
 

@@ -22,6 +22,17 @@ namespace ClassicBasic.Interpreter
         short Width { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the teletype supports editing
+        /// </summary>
+        bool CanEdit { get; }
+
+        /// <summary>
+        /// Sets the edit text, when Read is called this text is displayed to
+        /// the user who can then edit it.
+        /// </summary>
+        string EditText { set; }
+
+        /// <summary>
         /// Write text to the glass teletype (aka console)
         /// </summary>
         /// <param name="output">Text to write.</param>

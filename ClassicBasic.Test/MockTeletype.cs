@@ -46,6 +46,17 @@ namespace ClassicBasic.Test
         /// </summary>
         public short Width => 80;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the teletype supports editing
+        /// </summary>
+        public bool CanEdit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the edit text, when Read is called this text is displayed to
+        /// the user who can then edit it.
+        /// </summary>
+        public string EditText { get; set; }
+
         /// <inheritdoc/>
         public string Read()
         {
@@ -55,6 +66,13 @@ namespace ClassicBasic.Test
             }
 
             var returnValue = _input.Dequeue();
+
+            if (EditText != string.Empty)
+            {
+                returnValue = EditText + returnValue;
+                EditText = string.Empty;
+            }
+
             if (returnValue == "BREAK")
             {
                 RaiseCancelEvent();

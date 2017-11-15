@@ -124,6 +124,46 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Program line overrides ToString with a linenumber.
+        /// </summary>
+        [TestMethod]
+        public void ProgramLineToStringWithLineNumber()
+        {
+            var tokens = new List<IToken>
+            {
+                new Token("PRINT", TokenType.ClassStatement),
+                new Token("HELLO", TokenType.ClassString),
+                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token("W", TokenType.ClassVariable),
+                new Token("$", TokenType.ClassSeperator | TokenType.Dollar),
+            };
+
+            ProgramLine programLine = new ProgramLine(30, tokens);
+            var line = programLine.ToString();
+            Assert.AreEqual("30  PRINT \"HELLO\",W$", line);
+        }
+
+        /// <summary>
+        /// Program line overrides ToString with out a linenumber.
+        /// </summary>
+        [TestMethod]
+        public void ProgramLineToStringWithOutLineNumber()
+        {
+            var tokens = new List<IToken>
+            {
+                new Token("PRINT", TokenType.ClassStatement),
+                new Token("HELLO", TokenType.ClassString),
+                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token("W", TokenType.ClassVariable),
+                new Token("$", TokenType.ClassSeperator | TokenType.Dollar),
+            };
+
+            ProgramLine programLine = new ProgramLine(null, tokens);
+            var line = programLine.ToString();
+            Assert.AreEqual("  PRINT \"HELLO\",W$", line);
+        }
+
+        /// <summary>
         /// Test last token if pushed back is returned.
         /// </summary>
         [TestMethod]

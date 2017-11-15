@@ -20,6 +20,7 @@ namespace ClassicBasic.Interpreter.Modules
             builder.RegisterType<Commands.Def>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Del>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Dim>().As<IToken>().SingleInstance();
+            builder.RegisterType<Commands.Edit>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.End>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.Else>().As<IToken>().SingleInstance();
             builder.RegisterType<Commands.For>().As<IToken>().SingleInstance();

@@ -8,10 +8,9 @@ namespace ClassicBasic.Test.CommandTests
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Moq;
 
     /// <summary>
-    /// Tests GOTO
+    /// Tests LIST
     /// </summary>
     [TestClass]
     public class ListTests
@@ -76,7 +75,6 @@ namespace ClassicBasic.Test.CommandTests
                 {
                     var output = _teletype.Output.Dequeue();
                     Assert.IsTrue(output.StartsWith(lines[cnt++]));
-                    var tokenValue = _teletype.Output.Dequeue();
                     var crLf = _teletype.Output.Dequeue();
                     Assert.AreEqual(System.Environment.NewLine, crLf);
                 }

@@ -76,12 +76,7 @@ namespace ClassicBasic.Interpreter.Commands
                     return true;
                 }
 
-                _teletype.Write($"{_currentLine.LineNumber} ");
-                while (!_currentLine.EndOfLine)
-                {
-                    _teletype.Write(_currentLine.NextToken().ToString());
-                }
-
+                _teletype.Write(_currentLine.ToString());
                 _teletype.Write(Environment.NewLine);
                 _currentLine = _programRepository.GetNextLine(_currentLine.LineNumber.Value);
             }

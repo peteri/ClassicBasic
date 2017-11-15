@@ -26,8 +26,6 @@ namespace ClassicBasic.Test.CommandTests
         private IToken _semi;
         private IToken _colon;
 
-#warning need to add a test for ctrl-c
-
         /// <summary>
         /// Test we can parse numbers and strings.
         /// </summary>
