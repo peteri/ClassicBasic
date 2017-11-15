@@ -6,6 +6,7 @@ namespace ClassicBasic.Interpreter
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
     /// Represents a program line.
@@ -101,6 +102,22 @@ namespace ClassicBasic.Interpreter
 
             PushToken(token);
             return null;
+        }
+
+        /// <summary>
+        /// Returns the line as a string without a Environment.Newline.
+        /// </summary>
+        /// <returns>line contents with line number if supplied.</returns>
+        public override string ToString()
+        {
+            var line = new StringBuilder();
+            line.Append($"{LineNumber} ");
+            while (!EndOfLine)
+            {
+                line.Append(NextToken().ToString());
+            }
+
+            return line.ToString();
         }
     }
 }
