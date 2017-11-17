@@ -9,13 +9,13 @@ namespace ClassicBasic.Interpreter.Functions
     /// <summary>
     /// Implements the Sqr function.
     /// </summary>
-    public class Sqr : PositiveFunction
+    public class Sqr : ParameterCheckFunction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Sqr"/> class.
         /// </summary>
         public Sqr()
-            : base("SQR", Math.Sqrt)
+            : base("SQR", Math.Sqrt, param => param >= 0.0)
         {
         }
     }

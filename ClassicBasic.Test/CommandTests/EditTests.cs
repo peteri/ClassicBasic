@@ -118,8 +118,10 @@ namespace ClassicBasic.Test.CommandTests
         {
             _programRepository = new ProgramRepository();
             _runEnvironment = new RunEnvironment();
-            _teletype = new MockTeletype();
-            _teletype.CanEdit = true;
+            _teletype = new MockTeletype
+            {
+                CanEdit = true
+            };
             _programRepository.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("ONE") }));
             _programRepository.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("TWO") }));
             _programRepository.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("THREE") }));

@@ -9,13 +9,13 @@ namespace ClassicBasic.Interpreter.Functions
     /// <summary>
     /// Implements the Log function.
     /// </summary>
-    public class Log : PositiveFunction
+    public class Log : ParameterCheckFunction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Log"/> class.
         /// </summary>
         public Log()
-            : base("LOG", Math.Log)
+            : base("LOG", Math.Log, param => param > 0.0)
         {
         }
     }

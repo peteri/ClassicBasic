@@ -111,6 +111,9 @@ namespace ClassicBasic.Interpreter
         /// <summary>Token is for a FN statement</summary>
         Fn,
 
+        /// <summary>Token is for a PRINT statement</summary>
+        Print,
+
         /// <summary>Mask for token.</summary>
         ClassMask = 0xff00,
 

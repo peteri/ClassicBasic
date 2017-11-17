@@ -1,4 +1,4 @@
-﻿// <copyright file="PositiveFunction.cs" company="Peter Ibbotson">
+﻿// <copyright file="ParameterCheckFunction.cs" company="Peter Ibbotson">
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
@@ -12,19 +12,25 @@ namespace ClassicBasic.Interpreter.Functions
     /// a positive parameter and return a double.
     /// Uses a function passed in on construction as it produces cleaner child classes.
     /// </summary>
-    public class PositiveFunction : Token, IFunction
+    public class ParameterCheckFunction : Token, IFunction
     {
         private readonly Func<double, double> _function;
+        private readonly Func<double, bool> _parameterCheck;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PositiveFunction"/> class.
+        /// Initializes a new instance of the <see cref="ParameterCheckFunction"/> class.
         /// </summary>
         /// <param name="text">Name of the function.</param>
         /// <param name="function">Function to call when executed.</param>
-        public PositiveFunction(string text, Func<double, double> function)
+        /// <param name="parameterCheck">Returns true if parameter in range.</param>
+        public ParameterCheckFunction(
+            string text,
+            Func<double, double> function,
+            Func<double, bool> parameterCheck)
             : base(text, TokenType.ClassFunction)
         {
             _function = function;
+            _parameterCheck = parameterCheck;
         }
 
         /// <summary>
@@ -40,7 +46,7 @@ namespace ClassicBasic.Interpreter.Functions
             }
 
             double input = parameters[0].ValueAsDouble();
-            if (input < 0.0)
+            if (!_parameterCheck(input))
             {
                 throw new Exceptions.IllegalQuantityException();
             }

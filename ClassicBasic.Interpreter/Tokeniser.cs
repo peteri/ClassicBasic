@@ -143,8 +143,15 @@ namespace ClassicBasic.Interpreter
                     {
                         if (matches[0].Text == currentTokenText)
                         {
-                            // Exact match we're done.
-                            tokens.Add(matches[0]);
+                            if (matches[0].Seperator == TokenType.Print)
+                            {
+                                tokens.Add(_tokensProvider.Tokens.Where(t => t.Statement == TokenType.Print).First());
+                            }
+                            else
+                            {
+                                tokens.Add(matches[0]);
+                            }
+
                             currentTokenText = string.Empty;
                             remarkMode = matches[0].Statement == TokenType.Remark;
                             dataMode = matches[0].Statement == TokenType.Data;
