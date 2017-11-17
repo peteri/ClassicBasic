@@ -123,7 +123,7 @@ namespace ClassicBasic.Console
             uint charsReadUnused = 0;
             int charactersToRead = editText.Length + ReadAheadBuffer;
             StringBuilder buffer = new StringBuilder(editText, charactersToRead);
-            bool result = Native.ReadConsole( handle, buffer, (uint)charactersToRead, out charsReadUnused, ref control);
+            bool result = Native.ReadConsole(handle, buffer, (uint)charactersToRead, out charsReadUnused, ref control);
             if (result == false)
             {
                 int err = Marshal.GetLastWin32Error();

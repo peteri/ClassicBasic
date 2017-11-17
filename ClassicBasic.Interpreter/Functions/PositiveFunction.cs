@@ -1,4 +1,4 @@
-﻿// <copyright file="DoubleFunction.cs" company="Peter Ibbotson">
+﻿// <copyright file="PositiveFunction.cs" company="Peter Ibbotson">
 // (C) Copyright 2017 Peter Ibbotson
 // </copyright>
 
