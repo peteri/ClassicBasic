@@ -52,9 +52,10 @@ namespace ClassicBasic.Console
         public short Width => (short)Console.WindowWidth;
 
         /// <summary>
-        /// Gets a value indicating whether the teletype supports editing
+        /// Gets a value indicating whether the teletype supports editing.
+        /// If the in or out is redirected then disallow edit command.
         /// </summary>
-        public bool CanEdit => true;
+        public bool CanEdit => !(Console.IsInputRedirected || Console.IsOutputRedirected);
 
         /// <summary>
         /// Sets the edit text, when Read is called this text is displayed to
@@ -136,7 +137,7 @@ namespace ClassicBasic.Console
             }
 
             var text = buffer.ToString(0, (int)charsReadUnused);
-            while (!text.EndsWith(Environment.NewLine))
+            while ((charsReadUnused != 0) && !text.EndsWith(Environment.NewLine))
             {
                 charactersToRead = ReadAheadBuffer;
                 StringBuilder extraText = new StringBuilder(charactersToRead);
@@ -156,7 +157,12 @@ namespace ClassicBasic.Console
                 text += extraText.ToString(0, (int)charsReadUnused);
             }
 
-            return text.Substring(0, text.Length - 2);
+            if (text.EndsWith(Environment.NewLine))
+            {
+                return text.Substring(0, text.Length - Environment.NewLine.Length);
+            }
+
+            return text;
         }
     }
 }

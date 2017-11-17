@@ -22,7 +22,7 @@ namespace ClassicBasic.Interpreter
             new Token("STEP", TokenType.ClassStatement | TokenType.Step),
             new Token("SPC(", TokenType.ClassStatement | TokenType.Space),
             new Token("SYSTEM", TokenType.ClassStatement | TokenType.System),
-
+            new Token("?", TokenType.ClassSeperator | TokenType.Print),
             new Token("+", TokenType.ClassSeperator | TokenType.Plus),
             new Token("-", TokenType.ClassSeperator | TokenType.Minus),
             new Token("/", TokenType.ClassSeperator | TokenType.Divide),

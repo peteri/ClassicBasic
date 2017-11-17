@@ -81,6 +81,20 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
+        /// Test that we convert ? to PRINT.
+        /// </summary>
+        [TestMethod]
+        public void ConvertQuestionMarkToPrint()
+        {
+            var result = _tokeniser.Tokenise("?\"x\":?");
+            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "x", TokenType.ClassString);
+            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            Assert.IsTrue(result.EndOfLine);
+        }
+
+        /// <summary>
         /// Test that remarks keep spaces and case correctly.
         /// </summary>
         [TestMethod]
