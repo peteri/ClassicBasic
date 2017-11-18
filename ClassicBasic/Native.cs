@@ -7,7 +7,6 @@ namespace ClassicBasic
     using System;
     using System.Runtime.InteropServices;
     using System.Text;
-    using DWORD = System.UInt32;
 
     /// <summary>
     /// Wrapper class for native Windows calls
