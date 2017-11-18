@@ -5,6 +5,7 @@
 namespace ClassicBasic.Test.InterpreterTests
 {
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -260,22 +261,18 @@ namespace ClassicBasic.Test.InterpreterTests
         /// <summary>
         /// Test array redimension throws exception.
         /// </summary>
-        [TestMethod]
-        public void VariableRepositoryTestRedimensionThrowsException()
+        /// <param name="variableName">Variable Name.</param>
+        /// <param name="throwsException">Throws Exception.</param>
+        [DataTestMethod]
+        [DataRow("AA", false)]
+        [DataRow("AB", true)]
+        public void VariableRepositoryTestRedimensionThrowsException(string variableName, bool throwsException)
         {
             IVariableRepository sut = new VariableRepository();
-            bool exceptionThrown = false;
             sut.DimensionArray("AB", new short[] { 2, 3 });
-            try
-            {
-                sut.DimensionArray("AB", new short[] { 2, 3 });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.RedimensionedArrayException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.AreEqual(true, exceptionThrown);
+            Test.Throws<RedimensionedArrayException>(
+                () => sut.DimensionArray(variableName, new short[] { 2, 3 }),
+                throwsException);
         }
 
         /// <summary>

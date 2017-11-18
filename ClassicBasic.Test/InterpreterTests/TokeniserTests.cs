@@ -6,6 +6,7 @@ namespace ClassicBasic.Test.InterpreterTests
 {
     using Autofac;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -254,20 +255,14 @@ namespace ClassicBasic.Test.InterpreterTests
         /// <summary>
         /// Tokeniser throws syntax error if line number > 65535
         /// </summary>
-        [TestMethod]
-        public void TokeniserThrowsSyntaxErrorIfLineNumberToBig()
+        /// <param name="command">Command to pass to Tokeniser.</param>
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow("65535 ONX", false)]
+        [DataRow("65536 ONX", true)]
+        public void TokeniserThrowsSyntaxErrorIfLineNumberToBig(string command, bool throwsException)
         {
-            bool exceptionThrown = false;
-            try
-            {
-                _tokeniser.Tokenise("65536 ONX");
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(() => _tokeniser.Tokenise(command), throwsException);
         }
 
         private void TokenCheck(IToken token, string text, TokenClass tokenClass)

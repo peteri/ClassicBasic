@@ -6,6 +6,7 @@ namespace ClassicBasic.Test.InterpreterTests
 {
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -156,25 +157,19 @@ namespace ClassicBasic.Test.InterpreterTests
         /// <summary>
         /// Program lines can be got with a current token position of zero.
         /// </summary>
-        [TestMethod]
-        public void ProgramRepositoryGetLineThrowsOnInvalidLineNumber()
+        /// <param name="lineNumber">Line number.</param>
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow(20, false)]
+        [DataRow(25, true)]
+        public void ProgramRepositoryGetLineThrowsOnInvalidLineNumber(int lineNumber, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new ProgramRepository();
             sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
             sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
             sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
 
-            try
-            {
-                sut.GetLine(25);
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<UndefinedStatementException>(() => sut.GetLine(lineNumber), throwsException);
         }
     }
 }

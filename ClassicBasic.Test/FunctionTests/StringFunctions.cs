@@ -405,7 +405,6 @@ namespace ClassicBasic.Test.FunctionTests
                 throwsException);
         }
 
-
         /// <summary>
         /// Test LEN with various parameters.
         /// </summary>
@@ -459,6 +458,7 @@ namespace ClassicBasic.Test.FunctionTests
                 () => sut.Execute(parameters.Take(count).ToArray()),
                 throwsException);
         }
+
         /// <summary>
         /// Test STR$ with various parameters.
         /// </summary>

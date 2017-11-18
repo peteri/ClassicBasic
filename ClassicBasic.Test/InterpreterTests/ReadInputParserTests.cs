@@ -6,6 +6,7 @@ namespace ClassicBasic.Test.InterpreterTests
 {
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -114,52 +115,27 @@ namespace ClassicBasic.Test.InterpreterTests
 
         /// <summary>
         /// Read input parser, Throws syntax error if not a number.
-        /// </summary>
-        [TestMethod]
-        public void ReadInputParserThrowsSyntaxErrorIfNotANumber()
-        {
-            SetupSut();
-            _inputQueue.Enqueue("ABC,3,4");
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.ReadVariables(new List<VariableReference> { _numericVariables[0] });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
-        }
-
-        /// <summary>
         /// Read input parser, Throws syntax error if quoted string has text outside of quotes.
         /// </summary>
-        [TestMethod]
-        public void ReadInputParserThrowsSyntaxErrorIfQuotedStringHasTrailingText()
+        /// <param name="input">Input typed by user.</param>
+        /// <param name="throwsException">Throws exception</param>
+        [DataTestMethod]
+        [DataRow("\"ABC\" ,4", false)]
+        [DataRow("3,ABC,4", true)]
+        [DataRow("\"ABC\" 3,4", true)]
+        public void ReadInputParserThrowsSyntaxErrorIfNotANumber(string input, bool throwsException)
         {
             SetupSut();
-            _inputQueue.Enqueue("\"ABC\" 3,4");
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.ReadVariables(new List<VariableReference> { _stringVariables[0] });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            _inputQueue.Enqueue(input);
+            Test.Throws<SyntaxErrorException>(
+                () => _sut.ReadVariables(new List<VariableReference> { _stringVariables[0], _numericVariables[0] }),
+                throwsException);
         }
 
         private void SetupSut()
         {
             _inputQueue = new Queue<string>();
-            _sut = new ReadInputParser(() => _inputQueue.Count == 0 ? null : _inputQueue.Dequeue());
+            _sut = new ReadInputParser(() => _inputQueue.Dequeue());
             _sut.Clear();
             _variableRepository = new VariableRepository();
             _numericVariables[0] = _variableRepository.GetOrCreateVariable("A", new short[] { });
