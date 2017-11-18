@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// </summary>
         /// <param name="teletypeWithPosition">Teletype to get the cursor position for.</param>
         public Pos(ITeletypeWithPosition teletypeWithPosition)
-            : base("POS", TokenType.ClassFunction)
+            : base("POS", TokenClass.Function)
         {
             _teletypeWithPosition = teletypeWithPosition;
         }

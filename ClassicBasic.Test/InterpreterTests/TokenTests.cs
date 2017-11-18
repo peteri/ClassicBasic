@@ -19,9 +19,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void TokenStatementReturnsIdentityForStatements()
         {
-            var token = new Token("LET", TokenType.ClassStatement | TokenType.Let);
+            var token = new Token("LET", TokenClass.Statement, TokenType.Let);
             Assert.AreEqual(TokenType.Let, token.Statement);
-            Assert.AreEqual(TokenType.ClassStatement, token.TokenClass);
+            Assert.AreEqual(TokenClass.Statement, token.TokenClass);
         }
 
         /// <summary>
@@ -30,9 +30,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void TokenStatementReturnsUnknownForSeperators()
         {
-            var token = new Token("*", TokenType.ClassSeperator | TokenType.Multiply);
+            var token = new Token("*", TokenClass.Seperator, TokenType.Multiply);
             Assert.AreEqual(TokenType.Unknown, token.Statement);
-            Assert.AreNotEqual(TokenType.ClassStatement, token.TokenClass);
+            Assert.AreNotEqual(TokenClass.Statement, token.TokenClass);
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void TokenSeperatorReturnsIdentityForSeperators()
         {
-            var token = new Token("*", TokenType.ClassSeperator | TokenType.Multiply);
+            var token = new Token("*", TokenClass.Seperator, TokenType.Multiply);
             Assert.AreEqual(TokenType.Multiply, token.Seperator);
-            Assert.AreEqual(TokenType.ClassSeperator, token.TokenClass);
+            Assert.AreEqual(TokenClass.Seperator, token.TokenClass);
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void TokenSeperatorReturnsUnknownForStatements()
         {
-            var token = new Token("LET", TokenType.ClassStatement | TokenType.Let);
+            var token = new Token("LET", TokenClass.Statement, TokenType.Let);
             Assert.AreEqual(TokenType.Unknown, token.Seperator);
-            Assert.AreNotEqual(TokenType.ClassSeperator, token.TokenClass);
+            Assert.AreNotEqual(TokenClass.Seperator, token.TokenClass);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.AreEqual("0a1", token.Text);
             Assert.AreEqual(TokenType.Unknown, token.Seperator);
             Assert.AreEqual(TokenType.Unknown, token.Statement);
-            Assert.AreEqual(TokenType.ClassNumber, token.TokenClass);
+            Assert.AreEqual(TokenClass.Number, token.TokenClass);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.AreEqual(".0a1", token.Text);
             Assert.AreEqual(TokenType.Unknown, token.Seperator);
             Assert.AreEqual(TokenType.Unknown, token.Statement);
-            Assert.AreEqual(TokenType.ClassNumber, token.TokenClass);
+            Assert.AreEqual(TokenClass.Number, token.TokenClass);
         }
 
         /// <summary>
@@ -93,28 +93,28 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.AreEqual("a0a1", token.Text);
             Assert.AreEqual(TokenType.Unknown, token.Seperator);
             Assert.AreEqual(TokenType.Unknown, token.Statement);
-            Assert.AreEqual(TokenType.ClassVariable, token.TokenClass);
+            Assert.AreEqual(TokenClass.Variable, token.TokenClass);
         }
 
         /// <summary>
         /// Tests ToString.
         /// </summary>
         /// <param name="text">Value.</param>
-        /// <param name="type">Type of the token.</param>
+        /// <param name="tokenClass">Class of the token.</param>
         /// <param name="textOut">To string output.</param>
         [DataTestMethod]
-        [DataRow("A", TokenType.ClassFunction, " A")]
-        [DataRow("B", TokenType.ClassNumber, "B")]
-        [DataRow("C", TokenType.ClassRemark, "C")]
-        [DataRow("D", TokenType.ClassSeperator, "D")]
-        [DataRow("E", TokenType.ClassStatement, " E ")]
-        [DataRow("F", TokenType.ClassString, "\"F\"")]
-        [DataRow("G", TokenType.ClassVariable, "G")]
-        [DataRow("H", TokenType.ClassData, "H")]
+        [DataRow("A", TokenClass.Function, " A")]
+        [DataRow("B", TokenClass.Number, "B")]
+        [DataRow("C", TokenClass.Remark, "C")]
+        [DataRow("D", TokenClass.Seperator, "D")]
+        [DataRow("E", TokenClass.Statement, " E ")]
+        [DataRow("F", TokenClass.String, "\"F\"")]
+        [DataRow("G", TokenClass.Variable, "G")]
+        [DataRow("H", TokenClass.Data, "H")]
         [DataRow("I", TokenType.Unknown, "Unknown type Unknown")]
-        public void TokenToStringTest(string text, TokenType type, string textOut)
+        public void TokenToStringTest(string text, TokenClass tokenClass, string textOut)
         {
-            var token = new Token(text, type);
+            var token = new Token(text, tokenClass);
             Assert.AreEqual(textOut, token.ToString());
         }
     }

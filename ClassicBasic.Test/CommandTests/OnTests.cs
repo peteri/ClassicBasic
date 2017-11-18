@@ -41,11 +41,11 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(value));
             var tokens = new List<IToken>
             {
-                new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
+                new Token("GOTO", TokenClass.Statement, TokenType.Goto),
                 new Token("1000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("2000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("3000")
             };
 
@@ -85,13 +85,13 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(value));
             var tokens = new List<IToken>
             {
-                new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub),
+                new Token("GOSUB", TokenClass.Statement, TokenType.Gosub),
                 new Token("1000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("2000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("3000"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon),
+                new Token(":", TokenClass.Seperator, TokenType.Colon),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
@@ -131,13 +131,13 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(2.0));
             var tokens = new List<IToken>
             {
-                new Token("TO", TokenType.ClassStatement | TokenType.To),
+                new Token("TO", TokenClass.Statement, TokenType.To),
                 new Token("1000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("2000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("3000"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon),
+                new Token(":", TokenClass.Seperator, TokenType.Colon),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
@@ -165,12 +165,12 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(2.0));
             var tokens = new List<IToken>
             {
-                new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub),
+                new Token("GOSUB", TokenClass.Statement, TokenType.Gosub),
                 new Token("1000"),
                 new Token("2000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("3000"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon),
+                new Token(":", TokenClass.Seperator, TokenType.Colon),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
@@ -188,12 +188,12 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(2.0));
             var tokens = new List<IToken>
             {
-                new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub),
+                new Token("GOSUB", TokenClass.Statement, TokenType.Gosub),
                 new Token("1000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("3000"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
+                new Token(":", TokenClass.Seperator, TokenType.Colon),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);

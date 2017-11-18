@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public OnErr(IRunEnvironment runEnvironment)
-            : base("ONERR", TokenType.ClassStatement)
+            : base("ONERR", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
         }

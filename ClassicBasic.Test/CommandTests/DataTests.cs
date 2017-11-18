@@ -23,7 +23,7 @@ namespace ClassicBasic.Test.CommandTests
         {
             var runEnvironment = new RunEnvironment
             {
-                CurrentLine = new ProgramLine(10, new List<IToken> { new Token("1,abc def, ", TokenType.ClassData) })
+                CurrentLine = new ProgramLine(10, new List<IToken> { new Token("1,abc def, ", TokenClass.Data) })
             };
             var sut = new Data(runEnvironment);
             sut.Execute();
@@ -40,7 +40,7 @@ namespace ClassicBasic.Test.CommandTests
             {
                 CurrentLine = new ProgramLine(
                 10,
-                new List<IToken> { new Token("1", TokenType.ClassData), new Token(":", TokenType.Colon | TokenType.ClassSeperator) })
+                new List<IToken> { new Token("1", TokenClass.Data), new Token(":", TokenClass.Seperator, TokenType.Colon) })
             };
             var sut = new Data(runEnvironment);
             sut.Execute();
@@ -57,7 +57,7 @@ namespace ClassicBasic.Test.CommandTests
             {
                 CurrentLine = new ProgramLine(
                 null,
-                new List<IToken> { new Token("1"), new Token(":", TokenType.Colon | TokenType.ClassSeperator) })
+                new List<IToken> { new Token("1"), new Token(":", TokenClass.Seperator, TokenType.Colon) })
             };
             var sut = new Data(runEnvironment);
             var exceptionThrown = false;
@@ -83,7 +83,7 @@ namespace ClassicBasic.Test.CommandTests
             {
                 CurrentLine = new ProgramLine(
                 10,
-                new List<IToken> { new Token("1"), new Token(":", TokenType.Colon | TokenType.ClassSeperator) })
+                new List<IToken> { new Token("1"), new Token(":", TokenClass.Seperator, TokenType.Colon) })
             };
             var sut = new Data(runEnvironment);
             var exceptionThrown = false;

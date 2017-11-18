@@ -38,14 +38,14 @@ namespace ClassicBasic.Test.InterpreterTests
         {
             var result = _tokeniser.Tokenise("20IFI<>10THENPRINT\"HELLO\"");
             Assert.AreEqual(20, result.LineNumber.Value);
-            TokenCheck(result.NextToken(), "IF", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "I", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "<", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), ">", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "10", TokenType.ClassNumber);
-            TokenCheck(result.NextToken(), "THEN", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "HELLO", TokenType.ClassString);
+            TokenCheck(result.NextToken(), "IF", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "I", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "<", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), ">", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "10", TokenClass.Number);
+            TokenCheck(result.NextToken(), "THEN", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "HELLO", TokenClass.String);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -56,11 +56,11 @@ namespace ClassicBasic.Test.InterpreterTests
         public void FindTokensAtEnd()
         {
             var result = _tokeniser.Tokenise("LET AFOR=23");
-            TokenCheck(result.NextToken(), "LET", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "A", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "FOR", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "=", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "23", TokenType.ClassNumber);
+            TokenCheck(result.NextToken(), "LET", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "A", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "FOR", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "=", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "23", TokenClass.Number);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -71,12 +71,12 @@ namespace ClassicBasic.Test.InterpreterTests
         public void FindOddTokensAtEnd()
         {
             var result = _tokeniser.Tokenise("LET AFOR=ONER");
-            TokenCheck(result.NextToken(), "LET", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "A", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "FOR", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "=", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "ER", TokenType.ClassVariable);
+            TokenCheck(result.NextToken(), "LET", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "A", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "FOR", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "=", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "ON", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "ER", TokenClass.Variable);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -87,10 +87,10 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ConvertQuestionMarkToPrint()
         {
             var result = _tokeniser.Tokenise("?\"x\":?");
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "x", TokenType.ClassString);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "x", TokenClass.String);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -101,8 +101,8 @@ namespace ClassicBasic.Test.InterpreterTests
         public void RemarksKeepSpacesAndCase()
         {
             var result = _tokeniser.Tokenise("REM   Hello World");
-            TokenCheck(result.NextToken(), "REM", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "Hello World", TokenType.ClassRemark);
+            TokenCheck(result.NextToken(), "REM", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "Hello World", TokenClass.Remark);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -113,8 +113,8 @@ namespace ClassicBasic.Test.InterpreterTests
         public void DataKeepSpacesAndCase()
         {
             var result = _tokeniser.Tokenise("DATA   Hello World,\"DEF GH\"");
-            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "Hello World,\"DEF GH\"", TokenType.ClassData);
+            TokenCheck(result.NextToken(), "DATA", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "Hello World,\"DEF GH\"", TokenClass.Data);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -125,10 +125,10 @@ namespace ClassicBasic.Test.InterpreterTests
         public void DataKeepSpacesAndCaseAndBreaksOnColon()
         {
             var result = _tokeniser.Tokenise("DATA   Hello World, \"DEF GH\" : PRINT");
-            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "Hello World, \"DEF GH\" ", TokenType.ClassData);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "DATA", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "Hello World, \"DEF GH\" ", TokenClass.Data);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -139,10 +139,10 @@ namespace ClassicBasic.Test.InterpreterTests
         public void DataKeepSpacesAndCaseAndBreaksOnColonUnlessQuoted()
         {
             var result = _tokeniser.Tokenise("DATA  ab,cd\"ef,\"g:h\" : PRINT");
-            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "ab,cd\"ef,\"g:h\" ", TokenType.ClassData);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "DATA", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "ab,cd\"ef,\"g:h\" ", TokenClass.Data);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -153,8 +153,8 @@ namespace ClassicBasic.Test.InterpreterTests
         public void BlankDataAddsClassDataTokenWithNoColon()
         {
             var result = _tokeniser.Tokenise("DATA    ");
-            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), string.Empty, TokenType.ClassData);
+            TokenCheck(result.NextToken(), "DATA", TokenClass.Statement);
+            TokenCheck(result.NextToken(), string.Empty, TokenClass.Data);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -165,10 +165,10 @@ namespace ClassicBasic.Test.InterpreterTests
         public void BlankDataAddsClassDataTokenWithColon()
         {
             var result = _tokeniser.Tokenise("DATA    : PRINT");
-            TokenCheck(result.NextToken(), "DATA", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), string.Empty, TokenType.ClassData);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "DATA", TokenClass.Statement);
+            TokenCheck(result.NextToken(), string.Empty, TokenClass.Data);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -179,8 +179,8 @@ namespace ClassicBasic.Test.InterpreterTests
         public void TokeniserTerminatesStrings()
         {
             var result = _tokeniser.Tokenise("PRINT \"Hello World");
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "Hello World", TokenType.ClassString);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "Hello World", TokenClass.String);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -191,9 +191,9 @@ namespace ClassicBasic.Test.InterpreterTests
         public void TokeniserSplitsVariablesBeforeStrings()
         {
             var result = _tokeniser.Tokenise("PRINT AB\"Hello World");
-            TokenCheck(result.NextToken(), "PRINT", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "AB", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "Hello World", TokenType.ClassString);
+            TokenCheck(result.NextToken(), "PRINT", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "AB", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "Hello World", TokenClass.String);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -204,14 +204,14 @@ namespace ClassicBasic.Test.InterpreterTests
         public void SplitAwkard()
         {
             var result = _tokeniser.Tokenise("ACRIGHT$(C$,1)");
-            TokenCheck(result.NextToken(), "AC", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "RIGHT$", TokenType.ClassFunction);
-            TokenCheck(result.NextToken(), "(", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "C", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "$", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), ",", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "1", TokenType.ClassNumber);
-            TokenCheck(result.NextToken(), ")", TokenType.ClassSeperator);
+            TokenCheck(result.NextToken(), "AC", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "RIGHT$", TokenClass.Function);
+            TokenCheck(result.NextToken(), "(", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "C", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "$", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), ",", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "1", TokenClass.Number);
+            TokenCheck(result.NextToken(), ")", TokenClass.Seperator);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -222,20 +222,20 @@ namespace ClassicBasic.Test.InterpreterTests
         public void SplitAwkardCont()
         {
             var result = _tokeniser.Tokenise("CON:CONT:CONX:ONX:CON");
-            TokenCheck(result.NextToken(), "C", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "CONT", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "C", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "X", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "X", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), ":", TokenType.ClassSeperator);
-            TokenCheck(result.NextToken(), "C", TokenType.ClassVariable);
-            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
+            TokenCheck(result.NextToken(), "C", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "ON", TokenClass.Statement);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "CONT", TokenClass.Statement);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "C", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "ON", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "X", TokenClass.Variable);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "ON", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "X", TokenClass.Variable);
+            TokenCheck(result.NextToken(), ":", TokenClass.Seperator);
+            TokenCheck(result.NextToken(), "C", TokenClass.Variable);
+            TokenCheck(result.NextToken(), "ON", TokenClass.Statement);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -246,8 +246,8 @@ namespace ClassicBasic.Test.InterpreterTests
         public void SplitAwkardCont2()
         {
             var result = _tokeniser.Tokenise("ONX");
-            TokenCheck(result.NextToken(), "ON", TokenType.ClassStatement);
-            TokenCheck(result.NextToken(), "X", TokenType.ClassVariable);
+            TokenCheck(result.NextToken(), "ON", TokenClass.Statement);
+            TokenCheck(result.NextToken(), "X", TokenClass.Variable);
             Assert.IsTrue(result.EndOfLine);
         }
 
@@ -270,10 +270,10 @@ namespace ClassicBasic.Test.InterpreterTests
             Assert.IsTrue(exceptionThrown);
         }
 
-        private void TokenCheck(IToken token, string text, TokenType tokenType)
+        private void TokenCheck(IToken token, string text, TokenClass tokenClass)
         {
             Assert.AreEqual(text, token.Text);
-            Assert.AreEqual(tokenType, token.TokenClass);
+            Assert.AreEqual(tokenClass, token.TokenClass);
         }
     }
 }

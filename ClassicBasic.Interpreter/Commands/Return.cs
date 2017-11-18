@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public Return(IRunEnvironment runEnvironment)
-            : base("RETURN", TokenType.ClassStatement)
+            : base("RETURN", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
         }

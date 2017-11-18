@@ -15,7 +15,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="Asc"/> class.
         /// </summary>
         public Asc()
-            : base("ASC", TokenType.ClassFunction)
+            : base("ASC", TokenClass.Function)
         {
         }
 

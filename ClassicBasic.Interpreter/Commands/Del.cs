@@ -19,7 +19,7 @@ namespace ClassicBasic.Interpreter.Commands
         public Del(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository)
-            : base("DEL", TokenType.ClassStatement)
+            : base("DEL", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;

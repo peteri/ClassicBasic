@@ -31,7 +31,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             _runEnvironment.CurrentLine = new ProgramLine(
                 10,
-                new List<IToken> { new Token("=", TokenType.ClassSeperator | TokenType.Equal) });
+                new List<IToken> { new Token("=", TokenClass.Seperator, TokenType.Equal) });
             _sut.Execute();
             Assert.AreEqual(3.0, _variableReference.GetValue().ValueAsDouble());
         }
@@ -45,7 +45,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             _runEnvironment.CurrentLine = new ProgramLine(
                 10,
-                new List<IToken> { new Token(":", TokenType.ClassSeperator | TokenType.Colon) });
+                new List<IToken> { new Token(":", TokenClass.Seperator, TokenType.Colon) });
             bool exceptionThrown = false;
             try
             {

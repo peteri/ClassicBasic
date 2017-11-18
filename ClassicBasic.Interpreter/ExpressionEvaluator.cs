@@ -57,7 +57,7 @@ namespace ClassicBasic.Interpreter
         public string GetVariableName()
         {
             var token = _runEnvironment.CurrentLine.NextToken();
-            if (token.TokenClass != TokenType.ClassVariable)
+            if (token.TokenClass != TokenClass.Variable)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
@@ -374,17 +374,17 @@ namespace ClassicBasic.Interpreter
             var token = _runEnvironment.CurrentLine.NextToken();
             switch (token.TokenClass)
             {
-                case TokenType.ClassNumber:
+                case TokenClass.Number:
                     return ParseNumber(token);
-                case TokenType.ClassString:
+                case TokenClass.String:
                     return new Accumulator(token.Text);
-                case TokenType.ClassVariable:
+                case TokenClass.Variable:
                     return GetVariableValue(token);
-                case TokenType.ClassFunction:
+                case TokenClass.Function:
                     var function = token as IFunction;
                     var parameters = GetFunctionParameters();
                     return function.Execute(parameters);
-                case TokenType.ClassStatement:
+                case TokenClass.Statement:
                     return CheckForUserFunction(token);
                 default:
                     break;
@@ -421,7 +421,7 @@ namespace ClassicBasic.Interpreter
                 var plusMinus = _runEnvironment.CurrentLine.NextToken();
                 var exponent = _runEnvironment.CurrentLine.NextToken();
                 if ((plusMinus.Seperator != TokenType.Plus && plusMinus.Seperator != TokenType.Minus)
-                    || exponent.TokenClass != TokenType.ClassNumber)
+                    || exponent.TokenClass != TokenClass.Number)
                 {
                     throw new Exceptions.SyntaxErrorException();
                 }
@@ -445,7 +445,7 @@ namespace ClassicBasic.Interpreter
             }
 
             var functionName = _runEnvironment.CurrentLine.NextToken();
-            if (functionName.TokenClass != TokenType.ClassVariable)
+            if (functionName.TokenClass != TokenClass.Variable)
             {
                 throw new Exceptions.SyntaxErrorException();
             }

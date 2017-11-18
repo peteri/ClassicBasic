@@ -1004,11 +1004,11 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _runEnvironment = new RunEnvironment();
             _variableRepository = new VariableRepository();
-            _toToken = new Token("TO", TokenType.ClassStatement | TokenType.To);
-            _colonToken = new Token(":", TokenType.ClassSeperator | TokenType.Colon);
-            _equalToken = new Token("=", TokenType.ClassSeperator | TokenType.Equal);
-            _stepToken = new Token("STEP", TokenType.ClassStatement | TokenType.Step);
-            _commaToken = new Token(",", TokenType.ClassSeperator | TokenType.Comma);
+            _toToken = new Token("TO", TokenClass.Statement, TokenType.To);
+            _colonToken = new Token(":", TokenClass.Seperator, TokenType.Colon);
+            _equalToken = new Token("=", TokenClass.Seperator, TokenType.Equal);
+            _stepToken = new Token("STEP", TokenClass.Statement, TokenType.Step);
+            _commaToken = new Token(",", TokenClass.Seperator, TokenType.Comma);
         }
     }
 }

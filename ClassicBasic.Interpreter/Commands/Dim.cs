@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter.Commands
             IRunEnvironment runEnvironment,
             IExpressionEvaluator expressionEvaluator,
             IVariableRepository variableRepository)
-            : base("DIM", TokenType.ClassStatement)
+            : base("DIM", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;

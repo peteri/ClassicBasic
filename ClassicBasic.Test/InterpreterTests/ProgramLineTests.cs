@@ -17,9 +17,9 @@ namespace ClassicBasic.Test.InterpreterTests
     {
         private List<IToken> _tokens = new List<IToken>
         {
-            new Token("ONE", TokenType.ClassVariable),
-            new Token("TWO", TokenType.ClassVariable),
-            new Token("THREE", TokenType.ClassVariable)
+            new Token("ONE", TokenClass.Variable),
+            new Token("TWO", TokenClass.Variable),
+            new Token("THREE", TokenClass.Variable)
         };
 
         /// <summary>
@@ -131,11 +131,11 @@ namespace ClassicBasic.Test.InterpreterTests
         {
             var tokens = new List<IToken>
             {
-                new Token("PRINT", TokenType.ClassStatement),
-                new Token("HELLO", TokenType.ClassString),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
-                new Token("W", TokenType.ClassVariable),
-                new Token("$", TokenType.ClassSeperator | TokenType.Dollar),
+                new Token("PRINT", TokenClass.Statement),
+                new Token("HELLO", TokenClass.String),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
+                new Token("W", TokenClass.Variable),
+                new Token("$", TokenClass.Seperator, TokenType.Dollar),
             };
 
             ProgramLine programLine = new ProgramLine(30, tokens);
@@ -151,11 +151,11 @@ namespace ClassicBasic.Test.InterpreterTests
         {
             var tokens = new List<IToken>
             {
-                new Token("PRINT", TokenType.ClassStatement),
-                new Token("HELLO", TokenType.ClassString),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
-                new Token("W", TokenType.ClassVariable),
-                new Token("$", TokenType.ClassSeperator | TokenType.Dollar),
+                new Token("PRINT", TokenClass.Statement),
+                new Token("HELLO", TokenClass.String),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
+                new Token("W", TokenClass.Variable),
+                new Token("$", TokenClass.Seperator, TokenType.Dollar),
             };
 
             ProgramLine programLine = new ProgramLine(null, tokens);
@@ -217,7 +217,7 @@ namespace ClassicBasic.Test.InterpreterTests
             bool exceptionThrown = false;
             try
             {
-                programLine.PushToken(new Token("EH", TokenType.CloseBracket));
+                programLine.PushToken(new Token("EH", TokenClass.Seperator, TokenType.CloseBracket));
             }
             catch (InvalidOperationException)
             {
@@ -250,7 +250,7 @@ namespace ClassicBasic.Test.InterpreterTests
         {
             var tokens = new List<IToken>
             {
-                new Token("DATA", TokenType.ClassStatement | TokenType.Data)
+                new Token("DATA", TokenClass.Statement, TokenType.Data)
             };
             ProgramLine programLine = new ProgramLine(30, tokens);
             var result = programLine.GetLineNumber();

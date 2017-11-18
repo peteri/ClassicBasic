@@ -20,7 +20,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="expressionEvaluator">Expression evaluator.</param>
         /// <param name="teletype">Output teletype to use.</param>
         public Print(IRunEnvironment runEnvironment, IExpressionEvaluator expressionEvaluator, ITeletypeWithPosition teletype)
-            : base("PRINT", TokenType.ClassStatement | TokenType.Print)
+            : base("PRINT", TokenClass.Statement, TokenType.Print)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;

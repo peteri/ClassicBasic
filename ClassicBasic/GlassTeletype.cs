@@ -121,7 +121,9 @@ namespace ClassicBasic.Console
             control.InitialChars = (uint)editText.Length;
             control.ControlKeyState = 0;
 
+#pragma warning disable IDE0018 // Inline variable declaration
             uint charsReadUnused = 0;
+#pragma warning restore IDE0018 // Inline variable declaration
             int charactersToRead = editText.Length + ReadAheadBuffer;
             StringBuilder buffer = new StringBuilder(editText, charactersToRead);
             bool result = Native.ReadConsole(handle, buffer, (uint)charactersToRead, out charsReadUnused, ref control);

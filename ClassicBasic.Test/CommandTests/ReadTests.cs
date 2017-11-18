@@ -49,7 +49,7 @@ namespace ClassicBasic.Test.CommandTests
 
             var variableA = _variableRepository.GetOrCreateVariable("A", new short[] { });
             var variableB = _variableRepository.GetOrCreateVariable("B", new short[] { });
-            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token(",", TokenType.ClassSeperator | TokenType.Comma) });
+            _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token(",", TokenClass.Seperator, TokenType.Comma) });
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetLeftValue())
                .Returns(variableA)
                .Returns(variableB);

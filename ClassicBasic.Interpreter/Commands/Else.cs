@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public Else(IRunEnvironment runEnvironment)
-            : base("ELSE", TokenType.ClassStatement | TokenType.Else)
+            : base("ELSE", TokenClass.Statement, TokenType.Else)
         {
             _runEnvironment = runEnvironment;
         }

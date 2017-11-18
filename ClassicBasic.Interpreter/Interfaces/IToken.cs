@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Gets class of the token.
         /// </summary>
-        TokenType TokenClass { get; }
+        TokenClass TokenClass { get; }
 
         /// <summary>
         /// Gets if the token is a statement this may be set to a known value or Unknown.

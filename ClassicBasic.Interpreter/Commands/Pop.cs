@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public Pop(IRunEnvironment runEnvironment)
-            : base("POP", TokenType.ClassStatement)
+            : base("POP", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
         }

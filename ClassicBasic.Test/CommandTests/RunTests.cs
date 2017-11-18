@@ -64,7 +64,7 @@ namespace ClassicBasic.Test.CommandTests
             var mockLoadCmd = mockLoadToken.As<ITokeniserCommand>();
             _mockTokeniser.Setup(mt => mt.Tokenise("LOAD \"test.bas\""))
                 .Returns(new ProgramLine(null, new List<IToken> { mockLoadToken.Object }));
-            _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { new Token("test.bas", TokenType.ClassString) });
+            _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { new Token("test.bas", TokenClass.String) });
             _runEnvironment.ProgramStack.Push(new StackEntry());
             _sut.Execute(_mockTokeniser.Object);
             mockLoadCmd.Verify(mlc => mlc.Execute(_mockTokeniser.Object), Times.Once);

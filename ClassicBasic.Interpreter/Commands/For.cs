@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter.Commands
             IRunEnvironment runEnvironment,
             IExpressionEvaluator expressionEvaluator,
             IVariableRepository variableRepository)
-            : base("FOR", TokenType.ClassStatement)
+            : base("FOR", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;
@@ -40,7 +40,7 @@ namespace ClassicBasic.Interpreter.Commands
             // We need the name and the classic MS interpreter only supports
             // non-array double variables, so we'll do the same.
             var token = _runEnvironment.CurrentLine.NextToken();
-            if (token.TokenClass != TokenType.ClassVariable)
+            if (token.TokenClass != TokenClass.Variable)
             {
                 throw new Exceptions.SyntaxErrorException();
             }

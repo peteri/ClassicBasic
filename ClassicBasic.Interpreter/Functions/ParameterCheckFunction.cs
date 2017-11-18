@@ -27,7 +27,7 @@ namespace ClassicBasic.Interpreter.Functions
             string text,
             Func<double, double> function,
             Func<double, bool> parameterCheck)
-            : base(text, TokenType.ClassFunction)
+            : base(text, TokenClass.Function)
         {
             _function = function;
             _parameterCheck = parameterCheck;

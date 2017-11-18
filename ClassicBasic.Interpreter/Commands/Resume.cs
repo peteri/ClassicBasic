@@ -20,7 +20,7 @@ namespace ClassicBasic.Interpreter.Commands
         public Resume(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository)
-            : base("RESUME", TokenType.ClassStatement)
+            : base("RESUME", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;

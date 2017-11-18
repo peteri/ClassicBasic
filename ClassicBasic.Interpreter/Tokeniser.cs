@@ -73,7 +73,7 @@ namespace ClassicBasic.Interpreter
                     }
 
                     inQuotes = false;
-                    tokens.Add(new Token(currentTokenText, TokenType.ClassData));
+                    tokens.Add(new Token(currentTokenText, TokenClass.Data));
                     currentTokenText = string.Empty;
                 }
 
@@ -99,7 +99,7 @@ namespace ClassicBasic.Interpreter
                     {
                         // Found the end of our string
                         inQuotes = false;
-                        tokens.Add(new Token(currentTokenText, TokenType.ClassString));
+                        tokens.Add(new Token(currentTokenText, TokenClass.String));
                     }
                     else
                     {
@@ -185,17 +185,17 @@ namespace ClassicBasic.Interpreter
             // If we're in datamode always create token.
             if (dataMode)
             {
-                tokens.Add(new Token(currentTokenText, TokenType.ClassData));
+                tokens.Add(new Token(currentTokenText, TokenClass.Data));
             }
             else if (currentTokenText != string.Empty)
             {
                 if (remarkMode)
                 {
-                    tokens.Add(new Token(currentTokenText, TokenType.ClassRemark));
+                    tokens.Add(new Token(currentTokenText, TokenClass.Remark));
                 }
                 else if (inQuotes)
                 {
-                    tokens.Add(new Token(currentTokenText, TokenType.ClassString));
+                    tokens.Add(new Token(currentTokenText, TokenClass.String));
                 }
                 else
                 {

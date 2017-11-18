@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class ProgramLine
     {
-        private static readonly Token EndOfLineToken = new Token(Environment.NewLine, TokenType.ClassSeperator | TokenType.EndOfLine);
+        private static readonly Token EndOfLineToken = new Token(Environment.NewLine, TokenClass.Seperator, TokenType.EndOfLine);
 
         private readonly List<IToken> _tokens;
 
@@ -89,7 +89,7 @@ namespace ClassicBasic.Interpreter
         public int? GetLineNumber()
         {
             var token = NextToken();
-            if (token.TokenClass != TokenType.ClassNumber)
+            if (token.TokenClass != TokenClass.Number)
             {
                 PushToken(token);
                 return null;

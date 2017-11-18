@@ -166,7 +166,7 @@ namespace ClassicBasic.Interpreter
                 }
 
                 // Variable without a LET statment. So lets fake it.
-                if (token.TokenClass == TokenType.ClassVariable)
+                if (token.TokenClass == TokenClass.Variable)
                 {
                     _runEnvironment.CurrentLine.PushToken(token);
                     token = _letToken;

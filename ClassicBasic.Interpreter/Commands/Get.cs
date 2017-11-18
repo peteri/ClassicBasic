@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter.Commands
           IRunEnvironment runEnvironment,
           IExpressionEvaluator expressionEvaluator,
           ITeletypeWithPosition teletypeWithPosition)
-          : base("GET", TokenType.ClassStatement)
+          : base("GET", TokenClass.Statement)
       {
          _runEnvironment = runEnvironment;
          _expressionEvaluator = expressionEvaluator;

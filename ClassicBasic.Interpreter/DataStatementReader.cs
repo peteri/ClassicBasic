@@ -72,7 +72,7 @@ namespace ClassicBasic.Interpreter
                 while (!_currentDataLine.EndOfLine)
                 {
                     var token = _currentDataLine.NextToken();
-                    if (token.TokenClass == TokenType.ClassData)
+                    if (token.TokenClass == TokenClass.Data)
                     {
                         return token.Text;
                     }

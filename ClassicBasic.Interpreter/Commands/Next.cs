@@ -20,7 +20,7 @@ namespace ClassicBasic.Interpreter.Commands
         public Next(
             IRunEnvironment runEnvironment,
             IVariableRepository variableRepository)
-            : base("NEXT", TokenType.ClassStatement)
+            : base("NEXT", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _variableRepository = variableRepository;
@@ -65,7 +65,7 @@ namespace ClassicBasic.Interpreter.Commands
                 }
 
                 token = _runEnvironment.CurrentLine.NextToken();
-                if (token.TokenClass == TokenType.ClassVariable)
+                if (token.TokenClass == TokenClass.Variable)
                 {
                     _runEnvironment.CurrentLine.PushToken(token);
                 }
@@ -79,7 +79,7 @@ namespace ClassicBasic.Interpreter.Commands
         private StackEntry FindForEntry(StackEntry currentLoop)
         {
             var token = _runEnvironment.CurrentLine.NextToken();
-            if (token.TokenClass != TokenType.ClassVariable)
+            if (token.TokenClass != TokenClass.Variable)
             {
                 _runEnvironment.CurrentLine.PushToken(token);
                 currentLoop = _runEnvironment.ProgramStack.Count > 0 ? _runEnvironment.ProgramStack.Peek() : null;

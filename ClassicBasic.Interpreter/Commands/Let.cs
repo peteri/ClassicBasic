@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="expressionEvaluator">Expression evaluator.</param>
         public Let(IRunEnvironment runEnvironment, IExpressionEvaluator expressionEvaluator)
-            : base("LET", TokenType.ClassStatement | TokenType.Let)
+            : base("LET", TokenClass.Statement, TokenType.Let)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;

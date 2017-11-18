@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="LeftDollar"/> class.
         /// </summary>
         public LeftDollar()
-            : base("LEFT$", TokenType.ClassFunction)
+            : base("LEFT$", TokenClass.Function)
         {
         }
 

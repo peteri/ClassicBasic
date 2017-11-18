@@ -173,7 +173,7 @@ namespace ClassicBasic.Test.CommandTests
             var tokens = new List<IToken>();
             if (lineNumber.HasValue)
             {
-                tokens.Add(new Token("GOSUB", TokenType.ClassStatement | TokenType.Gosub));
+                tokens.Add(new Token("GOSUB", TokenClass.Statement, TokenType.Gosub));
                 tokens.Add(new Token(lineNumber.ToString()));
             }
 

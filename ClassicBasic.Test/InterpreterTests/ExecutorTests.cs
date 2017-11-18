@@ -387,11 +387,11 @@ namespace ClassicBasic.Test.InterpreterTests
 
             _mockListToken = new Mock<IToken>();
             _mockListToken.Setup(mlt => mlt.Statement).Returns(TokenType.Unknown);
-            _mockListToken.Setup(mlt => mlt.TokenClass).Returns(TokenType.ClassStatement);
+            _mockListToken.Setup(mlt => mlt.TokenClass).Returns(TokenClass.Statement);
             _mockListCmd = _mockListToken.As<IInterruptableCommand>();
 
             _mockRunToken = new Mock<IToken>();
-            _mockRunToken.Setup(mrt => mrt.TokenClass).Returns(TokenType.ClassStatement);
+            _mockRunToken.Setup(mrt => mrt.TokenClass).Returns(TokenClass.Statement);
             _mockRunToken.Setup(mrt => mrt.Statement).Returns(TokenType.Unknown);
             _mockRunCmd = _mockRunToken.As<ITokeniserCommand>();
 
@@ -402,7 +402,7 @@ namespace ClassicBasic.Test.InterpreterTests
                 .Callback(() => _runEnvironment.CurrentLine.NextToken());
 
             _mockPrintToken = new Mock<IToken>();
-            _mockPrintToken.Setup(mpt => mpt.TokenClass).Returns(TokenType.ClassStatement);
+            _mockPrintToken.Setup(mpt => mpt.TokenClass).Returns(TokenClass.Statement);
             _mockPrintCmd = _mockPrintToken.As<ICommand>();
 
             _mockSystemToken = new Mock<IToken>();
@@ -412,7 +412,7 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockColonToken.Setup(mct => mct.Seperator).Returns(TokenType.Colon);
 
             _mockNotStatement = new Mock<IToken>();
-            _mockNotStatement.Setup(mns => mns.TokenClass).Returns(TokenType.Unknown);
+            _mockNotStatement.Setup(mns => mns.TokenClass).Returns(TokenClass.Unknown);
             _mockNotStatement.Setup(mns => mns.Seperator).Returns(TokenType.Unknown);
             _mockNotStatement.Setup(mns => mns.Statement).Returns(TokenType.Unknown);
 

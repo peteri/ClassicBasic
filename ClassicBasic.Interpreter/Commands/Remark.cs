@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public Remark(IRunEnvironment runEnvironment)
-            : base("REM", TokenType.ClassStatement | TokenType.Remark)
+            : base("REM", TokenClass.Statement, TokenType.Remark)
         {
             _runEnvironment = runEnvironment;
         }

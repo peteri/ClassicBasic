@@ -15,7 +15,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="Val"/> class.
         /// </summary>
         public Val()
-            : base("VAL", TokenType.ClassFunction)
+            : base("VAL", TokenClass.Function)
         {
         }
 

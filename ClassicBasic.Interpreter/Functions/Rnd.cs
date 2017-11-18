@@ -19,7 +19,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="Rnd"/> class.
         /// </summary>
         public Rnd()
-            : base("RND", TokenType.ClassFunction)
+            : base("RND", TokenClass.Function)
         {
             _random = new Random();
             _lastResult = _random.NextDouble();
