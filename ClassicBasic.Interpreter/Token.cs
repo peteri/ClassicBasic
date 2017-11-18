@@ -109,9 +109,9 @@ namespace ClassicBasic.Interpreter
                     return _text;
                 case TokenClass.String:
                     return "\"" + _text + "\"";
-                default:
-                    return $"Unknown class {_tokenClass}";
             }
+
+            return $"Unknown class {_tokenClass}";
         }
     }
 }
