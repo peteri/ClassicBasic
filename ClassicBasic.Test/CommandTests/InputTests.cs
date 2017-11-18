@@ -222,6 +222,7 @@ namespace ClassicBasic.Test.CommandTests
         private void SetupSut()
         {
             _teletype = new MockTeletype();
+            Assert.AreEqual('A', _teletype.ReadChar());
             _runEnvironment = new RunEnvironment();
             _variableRepository = new VariableRepository();
             _expressionEvaluator = new ExpressionEvaluator(_variableRepository, _runEnvironment);

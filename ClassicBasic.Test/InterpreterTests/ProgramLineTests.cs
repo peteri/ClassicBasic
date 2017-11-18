@@ -185,45 +185,33 @@ namespace ClassicBasic.Test.InterpreterTests
         /// <summary>
         /// Test if wrong token if pushed back exception is thrown.
         /// </summary>
-        [TestMethod]
-        public void WrongTokenPushedBackThrowsException()
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
+        public void WrongTokenPushedBackThrowsException(bool throwsException)
         {
             ProgramLine programLine = new ProgramLine(30, _tokens);
             programLine.NextToken();
             var secondToken = programLine.NextToken();
-            programLine.NextToken();
+            var thirdToken = programLine.NextToken();
 
-            bool exceptionThrown = false;
-            try
-            {
-                programLine.PushToken(secondToken);
-            }
-            catch (InvalidOperationException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            var token = throwsException ? secondToken : thirdToken;
+            Test.Throws<InvalidOperationException>(() => programLine.PushToken(token), throwsException);
         }
 
         /// <summary>
         /// Test if token if pushed back at start of line exception is thrown.
         /// </summary>
-        [TestMethod]
-        public void TokenPushedBackWhenAtStartOfLineThrowsException()
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
+        public void TokenPushedBackWhenAtStartOfLineThrowsException(bool throwsException)
         {
             ProgramLine programLine = new ProgramLine(30, _tokens);
-            bool exceptionThrown = false;
-            try
-            {
-                programLine.PushToken(new Token("EH", TokenClass.Seperator, TokenType.CloseBracket));
-            }
-            catch (InvalidOperationException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            var token = throwsException ? new Token(")", TokenClass.Seperator, TokenType.CloseBracket) : programLine.NextToken();
+            Test.Throws<InvalidOperationException>(() => programLine.PushToken(token), throwsException);
         }
 
         /// <summary>
