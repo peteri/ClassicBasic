@@ -5,6 +5,7 @@
 namespace ClassicBasic.Test.InterpreterTests
 {
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -53,45 +54,21 @@ namespace ClassicBasic.Test.InterpreterTests
         }
 
         /// <summary>
-        /// Throws an exception when to big a value is written to a short variable.
+        /// Throws an exception when to out of range value is written to a short variable.
         /// </summary>
-        [TestMethod]
-        public void ThrowsWhenWritingBigValueToShortVariable()
+        /// <param name="value">Value to write</param>
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow(-32769.0, true)]
+        [DataRow(-32768.0, false)]
+        [DataRow(4.5, false)]
+        [DataRow(32767.0, false)]
+        [DataRow(32768.0, true)]
+        public void ThrowsWhenWritingBigValueToShortVariable(double value, bool throwsException)
         {
-            var exceptionThrown = false;
             var variable = new Variable("A%", new short[] { });
             var sut = new VariableReference(variable, new short[] { });
-            try
-            {
-                sut.SetValue(new Accumulator(40000.3));
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalQuantityException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
-        }
-
-        /// <summary>
-        /// Throws an exception when too negative a value is written to a short variable.
-        /// </summary>
-        [TestMethod]
-        public void ThrowsWhenWritingNegativeValueToShortVariable()
-        {
-            var exceptionThrown = false;
-            var variable = new Variable("A%", new short[] { });
-            var sut = new VariableReference(variable, new short[] { });
-            try
-            {
-                sut.SetValue(new Accumulator(-40000.3));
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalQuantityException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<IllegalQuantityException>(() => sut.SetValue(new Accumulator(value)), throwsException);
         }
 
         /// <summary>

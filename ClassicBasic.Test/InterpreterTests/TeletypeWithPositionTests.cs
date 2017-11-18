@@ -91,24 +91,22 @@ namespace ClassicBasic.Test.InterpreterTests
         /// Test operation of commas
         /// </summary>
         /// <param name="beforeSpaceCount">Number of spaces to print</param>
-        /// <param name="comma">Output a comma or not.</param>
         /// <param name="output">string to output.</param>
         /// <param name="expectedBefore">Value before comma and string.</param>
         /// <param name="expectedAfter">Value after comma and string.</param>
         [DataTestMethod]
-        [DataRow(0, true, "", 1, 15)]
-        [DataRow(7, true, "", 8, 15)]
-        [DataRow(14, true, "", 15, 29)]
-        [DataRow(28, true, "", 29, 43)]
-        [DataRow(42, true, "", 43, 57)]
-        [DataRow(56, true, "", 57, 1)]
-        [DataRow(0, true, "0123456789ABC", 1, 15)]
-        [DataRow(14, true, "0123456789ABC", 15, 29)]
-        [DataRow(0, true, "0123456789ABCD", 1, 29)]
-        [DataRow(14, true, "0123456789ABCD", 15, 43)]
+        [DataRow(0, "", 1, 15)]
+        [DataRow(7, "", 8, 15)]
+        [DataRow(14, "", 15, 29)]
+        [DataRow(28, "", 29, 43)]
+        [DataRow(42, "", 43, 57)]
+        [DataRow(56, "", 57, 1)]
+        [DataRow(0, "0123456789ABC", 1, 15)]
+        [DataRow(14, "0123456789ABC", 15, 29)]
+        [DataRow(0, "0123456789ABCD", 1, 29)]
+        [DataRow(14, "0123456789ABCD", 15, 43)]
         public void TeletypeWithPositionCommasInCorrectPlace(
             int beforeSpaceCount,
-            bool comma,
             string output,
             int expectedBefore,
             int expectedAfter)
@@ -120,10 +118,7 @@ namespace ClassicBasic.Test.InterpreterTests
             _sut.Space((short)beforeSpaceCount);
             var actualBefore = _sut.Position();
             _sut.Write(output);
-            if (comma)
-            {
-                _sut.NextComma();
-            }
+            _sut.NextComma();
 
             var actualAfter = _sut.Position();
             Assert.AreEqual(expectedBefore, actualBefore);

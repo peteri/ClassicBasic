@@ -4,7 +4,9 @@
 
 namespace ClassicBasic.Test.InterpreterTests
 {
+    using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -94,127 +96,50 @@ namespace ClassicBasic.Test.InterpreterTests
 
         /// <summary>
         /// Out of memory error when an array is too big. (64K elements)
-        /// </summary>
-        [TestMethod]
-        public void OutOfMemoryBasicExceptionWhenArrayIsGreaterThan64K()
-        {
-            {
-                var exceptionThrown = false;
-                try
-                {
-                    Variable sut = new Variable("AA$", new short[] { 256, 356 });
-                }
-                catch (ClassicBasic.Interpreter.Exceptions.OutOfMemoryException)
-                {
-                    exceptionThrown = true;
-                }
-
-                Assert.IsTrue(exceptionThrown);
-            }
-        }
-
-        /// <summary>
-        /// Out of memory error when an array is zero sized.
-        /// </summary>
-        [TestMethod]
-        public void OutOfMemoryBasicExceptionWhenArrayIsZeroSize()
-        {
-            {
-                var exceptionThrown = false;
-                try
-                {
-                    // Note this is -1 as arrays start numbering from zero
-                    // Dim(1,2) defines an array of (0..1,0..2) i.e. six elements.
-                    Variable sut = new Variable("AA$", new short[] { 1, -1, 4 });
-                }
-                catch (ClassicBasic.Interpreter.Exceptions.OutOfMemoryException)
-                {
-                    exceptionThrown = true;
-                }
-
-                Assert.IsTrue(exceptionThrown);
-            }
-        }
-
-        /// <summary>
+        /// Out of memory error when an array is zero sized (actually -1 as 0 is valid).
         /// Out of memory error when an array is negative sized.
         /// </summary>
-        [TestMethod]
-        public void OutOfMemoryBasicExceptionWhenArrayIsNegative()
+        /// <param name="dim1">First dimension.</param>
+        /// <param name="dim2">Second dimension.</param>
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow(10, 10, false)]
+        [DataRow(256, 356, true)]
+        [DataRow(3, 0, false)]
+        [DataRow(-1, 3, true)]
+        [DataRow(-1, -3, true)]
+        public void ArraySizesTests(int dim1, int dim2, bool throwsException)
         {
-            {
-                var exceptionThrown = false;
-                try
-                {
-                    Variable sut = new Variable("AA$", new short[] { -2, -3 });
-                }
-                catch (ClassicBasic.Interpreter.Exceptions.OutOfMemoryException)
-                {
-                    exceptionThrown = true;
-                }
-
-                Assert.IsTrue(exceptionThrown);
-            }
+            Test.Throws<OutOfMemoryException>(
+                () => new Variable("AA$", new short[] { (short)dim1, (short)dim2 }), throwsException);
         }
 
         /// <summary>
         /// Bad subscript error when there are too many dimensions.
-        /// </summary>
-        [TestMethod]
-        public void BadSubscriptBasicExceptionWhenArrayHasWrongDimensions()
-        {
-            Variable sut = new Variable("AA$", new short[] { 9, 4 });
-            var exceptionThrown = false;
-            try
-            {
-                sut.Offset(new short[] { 11, 2, 3 });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BadSubscriptException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
-        }
-
-        /// <summary>
         /// Bad subscript error when there are negative dimensions.
-        /// </summary>
-        [TestMethod]
-        public void BadSubscriptBasicExceptionWhenArrayHasNegativeDimensions()
-        {
-            Variable sut = new Variable("AA$", new short[] { 9, 4 });
-            var exceptionThrown = false;
-            try
-            {
-                sut.Offset(new short[] { -11, 2 });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BadSubscriptException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
-        }
-
-        /// <summary>
         /// Bad subscript error when a dimension is too big.
         /// </summary>
-        [TestMethod]
-        public void BadSubscriptBasicExceptionWhenDimensionsIsTooBig()
+        /// <param name="dim1">First dimension.</param>
+        /// <param name="dim2">Second dimension.</param>
+        /// <param name="dim3">Optional dimension.</param>
+        /// <param name="throwsException">Throws exception.</param>
+        [DataTestMethod]
+        [DataRow(7, 3, null, false)]
+        [DataRow(11, 2, 3, true)]
+        [DataRow(-2, 3, null, true)]
+        [DataRow(10, 3, null, true)]
+        [DataRow(3, 10, null, true)]
+        public void BadSubscriptBasicExceptionTest(int dim1, int dim2, int? dim3, bool throwsException)
         {
-            Variable sut = new Variable("AA$", new short[] { 9, 4 });
-            var exceptionThrown = false;
-            try
+            var indexes = new List<short>() { (short)dim1, (short)dim2 };
+            if (dim3.HasValue)
             {
-                sut.Offset(new short[] { 9, 5 });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BadSubscriptException)
-            {
-                exceptionThrown = true;
+                indexes.Add((short)dim3.Value);
             }
 
-            Assert.IsTrue(exceptionThrown);
+            Variable sut = new Variable("AA$", new short[] { 9, 4 });
+            Test.Throws<BadSubscriptException>(
+                () => sut.Offset(indexes.ToArray()), throwsException);
         }
     }
 }
