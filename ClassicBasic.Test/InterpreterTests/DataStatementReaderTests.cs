@@ -6,6 +6,7 @@ namespace ClassicBasic.Test.InterpreterTests
 {
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -25,33 +26,39 @@ namespace ClassicBasic.Test.InterpreterTests
         /// <summary>
         /// Data statement reader throws when no data in program.
         /// </summary>
-        [TestMethod]
-        public void DataStatementThrowsWhenNoDataInProgram()
+        /// <param name="throwsException">Throws exception</param>
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void DataStatementThrowsWhenNoDataInProgram(bool throwsException)
         {
             SetupSut();
-            bool exceptionThrown = false;
-
-            try
+            if (!throwsException)
             {
-                _sut.ReadInputParser.ReadVariables(new List<VariableReference> { _numericVariables[0] });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.OutOfDataException)
-            {
-                exceptionThrown = true;
+                _mockProgramRepository.Setup(mpr => mpr.GetFirstLine())
+                    .Returns(new ProgramLine(10, new List<IToken> { new Token("1,2", TokenClass.Data) }));
             }
 
-            Assert.IsTrue(exceptionThrown);
-            Assert.IsNull(_sut.CurrentDataLine);
+            Test.Throws<OutOfDataException>(
+                () => _sut.ReadInputParser.ReadVariables(new List<VariableReference> { _numericVariables[0] }),
+                throwsException);
+            if (throwsException)
+            {
+                Assert.IsNull(_sut.CurrentDataLine);
+            }
         }
 
         /// <summary>
         /// Data statement reader throws when no more data in program.
         /// </summary>
-        [TestMethod]
-        public void DataStatementThrowsWhenNoMoreDataInProgram()
+        /// <param name="count">Number of items to read.</param>
+        /// <param name="throwsException">Throws exception</param>
+        [DataTestMethod]
+        [DataRow(5.0, true)]
+        [DataRow(4.0, false)]
+        public void DataStatementThrowsWhenNoMoreDataInProgram(double count, bool throwsException)
         {
             SetupSut();
-            bool exceptionThrown = false;
 
             _mockProgramRepository.Setup(mpr => mpr.GetFirstLine())
                 .Returns(new ProgramLine(10, new List<IToken> { new Token("1,2", TokenClass.Data) }));
@@ -60,21 +67,16 @@ namespace ClassicBasic.Test.InterpreterTests
                 .Returns(new ProgramLine(
                     20,
                     new List<IToken> { new Token("3,4", TokenClass.Remark), new Token("3,4", TokenClass.Data) }));
-
-            try
-            {
-                for (double i = 1.0; i <= 5.0; i++)
+            Test.Throws<OutOfDataException>(
+                () =>
                 {
-                    _sut.ReadInputParser.ReadVariables(new List<VariableReference> { _numericVariables[0] });
-                    Assert.AreEqual(i, _numericVariables[0].GetValue().ValueAsDouble());
-                }
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.OutOfDataException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+                    for (double i = 1.0; i <= count; i++)
+                    {
+                        _sut.ReadInputParser.ReadVariables(new List<VariableReference> { _numericVariables[0] });
+                        Assert.AreEqual(i, _numericVariables[0].GetValue().ValueAsDouble());
+                    }
+                },
+                throwsException);
         }
 
         /// <summary>

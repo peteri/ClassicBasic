@@ -106,7 +106,7 @@ namespace ClassicBasic.Test
         /// <returns>Character user typed in.</returns>
         public char ReadChar()
         {
-            throw new NotImplementedException();
+            return 'A';
         }
     }
 }

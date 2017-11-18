@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.InterpreterTests
     using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -205,18 +206,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
             _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
-
-            var exceptionThrown = false;
-            try
-            {
-                var result = _sut.ExecuteLine();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, bool>(_sut.ExecuteLine, true);
         }
 
         /// <summary>
@@ -230,18 +220,7 @@ namespace ClassicBasic.Test.InterpreterTests
 
             _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(20)).Returns<ProgramLine>(null);
-
-            var exceptionThrown = false;
-            try
-            {
-                var result = _sut.ExecuteLine();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, bool>(_sut.ExecuteLine, true);
         }
 
         /// <summary>
@@ -322,7 +301,6 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ExecutingProgramStopsWhenBreakIsHit()
         {
             ConsoleCancelEventArgs cancelEventArgs = null;
-            bool exceptionThrown = false;
 
             SetupSut();
             var line10 = new ProgramLine(10, new List<IToken> { _mockColonToken.Object, _mockPrintToken.Object, _mockColonToken.Object });
@@ -330,16 +308,7 @@ namespace ClassicBasic.Test.InterpreterTests
             _runEnvironment.CurrentLine = line10;
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10)).Returns<ProgramLine>(null);
             _mockPrintCmd.Setup(mpc => mpc.Execute()).Callback(() => cancelEventArgs = _mockTeletype.RaiseCancelEvent());
-            try
-            {
-                var result = _sut.ExecuteLine();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BreakException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<BreakException, bool>(_sut.ExecuteLine, true);
             Assert.IsTrue(cancelEventArgs.Cancel);
             Assert.AreEqual(10, _runEnvironment.ContinueLineNumber);
             Assert.AreEqual(1, _runEnvironment.ContinueToken);
