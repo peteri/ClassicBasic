@@ -9,6 +9,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Text;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -91,19 +92,10 @@ namespace ClassicBasic.Test.CommandTests
             };
 
             var sut = new Del(runEnvironment, mockProgramRepository.Object);
-            var exceptionThrown = false;
-            try
-            {
-                sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.EndException)
-            {
-                exceptionThrown = true;
-            }
+            Test.Throws<EndException>(sut.Execute);
 
             mockProgramRepository.Verify(mpr => mpr.DeleteProgramLines(30, 40));
             Assert.IsNull(runEnvironment.ContinueLineNumber);
-            Assert.IsTrue(exceptionThrown);
         }
     }
 }

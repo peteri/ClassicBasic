@@ -6,6 +6,7 @@ namespace ClassicBasic.Test.FunctionTests
 {
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using ClassicBasic.Interpreter.Functions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -19,22 +20,24 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Check that fre requires at least one parameter.
         /// </summary>
-        [TestMethod]
-        public void FunctionFreRequiresOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void FunctionFreRequiresOneParameter(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Fre();
-
-            try
+            var parameters = new List<Accumulator> { };
+            for (int i = 0; i < count; i++)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator(3.0));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters),
+                throwsException);
         }
 
         /// <summary>
@@ -51,23 +54,25 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Check that Pos requires at least one parameter.
         /// </summary>
-        [TestMethod]
-        public void FunctionPosRequiresOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void FunctionPosRequiresOneParameter(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var mockTeletypeWithPosition = new Mock<ITeletypeWithPosition>();
             var sut = new Pos(mockTeletypeWithPosition.Object);
-
-            try
+            var parameters = new List<Accumulator> { };
+            for (int i = 0; i < count; i++)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator(3.0));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters),
+                throwsException);
         }
 
         /// <summary>
@@ -89,22 +94,24 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Check that Rnd requires at least one parameter.
         /// </summary>
-        [TestMethod]
-        public void FunctionRndRequiresOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void FunctionRndRequiresOneParameter(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Rnd();
-
-            try
+            var parameters = new List<Accumulator> { };
+            for (int i = 0; i < count; i++)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator(3.0));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters),
+                throwsException);
         }
 
         /// <summary>

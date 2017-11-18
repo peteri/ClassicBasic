@@ -8,6 +8,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.IO.Abstractions.TestingHelpers;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -54,17 +55,8 @@ namespace ClassicBasic.Test.CommandTests
             var currentLine = new ProgramLine(null, tokens);
             _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(@"c:\temp\test.bas"));
             _runEnvironment.CurrentLine = currentLine;
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BasicException ex)
-            {
-                exceptionThrown = ex.ErrorMessage.Contains("BAD SAVE Could not find a part of the path");
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            var exception = Test.Throws<BasicException>(_sut.Execute);
+            Assert.IsTrue(exception.ErrorMessage.Contains("BAD SAVE Could not find a part of the path"));
         }
 
         private void SetupSut()

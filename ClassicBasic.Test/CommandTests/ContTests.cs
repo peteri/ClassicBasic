@@ -44,17 +44,7 @@ namespace ClassicBasic.Test.CommandTests
         {
             var runEnvironment = new RunEnvironment();
             var sut = new Cont(runEnvironment, Mock.Of<IProgramRepository>());
-            bool exceptionThrown = false;
-            try
-            {
-                sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.CantContinueException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<ClassicBasic.Interpreter.Exceptions.CantContinueException>(sut.Execute);
         }
     }
 }

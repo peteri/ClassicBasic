@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -93,19 +94,8 @@ namespace ClassicBasic.Test.CommandTests
             _expressionEvaluator = new ExpressionEvaluator(_variableRepository, _runEnvironment);
             var programLine = new ProgramLine(10, tokens);
             _runEnvironment.CurrentLine = programLine;
-
-            bool exceptionThrown = false;
             var sut = new Def(_runEnvironment, _expressionEvaluator);
-            try
-            {
-                sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown, message);
+            Test.Throws<SyntaxErrorException>(sut.Execute);
             Assert.AreEqual(nextToken, _runEnvironment.CurrentLine.NextToken().Text);
         }
 
@@ -135,18 +125,8 @@ namespace ClassicBasic.Test.CommandTests
             var programLine = new ProgramLine(null, tokens);
             _runEnvironment.CurrentLine = programLine;
 
-            bool exceptionThrown = false;
             var sut = new Def(_runEnvironment, _expressionEvaluator);
-            try
-            {
-                sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalDirectException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<IllegalDirectException>(sut.Execute);
         }
     }
 }

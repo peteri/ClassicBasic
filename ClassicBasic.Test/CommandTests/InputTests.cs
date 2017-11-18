@@ -8,6 +8,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -153,18 +154,7 @@ namespace ClassicBasic.Test.CommandTests
             _teletype.Input.Enqueue(string.Empty);
             _teletype.Input.Enqueue("456\"abc  , extra");
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(_sut.Execute);
         }
 
         /// <summary>
@@ -184,18 +174,7 @@ namespace ClassicBasic.Test.CommandTests
             _teletype.Input.Enqueue(string.Empty);
             _teletype.Input.Enqueue("456\"abc  , extra");
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(_sut.Execute);
         }
 
         /// <summary>
@@ -214,18 +193,7 @@ namespace ClassicBasic.Test.CommandTests
             _teletype.Input.Enqueue(string.Empty);
             _teletype.Input.Enqueue("456\"abc  , extra");
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalDirectException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<IllegalDirectException>(_sut.Execute);
         }
 
         /// <summary>
@@ -244,18 +212,7 @@ namespace ClassicBasic.Test.CommandTests
 
             _teletype.Input.Enqueue("BREAK");
             _runEnvironment.CurrentLine = new ProgramLine(20, tokens);
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BreakException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<BreakException>(_sut.Execute);
         }
 
         private void TeletypeCancelEventHandler(object sender, ConsoleCancelEventArgs e)

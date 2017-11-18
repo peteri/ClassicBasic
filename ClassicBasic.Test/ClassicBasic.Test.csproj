@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
     <DebugType>Full</DebugType>
     <AssemblyName>ClassicBasic.Test</AssemblyName>
     <RootNamespace>ClassicBasic.Test</RootNamespace>

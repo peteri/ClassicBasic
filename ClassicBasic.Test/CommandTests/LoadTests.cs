@@ -8,6 +8,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.IO.Abstractions.TestingHelpers;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -43,43 +44,39 @@ namespace ClassicBasic.Test.CommandTests
         /// <summary>
         /// Load reports file open exception.
         /// </summary>
-        [TestMethod]
-        public void LoadReportsExceptionCode()
+        /// <param name="fileName">File name to check.</param>
+        /// <param name="throwsException">Flag if it thorws exception.</param>
+        [DataTestMethod]
+        [DataRow(@"c:\myfile.bas", false)]
+        [DataRow(@"c:\myfile1.bas", true)]
+        public void LoadReportsExceptionCode(string fileName, bool throwsException)
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(@"c:\myfile1.bas"));
-            bool exceptionThrown = false;
-            try
+            _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(fileName));
+            BasicException exception = Test.Throws<BasicException>(() => _sut.Execute(_mockTokeniser.Object), throwsException);
+            if (throwsException)
             {
-                _sut.Execute(_mockTokeniser.Object);
+                StringAssert.Contains(exception.ErrorMessage, "Can't find " + fileName);
             }
-            catch (ClassicBasic.Interpreter.Exceptions.BasicException ex)
-            {
-                exceptionThrown = ex.ErrorMessage.Contains("Can't find c:\\myfile1.bas");
-            }
-
-            Assert.IsTrue(exceptionThrown);
         }
 
         /// <summary>
         /// Load reports missing linenumber exception.
         /// </summary>
-        [TestMethod]
-        public void LoadReportsMissingLineNumberCode()
+        /// <param name="fileName">File name to check.</param>
+        /// <param name="throwsException">Flag if it thorws exception.</param>
+        [DataTestMethod]
+        [DataRow(@"c:\myfile.bas", false)]
+        [DataRow(@"c:\missing.bas", true)]
+        public void LoadReportsMissingLineNumberCode(string fileName, bool throwsException)
         {
             SetupSut();
-            _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(@"c:\missing.bas"));
-            bool exceptionThrown = false;
-            try
+            _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(fileName));
+            BasicException exception = Test.Throws<BasicException>(() => _sut.Execute(_mockTokeniser.Object), throwsException);
+            if (throwsException)
             {
-                _sut.Execute(_mockTokeniser.Object);
+                StringAssert.Contains(exception.ErrorMessage, "LAST GOOD LINE WAS 20");
             }
-            catch (ClassicBasic.Interpreter.Exceptions.BasicException ex)
-            {
-                exceptionThrown = ex.ErrorMessage.Contains("LAST GOOD LINE WAS 20");
-            }
-
-            Assert.IsTrue(exceptionThrown);
         }
 
         private void SetupSut()

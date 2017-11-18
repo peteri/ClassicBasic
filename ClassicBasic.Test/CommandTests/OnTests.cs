@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -142,17 +143,7 @@ namespace ClassicBasic.Test.CommandTests
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
 
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(_sut.Execute);
         }
 
         /// <summary>
@@ -197,18 +188,7 @@ namespace ClassicBasic.Test.CommandTests
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
-
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(_sut.Execute);
         }
 
         private void SetupSut()
