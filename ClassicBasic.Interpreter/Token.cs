@@ -15,6 +15,8 @@ namespace ClassicBasic.Interpreter
 
         private readonly TokenType _tokenType;
 
+        private readonly TokenClass _tokenClass;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Token"/> class.
         /// If the text parameter starts with a letter, marked as a variable otherwise it's a number.
@@ -23,20 +25,32 @@ namespace ClassicBasic.Interpreter
         public Token(string text)
         {
             _text = text;
-            _tokenType = char.IsLetter(text[0]) ?
-                TokenType.ClassVariable :
-                TokenType.ClassNumber;
+            _tokenClass = char.IsLetter(text[0]) ?
+                TokenClass.Variable :
+                TokenClass.Number;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Token"/> class.
         /// </summary>
         /// <param name="text">text.</param>
-        /// <param name="seperator">Seperator identifier.</param>
-        public Token(string text, TokenType seperator)
+        /// <param name="tokenClass">Token class.</param>
+        /// <param name="tokenType">Token type.</param>
+        public Token(string text, TokenClass tokenClass, TokenType tokenType)
         {
             _text = text;
-            _tokenType = seperator;
+            _tokenType = tokenType;
+            _tokenClass = tokenClass;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Token"/> class.
+        /// </summary>
+        /// <param name="text">text.</param>
+        /// <param name="tokenClass">Token class.</param>
+        public Token(string text, TokenClass tokenClass)
+            : this(text, tokenClass, TokenType.Unknown)
+        {
         }
 
         /// <summary>
@@ -48,7 +62,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Gets type of the token.
         /// </summary>
-        public TokenType TokenClass => _tokenType & TokenType.ClassMask;
+        public TokenClass TokenClass => _tokenClass;
 
         /// <summary>
         /// Gets the token is a statement this may be set to a known value or Unknown.
@@ -58,8 +72,8 @@ namespace ClassicBasic.Interpreter
         {
             get
             {
-                return ((_tokenType & TokenType.ClassStatement) == TokenType.ClassStatement) ?
-                        (_tokenType & ~TokenType.ClassStatement) : TokenType.Unknown;
+                return (_tokenClass == TokenClass.Statement) ?
+                        _tokenType : TokenType.Unknown;
             }
         }
 
@@ -70,8 +84,8 @@ namespace ClassicBasic.Interpreter
         {
             get
             {
-                return ((_tokenType & TokenType.ClassSeperator) == TokenType.ClassSeperator) ?
-                        (_tokenType & ~TokenType.ClassSeperator) : TokenType.Unknown;
+                return (_tokenClass == TokenClass.Seperator) ?
+                        _tokenType : TokenType.Unknown;
             }
         }
 
@@ -81,22 +95,22 @@ namespace ClassicBasic.Interpreter
         /// <returns>Converted version of string.</returns>
         public override string ToString()
         {
-            switch (TokenClass)
+            switch (_tokenClass)
             {
-                case TokenType.ClassFunction:
+                case TokenClass.Function:
                     return " " + _text;
-                case TokenType.ClassStatement:
+                case TokenClass.Statement:
                     return " " + _text + " ";
-                case TokenType.ClassVariable:
-                case TokenType.ClassNumber:
-                case TokenType.ClassSeperator:
-                case TokenType.ClassRemark:
-                case TokenType.ClassData:
+                case TokenClass.Variable:
+                case TokenClass.Number:
+                case TokenClass.Seperator:
+                case TokenClass.Remark:
+                case TokenClass.Data:
                     return _text;
-                case TokenType.ClassString:
+                case TokenClass.String:
                     return "\"" + _text + "\"";
                 default:
-                    return $"Unknown type {_tokenType}";
+                    return $"Unknown class {_tokenClass}";
             }
         }
     }

@@ -19,7 +19,7 @@ namespace ClassicBasic.Interpreter.Commands
         public Def(
             IRunEnvironment runEnvironment,
             IExpressionEvaluator expressionEvaluator)
-            : base("DEF", TokenType.ClassStatement)
+            : base("DEF", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;
@@ -39,7 +39,7 @@ namespace ClassicBasic.Interpreter.Commands
             var nameToken = _runEnvironment.CurrentLine.NextToken();
             var bracketToken = _runEnvironment.CurrentLine.NextToken();
             if (token.Statement != TokenType.Fn
-                || nameToken.TokenClass != TokenType.ClassVariable
+                || nameToken.TokenClass != TokenClass.Variable
                 || bracketToken.Seperator != TokenType.OpenBracket)
             {
                 throw new Exceptions.SyntaxErrorException();

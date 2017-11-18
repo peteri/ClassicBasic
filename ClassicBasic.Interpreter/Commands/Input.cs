@@ -32,7 +32,7 @@ namespace ClassicBasic.Interpreter.Commands
             IExpressionEvaluator expressionEvaluator,
             IVariableRepository variableRepository,
             ITeletype teletype)
-            : base("INPUT", TokenType.ClassStatement)
+            : base("INPUT", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;
@@ -57,7 +57,7 @@ namespace ClassicBasic.Interpreter.Commands
             // Set the prompt.
             _prompt = "?";
             var token = _runEnvironment.CurrentLine.NextToken();
-            if (token.TokenClass == TokenType.ClassString)
+            if (token.TokenClass == TokenClass.String)
             {
                 _prompt = token.Text;
                 if (_runEnvironment.CurrentLine.NextToken().Seperator != TokenType.Semicolon)

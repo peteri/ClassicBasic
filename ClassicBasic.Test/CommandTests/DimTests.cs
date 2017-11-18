@@ -48,7 +48,7 @@ namespace ClassicBasic.Test.CommandTests
         {
             _runEnvironment = new RunEnvironment
             {
-                CurrentLine = new ProgramLine(0, new List<IToken> { new Token(",", TokenType.ClassSeperator | TokenType.Comma) })
+                CurrentLine = new ProgramLine(0, new List<IToken> { new Token(",", TokenClass.Seperator, TokenType.Comma) })
             };
             _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _mockVariableRepository = new Mock<IVariableRepository>();

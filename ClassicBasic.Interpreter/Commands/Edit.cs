@@ -24,7 +24,7 @@ namespace ClassicBasic.Interpreter.Commands
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository,
             ITeletype teletype)
-            : base("EDIT", TokenType.ClassStatement)
+            : base("EDIT", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;

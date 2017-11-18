@@ -15,7 +15,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="Fre"/> class.
         /// </summary>
         public Fre()
-            : base("FRE", TokenType.ClassFunction)
+            : base("FRE", TokenClass.Function)
         {
         }
 

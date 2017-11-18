@@ -27,16 +27,16 @@ namespace ClassicBasic.Test.CommandTests
         {
             var tokens = new List<IToken>
             {
-                new Token("FN", TokenType.ClassStatement | TokenType.Fn),
+                new Token("FN", TokenClass.Statement, TokenType.Fn),
                 new Token("NAME"),
-                new Token("(", TokenType.ClassSeperator | TokenType.OpenBracket),
+                new Token("(", TokenClass.Seperator, TokenType.OpenBracket),
                 new Token("A"),
-                new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
-                new Token("=", TokenType.ClassSeperator | TokenType.Equal),
+                new Token(")", TokenClass.Seperator, TokenType.CloseBracket),
+                new Token("=", TokenClass.Seperator, TokenType.Equal),
                 new Token("A"),
-                new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
+                new Token("*", TokenClass.Seperator, TokenType.Multiply),
                 new Token("A"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment = new RunEnvironment();
@@ -74,19 +74,19 @@ namespace ClassicBasic.Test.CommandTests
         {
             var tokens = new List<IToken>
             {
-                new Token("FN", TokenType.ClassStatement | TokenType.Fn),
+                new Token("FN", TokenClass.Statement, TokenType.Fn),
                 new Token("NAME"),
-                new Token("(", TokenType.ClassSeperator | TokenType.OpenBracket),
+                new Token("(", TokenClass.Seperator, TokenType.OpenBracket),
                 new Token("A"),
-                new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
-                new Token("=", TokenType.ClassSeperator | TokenType.Equal),
+                new Token(")", TokenClass.Seperator, TokenType.CloseBracket),
+                new Token("=", TokenClass.Seperator, TokenType.Equal),
                 new Token("A"),
-                new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
+                new Token("*", TokenClass.Seperator, TokenType.Multiply),
                 new Token("A"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
-            tokens.Insert(insertRemAt, new Token("bang", TokenType.ClassRemark));
+            tokens.Insert(insertRemAt, new Token("bang", TokenClass.Remark));
 
             _runEnvironment = new RunEnvironment();
             _variableRepository = new VariableRepository();
@@ -117,16 +117,16 @@ namespace ClassicBasic.Test.CommandTests
         {
             var tokens = new List<IToken>
             {
-                new Token("FN", TokenType.ClassStatement | TokenType.Fn),
+                new Token("FN", TokenClass.Statement, TokenType.Fn),
                 new Token("NAME"),
-                new Token("(", TokenType.ClassSeperator | TokenType.OpenBracket),
+                new Token("(", TokenClass.Seperator, TokenType.OpenBracket),
                 new Token("A"),
-                new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
-                new Token("=", TokenType.ClassSeperator | TokenType.Equal),
+                new Token(")", TokenClass.Seperator, TokenType.CloseBracket),
+                new Token("=", TokenClass.Seperator, TokenType.Equal),
                 new Token("A"),
-                new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
+                new Token("*", TokenClass.Seperator, TokenType.Multiply),
                 new Token("A"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment = new RunEnvironment();

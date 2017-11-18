@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="runEnvironment">Run environment.</param>
         /// <param name="dataStatementReader">Data statement reader to use.</param>
         public Restore(IRunEnvironment runEnvironment, IDataStatementReader dataStatementReader)
-            : base("RESTORE", TokenType.ClassStatement)
+            : base("RESTORE", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _dataStatementReader = dataStatementReader;

@@ -25,7 +25,7 @@ namespace ClassicBasic.Interpreter.Commands
             IRunEnvironment runEnvironment,
             IExpressionEvaluator expressionEvaluator,
             IDataStatementReader dataStatementReader)
-            : base("READ", TokenType.ClassStatement)
+            : base("READ", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;

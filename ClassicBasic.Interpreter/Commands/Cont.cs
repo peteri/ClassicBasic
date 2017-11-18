@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program Repository.</param>
         public Cont(IRunEnvironment runEnvironment, IProgramRepository programRepository)
-            : base("CONT", TokenType.ClassStatement)
+            : base("CONT", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;

@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="MidDollar"/> class.
         /// </summary>
         public MidDollar()
-            : base("MID$", TokenType.ClassFunction)
+            : base("MID$", TokenClass.Function)
         {
         }
 

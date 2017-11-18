@@ -113,32 +113,38 @@ namespace ClassicBasic.Interpreter
 
         /// <summary>Token is for a PRINT statement</summary>
         Print,
+    }
 
-        /// <summary>Mask for token.</summary>
-        ClassMask = 0xff00,
+    /// <summary>
+    /// Class of the token.
+    /// </summary>
+    public enum TokenClass
+    {
+        /// <summary>Unknown</summary>
+        Unknown = 0,
 
         /// <summary>Token is textual bit of a data statement.</summary>
-        ClassData = 0x0100,
+        Data,
 
         /// <summary>Token is a statement.</summary>
-        ClassStatement = 0x0200,
+        Statement,
 
         /// <summary>Token is a function.</summary>
-        ClassFunction = 0x0400,
+        Function,
 
         /// <summary>Token is a "string" user typed in program.</summary>
-        ClassString = 0x0800,
+        String,
 
         /// <summary>Token could be a variable.</summary>
-        ClassVariable = 0x1000,
+        Variable,
 
         /// <summary>Token could be a number.</summary>
-        ClassNumber = 0x2000,
+        Number,
 
         /// <summary>Token is a seperator.</summary>
-        ClassSeperator = 0x4000,
+        Seperator,
 
         /// <summary>Token is textual bit of a remark statement.</summary>
-        ClassRemark = 0x8000
+        Remark
     }
 }

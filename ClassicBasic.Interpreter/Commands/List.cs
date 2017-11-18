@@ -28,7 +28,7 @@ namespace ClassicBasic.Interpreter.Commands
             IProgramRepository programRepository,
             ITeletype teletype,
             IRunEnvironment runEnvironment)
-            : base("LIST", TokenType.ClassStatement)
+            : base("LIST", TokenClass.Statement)
         {
             _programRepository = programRepository;
             _teletype = teletype;

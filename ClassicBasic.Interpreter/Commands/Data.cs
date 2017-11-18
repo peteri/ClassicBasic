@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public Data(IRunEnvironment runEnvironment)
-            : base("DATA", TokenType.ClassStatement | TokenType.Data)
+            : base("DATA", TokenClass.Statement, TokenType.Data)
         {
             _runEnvironment = runEnvironment;
         }
@@ -33,7 +33,7 @@ namespace ClassicBasic.Interpreter.Commands
 
             var token = _runEnvironment.CurrentLine.NextToken();
 
-            if (token.TokenClass != TokenType.ClassData)
+            if (token.TokenClass != TokenClass.Data)
             {
                 throw new Exceptions.SyntaxErrorException();
             }

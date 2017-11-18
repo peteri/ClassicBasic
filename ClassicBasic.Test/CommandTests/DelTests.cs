@@ -42,7 +42,7 @@ namespace ClassicBasic.Test.CommandTests
 
             if (hasComma)
             {
-                tokens.Add(new Token(",", TokenType.ClassSeperator | TokenType.Comma));
+                tokens.Add(new Token(",", TokenClass.Seperator, TokenType.Comma));
             }
 
             if (end.HasValue)
@@ -80,7 +80,7 @@ namespace ClassicBasic.Test.CommandTests
             var tokens = new List<IToken>
             {
                 new Token("30"),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("40")
             };
 

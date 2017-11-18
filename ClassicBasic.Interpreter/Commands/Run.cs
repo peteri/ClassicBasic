@@ -26,7 +26,7 @@ namespace ClassicBasic.Interpreter.Commands
             IProgramRepository programRepository,
             IVariableRepository variableRepository,
             IDataStatementReader dataStatementReader)
-            : base("RUN", TokenType.ClassStatement)
+            : base("RUN", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;
@@ -42,7 +42,7 @@ namespace ClassicBasic.Interpreter.Commands
         {
             var nextToken = _runEnvironment.CurrentLine.NextToken();
 
-            if (nextToken.TokenClass == TokenType.ClassString)
+            if (nextToken.TokenClass == TokenClass.String)
             {
                 // Since we have a tokeniser, we can just fake being the executor/interpreter
                 // and create our own LOAD command and call it.

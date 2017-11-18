@@ -28,7 +28,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
+                new Token("GOTO", TokenClass.Statement, TokenType.Goto),
                 new Token("1000")
             };
             _runEnvironment.CurrentLine = new ProgramLine(20, tokens);
@@ -46,7 +46,7 @@ namespace ClassicBasic.Test.CommandTests
             _runEnvironment.OnErrorGotoLineNumber = 100;
             var tokens = new List<IToken>
             {
-                new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
+                new Token("GOTO", TokenClass.Statement, TokenType.Goto),
                 new Token("0")
             };
             _runEnvironment.CurrentLine = new ProgramLine(20, tokens);
@@ -88,7 +88,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
+                new Token("GOTO", TokenClass.Statement, TokenType.Goto),
                 new Token("A")
             };
             _runEnvironment.CurrentLine = new ProgramLine(20, tokens);

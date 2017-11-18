@@ -21,7 +21,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// <param name="text">Name of the function.</param>
         /// <param name="function">Function to call when executed.</param>
         public DoubleFunction(string text, Func<double, double> function)
-            : base(text, TokenType.ClassFunction)
+            : base(text, TokenClass.Function)
         {
             _function = function;
         }

@@ -33,7 +33,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
+                new Token("HELLO", TokenClass.String),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -53,8 +53,8 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token("HELLO", TokenClass.String),
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -73,8 +73,8 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token("ELSE", TokenType.ClassStatement | TokenType.Else)
+                new Token("HELLO", TokenClass.String),
+                new Token("ELSE", TokenClass.Statement, TokenType.Else)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -94,9 +94,9 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token(";", TokenType.ClassSeperator | TokenType.Semicolon),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token("HELLO", TokenClass.String),
+                new Token(";", TokenClass.Seperator, TokenType.Semicolon),
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -114,9 +114,9 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token("HELLO", TokenClass.String),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -135,12 +135,12 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token(",", TokenType.ClassSeperator | TokenType.Comma),
+                new Token("HELLO", TokenClass.String),
+                new Token(",", TokenClass.Seperator, TokenType.Comma),
                 new Token("3"),
-                new Token("+", TokenType.ClassSeperator | TokenType.Plus),
+                new Token("+", TokenClass.Seperator, TokenType.Plus),
                 new Token("3"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -162,12 +162,12 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token(";", TokenType.ClassSeperator | TokenType.Semicolon),
+                new Token("HELLO", TokenClass.String),
+                new Token(";", TokenClass.Seperator, TokenType.Semicolon),
                 new Token("4"),
-                new Token("*", TokenType.ClassSeperator | TokenType.Multiply),
+                new Token("*", TokenClass.Seperator, TokenType.Multiply),
                 new Token("4"),
-                new Token(";", TokenType.ClassSeperator | TokenType.Semicolon),
+                new Token(";", TokenClass.Seperator, TokenType.Semicolon),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -187,12 +187,12 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token("SPC(", TokenType.ClassStatement | TokenType.Space),
+                new Token("HELLO", TokenClass.String),
+                new Token("SPC(", TokenClass.Statement, TokenType.Space),
                 new Token("3"),
-                new Token("+", TokenType.ClassSeperator | TokenType.Plus),
+                new Token("+", TokenClass.Seperator, TokenType.Plus),
                 new Token("3"),
-                new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
+                new Token(")", TokenClass.Seperator, TokenType.CloseBracket),
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -213,11 +213,11 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
+                new Token("HELLO", TokenClass.String),
+                new Token("TAB(", TokenClass.Statement, TokenType.Tab),
                 new Token("9"),
-                new Token(")", TokenType.ClassSeperator | TokenType.CloseBracket),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token(")", TokenClass.Seperator, TokenType.CloseBracket),
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);
@@ -237,10 +237,10 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("HELLO", TokenType.ClassString),
-                new Token("TAB(", TokenType.ClassStatement | TokenType.Tab),
+                new Token("HELLO", TokenClass.String),
+                new Token("TAB(", TokenClass.Statement, TokenType.Tab),
                 new Token("9"),
-                new Token(":", TokenType.ClassSeperator | TokenType.Colon)
+                new Token(":", TokenClass.Seperator, TokenType.Colon)
             };
 
             _runEnvironment.CurrentLine = new ProgramLine(null, tokens);

@@ -20,7 +20,7 @@ namespace ClassicBasic.Interpreter.Commands
         public Gosub(
             IRunEnvironment runEnvironment,
             IProgramRepository programRepository)
-            : base("GOSUB", TokenType.ClassStatement | TokenType.Gosub)
+            : base("GOSUB", TokenClass.Statement, TokenType.Gosub)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;

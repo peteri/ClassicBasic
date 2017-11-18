@@ -16,7 +16,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         public Stop(IRunEnvironment runEnvironment)
-            : base("STOP", TokenType.ClassStatement)
+            : base("STOP", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
         }

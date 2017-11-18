@@ -47,7 +47,10 @@ namespace ClassicBasic.Test.CommandTests
 
             if (token != null)
             {
-                tokens.Add(new Token(token, TokenType.ClassSeperator | (token == "-" ? TokenType.Minus : TokenType.Comma)));
+                tokens.Add(new Token(
+                    token,
+                    TokenClass.Seperator,
+                    token == "-" ? TokenType.Minus : TokenType.Comma));
             }
 
             if (end.HasValue)

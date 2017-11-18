@@ -105,7 +105,7 @@ namespace ClassicBasic.Test.CommandTests
 #pragma warning disable SA1118 // Parameter must not span multiple lines
                 new List<IToken>
                 {
-                    new Token("THEN", TokenType.ClassStatement | TokenType.Then),
+                    new Token("THEN", TokenClass.Statement, TokenType.Then),
                     new Token("TRUE"),
                     new Token("STMT1")
                 });
@@ -144,7 +144,7 @@ namespace ClassicBasic.Test.CommandTests
                 .Returns(new Accumulator(string.Empty));
             _runEnvironment.CurrentLine = new ProgramLine(
                 10,
-                new List<IToken> { new Token("ELSE", TokenType.ClassStatement | TokenType.Else) });
+                new List<IToken> { new Token("ELSE", TokenClass.Statement, TokenType.Else) });
 
             bool throwsException = false;
 
@@ -173,7 +173,7 @@ namespace ClassicBasic.Test.CommandTests
                 .Returns(new ProgramLine(100, new List<IToken> { }));
             var tokens = new List<IToken>
             {
-                new Token("THEN", TokenType.ClassStatement | TokenType.Then),
+                new Token("THEN", TokenClass.Statement, TokenType.Then),
                 new Token("100")
             };
 
@@ -197,7 +197,7 @@ namespace ClassicBasic.Test.CommandTests
                 .Returns(new ProgramLine(100, new List<IToken> { }));
             var tokens = new List<IToken>
             {
-                new Token("GOTO", TokenType.ClassStatement | TokenType.Goto),
+                new Token("GOTO", TokenClass.Statement, TokenType.Goto),
                 new Token("100")
             };
             _runEnvironment.CurrentLine = new ProgramLine(10, tokens);
@@ -219,7 +219,7 @@ namespace ClassicBasic.Test.CommandTests
 #pragma warning disable SA1118 // Parameter must not span multiple lines
                 new List<IToken>
                 {
-                    new Token("THEN", TokenType.ClassStatement | TokenType.Then),
+                    new Token("THEN", TokenClass.Statement, TokenType.Then),
                     new Token("TRUE"),
                     new Token("STMT1"),
                     new Else(_runEnvironment),

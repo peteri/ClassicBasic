@@ -564,7 +564,7 @@ namespace ClassicBasic.Test.InterpreterTests
             var exceptionThrown = false;
             _runEnvironment.CurrentLine = new ProgramLine(
                 null,
-                new List<IToken> { new Token("Hello world", TokenType.ClassRemark) });
+                new List<IToken> { new Token("Hello world", TokenClass.Remark) });
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
             try
             {

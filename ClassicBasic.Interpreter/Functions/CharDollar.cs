@@ -15,7 +15,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="CharDollar"/> class.
         /// </summary>
         public CharDollar()
-            : base("CHR$", TokenType.ClassFunction)
+            : base("CHR$", TokenClass.Function)
         {
         }
 

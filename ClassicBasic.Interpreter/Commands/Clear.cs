@@ -23,7 +23,7 @@ namespace ClassicBasic.Interpreter.Commands
             IRunEnvironment runEnvironment,
             IVariableRepository variableRepository,
             IDataStatementReader dataStatementReader)
-            : base("CLEAR", TokenType.ClassStatement)
+            : base("CLEAR", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _variableRepository = variableRepository;

@@ -54,12 +54,12 @@ namespace ClassicBasic.Test.InterpreterTests
             bool exceptionThrown = false;
 
             _mockProgramRepository.Setup(mpr => mpr.GetFirstLine())
-                .Returns(new ProgramLine(10, new List<IToken> { new Token("1,2", TokenType.ClassData) }));
+                .Returns(new ProgramLine(10, new List<IToken> { new Token("1,2", TokenClass.Data) }));
 
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10))
                 .Returns(new ProgramLine(
                     20,
-                    new List<IToken> { new Token("3,4", TokenType.ClassRemark), new Token("3,4", TokenType.ClassData) }));
+                    new List<IToken> { new Token("3,4", TokenClass.Remark), new Token("3,4", TokenClass.Data) }));
 
             try
             {
@@ -88,12 +88,12 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockProgramRepository.Setup(mpr => mpr.GetFirstLine())
                 .Returns(() => new ProgramLine(
                     10,
-                    new List<IToken> { new Token("1,2", TokenType.ClassData), new Token("XXX", TokenType.ClassRemark) }));
+                    new List<IToken> { new Token("1,2", TokenClass.Data), new Token("XXX", TokenClass.Remark) }));
 
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10))
                 .Returns(() => new ProgramLine(
                     20,
-                    new List<IToken> { new Token("XXX", TokenType.ClassRemark), new Token("3,4", TokenType.ClassData) }));
+                    new List<IToken> { new Token("XXX", TokenClass.Remark), new Token("3,4", TokenClass.Data) }));
 
             for (double i = 1.0; i <= 4.0; i++)
             {
@@ -121,12 +121,12 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockProgramRepository.Setup(mpr => mpr.GetFirstLine())
                 .Returns(() => new ProgramLine(
                     10,
-                    new List<IToken> { new Token("1,2", TokenType.ClassData), new Token("XXX", TokenType.ClassRemark) }));
+                    new List<IToken> { new Token("1,2", TokenClass.Data), new Token("XXX", TokenClass.Remark) }));
 
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10))
                 .Returns(() => new ProgramLine(
                     20,
-                    new List<IToken> { new Token("XXX", TokenType.ClassRemark), new Token("3,4", TokenType.ClassData) }));
+                    new List<IToken> { new Token("XXX", TokenClass.Remark), new Token("3,4", TokenClass.Data) }));
 
             int exceptionCount = 0;
             for (double i = 1.0; i <= 7.0; i++)
@@ -164,17 +164,17 @@ namespace ClassicBasic.Test.InterpreterTests
             _mockProgramRepository.Setup(mpr => mpr.GetFirstLine())
                 .Returns(() => new ProgramLine(
                     10,
-                    new List<IToken> { new Token("1,2", TokenType.ClassData), new Token("XXX", TokenType.ClassRemark) }));
+                    new List<IToken> { new Token("1,2", TokenClass.Data), new Token("XXX", TokenClass.Remark) }));
 
             _mockProgramRepository.Setup(mpr => mpr.GetNextLine(10))
                 .Returns(() => new ProgramLine(
                     20,
-                    new List<IToken> { new Token("XXX", TokenType.ClassRemark), new Token("3,4", TokenType.ClassData) }));
+                    new List<IToken> { new Token("XXX", TokenClass.Remark), new Token("3,4", TokenClass.Data) }));
 
             _mockProgramRepository.Setup(mpr => mpr.GetLine(20))
                 .Returns(() => new ProgramLine(
                     20,
-                    new List<IToken> { new Token("XXX", TokenType.ClassRemark), new Token("3,4", TokenType.ClassData) }));
+                    new List<IToken> { new Token("XXX", TokenClass.Remark), new Token("3,4", TokenClass.Data) }));
 
             for (double i = 1.0; i <= 4.0; i++)
             {

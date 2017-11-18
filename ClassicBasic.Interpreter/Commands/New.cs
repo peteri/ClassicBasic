@@ -26,7 +26,7 @@ namespace ClassicBasic.Interpreter.Commands
             IProgramRepository programRepository,
             IVariableRepository variableRepository,
             IDataStatementReader dataStatementReader)
-            : base("NEW", TokenType.ClassStatement)
+            : base("NEW", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _programRepository = programRepository;

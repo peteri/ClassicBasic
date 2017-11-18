@@ -58,7 +58,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("Prompt", TokenType.ClassString), _semi,
+                new Token("Prompt", TokenClass.String), _semi,
                 new Token("A"), _comma,
                 new Token("B"), _dollar, _comma,
                 new Token("C"), _dollar
@@ -86,7 +86,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("Prompt", TokenType.ClassString), _semi,
+                new Token("Prompt", TokenClass.String), _semi,
                 new Token("A"), _comma,
                 new Token("B"), _dollar, _comma,
                 new Token("C"), _dollar
@@ -145,7 +145,7 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>
             {
-                new Token("Prompt", TokenType.ClassString),
+                new Token("Prompt", TokenClass.String),
                 new Token("A"), _comma,
                 new Token("B"), _dollar
             };
@@ -269,10 +269,10 @@ namespace ClassicBasic.Test.CommandTests
             _variableRepository = new VariableRepository();
             _expressionEvaluator = new ExpressionEvaluator(_variableRepository, _runEnvironment);
 
-            _semi = new Token(";", TokenType.ClassSeperator | TokenType.Semicolon);
-            _colon = new Token(":", TokenType.ClassSeperator | TokenType.Colon);
-            _comma = new Token(",", TokenType.ClassSeperator | TokenType.Comma);
-            _dollar = new Token("$", TokenType.ClassSeperator | TokenType.Dollar);
+            _semi = new Token(";", TokenClass.Seperator, TokenType.Semicolon);
+            _colon = new Token(":", TokenClass.Seperator, TokenType.Colon);
+            _comma = new Token(",", TokenClass.Seperator, TokenType.Comma);
+            _dollar = new Token("$", TokenClass.Seperator, TokenType.Dollar);
 
             _sut = new Input(_runEnvironment, _expressionEvaluator, _variableRepository, _teletype);
         }

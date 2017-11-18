@@ -15,7 +15,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// Initializes a new instance of the <see cref="Len"/> class.
         /// </summary>
         public Len()
-            : base("LEN", TokenType.ClassFunction)
+            : base("LEN", TokenClass.Function)
         {
         }
 

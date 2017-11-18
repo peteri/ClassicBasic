@@ -26,7 +26,7 @@ namespace ClassicBasic.Interpreter.Commands
             IExpressionEvaluator expressionEvaluator,
             IFileSystem fileSystem,
             IProgramRepository programRepository)
-            : base("LOAD", TokenType.ClassStatement)
+            : base("LOAD", TokenClass.Statement)
         {
             _expressionEvaluator = expressionEvaluator;
             _fileSystem = fileSystem;

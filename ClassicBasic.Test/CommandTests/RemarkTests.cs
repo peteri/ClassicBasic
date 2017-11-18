@@ -22,7 +22,7 @@ namespace ClassicBasic.Test.CommandTests
         public void RemarkEatsNextToken()
         {
             var runEnvironment = new RunEnvironment();
-            var programLine = new ProgramLine(10, new List<IToken> { new Token("Hello Mum", TokenType.ClassRemark) });
+            var programLine = new ProgramLine(10, new List<IToken> { new Token("Hello Mum", TokenClass.Remark) });
             runEnvironment.CurrentLine = programLine;
             var sut = new Remark(runEnvironment);
             sut.Execute();
