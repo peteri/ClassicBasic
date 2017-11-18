@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.InterpreterTests
     using System.Collections.Generic;
     using Autofac;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -225,18 +226,13 @@ namespace ClassicBasic.Test.InterpreterTests
         {
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT " + number);
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            bool exceptionThrown = false;
-            try
+            Test.Throws<ClassicBasic.Interpreter.Exceptions.SyntaxErrorException>(
+            () =>
             {
                 var value = _expressionEvaluator.GetExpression();
                 Assert.AreEqual(expectedValue, value.ValueAsDouble());
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.AreEqual(throwsException, exceptionThrown);
+            },
+            throwsException);
         }
 
         /// <summary>
@@ -257,19 +253,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestDivideByZero()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT 7 / 0");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.DivisionByZeroException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<DivisionByZeroException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -278,19 +264,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestOverflow()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT 8^8^8^8");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.OverflowException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<OverflowException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -323,19 +299,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestAddStringsAndNumbers()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT \"ONE\"+ 2 +\"THREE\"");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.TypeMismatchException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<TypeMismatchException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -344,19 +310,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestAddNumbersAndStrings()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT 3 +  \"ONE\"+ 2 +\"THREE\"");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.TypeMismatchException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<TypeMismatchException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -449,19 +405,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestMissingCloseBracket()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT (1+2*(3+5)");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -483,19 +429,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestComplexExpression()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT " + new string('(', 64) + "3" + new string(')', 64));
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.FormulaTooComplex)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<FormulaTooComplex, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -519,19 +455,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestBadNumberException()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT 12.34A");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -540,19 +466,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestStatementException()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT PRINT");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -561,21 +477,11 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestRemarkException()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = new ProgramLine(
                 null,
                 new List<IToken> { new Token("Hello world", TokenClass.Remark) });
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -692,19 +598,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorArrayAccessWithoutClosingBracket()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT A(0,0");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -713,18 +609,8 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorArrayAccessAttemptedWithStatement()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT (0)");
-            try
-            {
-                _expressionEvaluator.GetLeftValue();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, VariableReference>(_expressionEvaluator.GetLeftValue);
         }
 
         /// <summary>
@@ -745,19 +631,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestFunctionMissingOpenBracket()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT POS 1)");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -766,19 +642,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorTestFunctionMissingCloseBracket()
         {
-            var exceptionThrown = false;
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT POS(1,2");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            try
-            {
-                _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>
@@ -812,38 +678,33 @@ namespace ClassicBasic.Test.InterpreterTests
         /// Test user defined function errors correctly.
         /// </summary>
         /// <param name="command">Command string.</param>
-        /// <param name="throwsSyntax">Throws syntax error.</param>
-        /// <param name="throwsUndef">Throws undefined function error.</param>
         [DataTestMethod]
-        [DataRow("20 PRINT FN TRP", true, false)]
-        [DataRow("20 PRINT FN TRP()", true, false)]
-        [DataRow("20 PRINT FN TRP(3,2)", true, false)]
-        [DataRow("20 PRINT FN 4(3)", true, false)]
-        [DataRow("20 PRINT FN TRPX(3)", false, true)]
-        public void EvaluatorUserDefinedFunctionErrors(string command, bool throwsSyntax, bool throwsUndef)
+        [DataRow("20 PRINT FN TRP")]
+        [DataRow("20 PRINT FN TRP()")]
+        [DataRow("20 PRINT FN TRP(3,2)")]
+        [DataRow("20 PRINT FN 4(3)")]
+        public void EvaluatorUserDefinedFunctionErrors(string command)
         {
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 DEF FN TRP(X)=X*X*X");
             var define = _runEnvironment.CurrentLine.NextToken() as ICommand;
             define.Execute();
             _runEnvironment.CurrentLine = _tokeniser.Tokenise(command);
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
-            var syntaxThrown = false;
-            var undefinedFunctionThrown = false;
-            try
-            {
-                var value = _expressionEvaluator.GetExpression();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                syntaxThrown = true;
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedFunctionException)
-            {
-                undefinedFunctionThrown = true;
-            }
+            Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
+        }
 
-            Assert.AreEqual(throwsSyntax, syntaxThrown);
-            Assert.AreEqual(throwsUndef, undefinedFunctionThrown);
+        /// <summary>
+        /// Test user defined function errors correctly.
+        /// </summary>
+        [TestMethod]
+        public void EvaluatorUserDefinedFunctionUndefinedFunctionErrors()
+        {
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 DEF FN TRP(X)=X*X*X");
+            var define = _runEnvironment.CurrentLine.NextToken() as ICommand;
+            define.Execute();
+            _runEnvironment.CurrentLine = _tokeniser.Tokenise("20 PRINT FN TRPX(3)");
+            _runEnvironment.CurrentLine.NextToken();    // Eat the print
+            Test.Throws<UndefinedFunctionException, Accumulator>(_expressionEvaluator.GetExpression);
         }
 
         /// <summary>

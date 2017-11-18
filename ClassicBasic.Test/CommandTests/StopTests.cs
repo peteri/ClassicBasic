@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -28,17 +29,7 @@ namespace ClassicBasic.Test.CommandTests
             programLine.NextToken();
             mockRunEnvironment.Setup(mre => mre.CurrentLine).Returns(programLine);
             var sut = new Stop(mockRunEnvironment.Object);
-            bool exceptionThrown = false;
-            try
-            {
-                sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.BreakException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<BreakException>(sut.Execute);
             mockRunEnvironment.VerifySet(mre => mre.ContinueToken = 1);
         }
     }

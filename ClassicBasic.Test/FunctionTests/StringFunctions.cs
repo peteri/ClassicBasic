@@ -4,7 +4,9 @@
 namespace ClassicBasic.Test.FunctionTests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using ClassicBasic.Interpreter.Functions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,22 +19,29 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Test MID$ needs two or three parameters.
         /// </summary>
-        [TestMethod]
-        public void StringTestMidDollarNeedsTwoOrThreeParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, true)]
+        [DataRow(2, false)]
+        [DataRow(3, false)]
+        [DataRow(4, true)]
+        public void StringTestMidDollarNeedsTwoParameters(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new MidDollar();
 
-            try
+            var parameters = new List<Accumulator>
             {
-                sut.Execute(new List<Accumulator> { new Accumulator("A") });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
+                new Accumulator("ABCDEF"),
+                new Accumulator(3.0),
+                new Accumulator(2.0),
+                new Accumulator(3.0)
+            };
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters.Take(count).ToArray()),
+                throwsException);
         }
 
         /// <summary>
@@ -103,22 +112,28 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Test LEFT$ needs two parameters.
         /// </summary>
-        [TestMethod]
-        public void StringTestLeftDollarNeedsTwoParameters()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, true)]
+        [DataRow(2, false)]
+        [DataRow(3, true)]
+        public void StringTestLeftDollarNeedsTwoParameters(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new LeftDollar();
 
-            try
+            var parameters = new List<Accumulator>
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
+                new Accumulator("ABCDEF"),
+                new Accumulator(3.0),
+                new Accumulator(2.0),
+                new Accumulator(3.0)
+            };
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters.Take(count).ToArray()),
+                throwsException);
         }
 
         /// <summary>
@@ -169,22 +184,28 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Test RIGHT$ needs two parameters.
         /// </summary>
-        [TestMethod]
-        public void StringTestRightDollarNeedsTwoParameters()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, true)]
+        [DataRow(2, false)]
+        [DataRow(3, true)]
+        public void StringTestRightDollarNeedsTwoParameters(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new RightDollar();
 
-            try
+            var parameters = new List<Accumulator>
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
+                new Accumulator("ABCDEF"),
+                new Accumulator(3.0),
+                new Accumulator(2.0),
+                new Accumulator(3.0)
+            };
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters.Take(count).ToArray()),
+                throwsException);
         }
 
         /// <summary>
@@ -235,22 +256,25 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Test Char dollar needs one parameter.
         /// </summary>
-        [TestMethod]
-        public void StringTestCharDollarNeedsOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void StringTestCharDollarNeedsOneParameter(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new CharDollar();
 
-            try
+            var parameters = new List<Accumulator> { };
+            for (int i = 0; i < count; i++)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator("A"), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator(3.0));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters),
+                throwsException);
         }
 
         /// <summary>
@@ -296,22 +320,25 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Test ASC needs one parameter.
         /// </summary>
-        [TestMethod]
-        public void StringTestAscNeedsOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void StringTestAscNeedsOneParameter(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Asc();
 
-            try
+            var parameters = new List<Accumulator> { };
+            for (int i = 0; i < count; i++)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator("A"), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator("A"));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters),
+                throwsException);
         }
 
         /// <summary>
@@ -355,25 +382,29 @@ namespace ClassicBasic.Test.FunctionTests
         }
 
         /// <summary>
-        /// Test LEN needs one parameter.
+        /// Test LEN needs one parameters.
         /// </summary>
-        [TestMethod]
-        public void StringTestLenNeedsOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void StringTestLenNeedsOneParameters(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Len();
 
-            try
+            var parameters = new List<Accumulator>
             {
-                sut.Execute(new List<Accumulator> { new Accumulator("A"), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
+                new Accumulator("ABCDEF"),
+                new Accumulator(3.0),
+            };
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters.Take(count).ToArray()),
+                throwsException);
         }
+
 
         /// <summary>
         /// Test LEN with various parameters.
@@ -406,26 +437,28 @@ namespace ClassicBasic.Test.FunctionTests
         }
 
         /// <summary>
-        /// Test Str$ needs one parameter.
+        /// Test STR$ needs one parameters.
         /// </summary>
-        [TestMethod]
-        public void StringTestStrDollarNeedsOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void StringTestStrDollarNeedsOneParameters(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new StrDollar();
 
-            try
+            var parameters = new List<Accumulator>
             {
-                sut.Execute(new List<Accumulator> { new Accumulator("A"), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
+                new Accumulator(4.4),
+                new Accumulator(3.0),
+            };
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters.Take(count).ToArray()),
+                throwsException);
         }
-
         /// <summary>
         /// Test STR$ with various parameters.
         /// </summary>
@@ -460,24 +493,27 @@ namespace ClassicBasic.Test.FunctionTests
         }
 
         /// <summary>
-        /// Test VAL needs one parameter.
+        /// Test VAL needs one parameters.
         /// </summary>
-        [TestMethod]
-        public void StringTestValNeedsOneParameter()
+        /// <param name="count">Count of parameters to pass</param>
+        /// <param name="throwsException">True if exception thrown.</param>
+        [DataTestMethod]
+        [DataRow(0, true)]
+        [DataRow(1, false)]
+        [DataRow(2, true)]
+        public void StringTestValNeedsOneParameters(int count, bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Val();
 
-            try
+            var parameters = new List<Accumulator>
             {
-                sut.Execute(new List<Accumulator> { new Accumulator("A"), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
+                new Accumulator("ABCDEF"),
+                new Accumulator(3.0),
+            };
 
-            Assert.IsTrue(exceptionThrown);
+            var result = Test.Throws<SyntaxErrorException, Accumulator>(
+                () => sut.Execute(parameters.Take(count).ToArray()),
+                throwsException);
         }
 
         /// <summary>

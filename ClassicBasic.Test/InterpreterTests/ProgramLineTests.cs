@@ -213,7 +213,6 @@ namespace ClassicBasic.Test.InterpreterTests
         public void TokenPushedBackWhenAtStartOfLineThrowsException()
         {
             ProgramLine programLine = new ProgramLine(30, _tokens);
-
             bool exceptionThrown = false;
             try
             {

@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -95,17 +96,7 @@ namespace ClassicBasic.Test.CommandTests
             runEnvironment.CurrentLine = line1000;
             runEnvironment.ProgramStack.Push(new StackEntry { VariableName = "A", Line = line10, LineToken = line10.CurrentToken });
             runEnvironment.ProgramStack.Push(new StackEntry { VariableName = "B", Line = line10, LineToken = line10.CurrentToken });
-            bool exceptionThrown = false;
-            try
-            {
-                sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.ReturnWithoutGosubException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<ReturnWithoutGosubException>(sut.Execute);
         }
 
         /// <summary>
@@ -133,17 +124,7 @@ namespace ClassicBasic.Test.CommandTests
         public void GosubThrowsExceptionIfLineNumberDoesExist()
         {
             SetupSut(110);
-            var exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<UndefinedStatementException>(_sut.Execute);
         }
 
         /// <summary>
@@ -153,17 +134,7 @@ namespace ClassicBasic.Test.CommandTests
         public void GosubThrowsExceptionIfNoLineNumber()
         {
             SetupSut((int?)null);
-            var exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<UndefinedStatementException>(_sut.Execute);
         }
 
         private void SetupSut(int? lineNumber)

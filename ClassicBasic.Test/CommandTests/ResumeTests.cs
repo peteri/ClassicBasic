@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -49,20 +50,10 @@ namespace ClassicBasic.Test.CommandTests
         [TestMethod]
         public void ResumeResets()
         {
-            bool exceptionThrown = false;
             SetupSut();
             _runEnvironment.LastErrorLine = null;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
-            {
-                exceptionThrown = true;
-            }
-
+            Test.Throws<UndefinedStatementException>(_sut.Execute);
             Assert.IsNull(_runEnvironment.OnErrorGotoLineNumber);
-            Assert.IsTrue(exceptionThrown);
         }
 
         private void SetupSut()

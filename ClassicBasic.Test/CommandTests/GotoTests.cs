@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -45,17 +46,7 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("110") });
-            var exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<UndefinedStatementException>(_sut.Execute);
         }
 
         /// <summary>
@@ -66,17 +57,7 @@ namespace ClassicBasic.Test.CommandTests
         {
             SetupSut();
             _runEnvironment.CurrentLine = new ProgramLine(10, new List<IToken> { new Token("A") });
-            var exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.UndefinedStatementException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<UndefinedStatementException>(_sut.Execute);
         }
 
         private void SetupSut()

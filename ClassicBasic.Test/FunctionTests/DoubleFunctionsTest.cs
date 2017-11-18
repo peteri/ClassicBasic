@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.FunctionTests
     using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
+    using ClassicBasic.Interpreter.Exceptions;
     using ClassicBasic.Interpreter.Functions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,43 +20,43 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Check that double functions requires at least one parameter (using abs).
         /// </summary>
-        [TestMethod]
-        public void DoubleFunctionsRequiresOneParameter()
+        /// <param name="throwsException">Flag to say if exception should be thrown.</param>
+        [DataTestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
+        public void DoubleFunctionsRequiresOneParameter(bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Abs();
-
-            try
+            var parameters = new List<Accumulator> { new Accumulator(3.0) };
+            if (throwsException)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator(4.0));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(
+                   () => sut.Execute(parameters),
+                   throwsException);
         }
 
         /// <summary>
         /// Check that double functions requires at least one parameter (using log).
         /// </summary>
-        [TestMethod]
-        public void PositiveFunctionsRequiresOneParameter()
+        /// <param name="throwsException">Flag to say if exception should be thrown.</param>
+        [DataTestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
+        public void PositiveFunctionsRequiresOneParameter(bool throwsException)
         {
-            var exceptionThrown = false;
             var sut = new Log();
-
-            try
+            var parameters = new List<Accumulator> { new Accumulator(3.0) };
+            if (throwsException)
             {
-                sut.Execute(new List<Accumulator> { new Accumulator(3.0), new Accumulator(3.0) });
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
+                parameters.Add(new Accumulator(4.0));
             }
 
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException, Accumulator>(
+                   () => sut.Execute(parameters),
+                   throwsException);
         }
 
         /// <summary>
@@ -160,32 +161,22 @@ namespace ClassicBasic.Test.FunctionTests
         /// <summary>
         /// Test Log.
         /// </summary>
-        [TestMethod]
-        public void DoubleFunctionLog()
+        /// <param name="value">value to test with.</param>
+        /// <param name="throwsException">Does the value throw an exception.</param>
+        [DataTestMethod]
+        [DataRow(10.0, false)]
+        [DataRow(0.0, true)]
+        [DataRow(-10.0, true)]
+        public void DoubleFunctionLog(double value, bool throwsException)
         {
             var sut = new Log();
-            var result = sut.Execute(new List<Accumulator> { new Accumulator(10.0) });
-            Assert.AreEqual(Math.Log(10.0), result.ValueAsDouble());
-        }
-
-        /// <summary>
-        /// Test Log throws with negative.
-        /// </summary>
-        [TestMethod]
-        public void DoubleFunctionLogNegative()
-        {
-            var sut = new Log();
-            var exceptionThrown = false;
-            try
+            var result = Test.Throws<IllegalQuantityException, Accumulator>(
+                () => sut.Execute(new List<Accumulator> { new Accumulator(value) }),
+                throwsException);
+            if (!throwsException)
             {
-                var result = sut.Execute(new List<Accumulator> { new Accumulator(-4.0) });
+                Assert.AreEqual(Math.Log(value), result.ValueAsDouble());
             }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalQuantityException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
         }
 
         /// <summary>
@@ -233,34 +224,24 @@ namespace ClassicBasic.Test.FunctionTests
         }
 
         /// <summary>
-        /// Test Sqr.
+        /// Test Square root.
         /// </summary>
-        [TestMethod]
-        public void DoubleFunctionSqr()
+        /// <param name="value">value to test with.</param>
+        /// <param name="throwsException">Does the value throw an exception.</param>
+        [DataTestMethod]
+        [DataRow(10.0, false)]
+        [DataRow(0.0, false)]
+        [DataRow(-10.0, true)]
+        public void DoubleFunctionSqr(double value, bool throwsException)
         {
             var sut = new Sqr();
-            var result = sut.Execute(new List<Accumulator> { new Accumulator(4.0) });
-            Assert.AreEqual(2.0, result.ValueAsDouble());
-        }
-
-        /// <summary>
-        /// Test Sqr throws with negative.
-        /// </summary>
-        [TestMethod]
-        public void DoubleFunctionSqrNegative()
-        {
-            var sut = new Sqr();
-            var exceptionThrown = false;
-            try
+            var result = Test.Throws<IllegalQuantityException, Accumulator>(
+                () => sut.Execute(new List<Accumulator> { new Accumulator(value) }),
+                throwsException);
+            if (!throwsException)
             {
-                var result = sut.Execute(new List<Accumulator> { new Accumulator(-4.0) });
+                Assert.AreEqual(Math.Sqrt(value), result.ValueAsDouble());
             }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalQuantityException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
         }
 
         /// <summary>

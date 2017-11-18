@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -47,17 +48,7 @@ namespace ClassicBasic.Test.CommandTests
             var variableReference = _variableRepository.GetOrCreateVariable("A$", new short[] { });
             _mockExpressionEvaluator.Setup(mee => mee.GetLeftValue()).Returns(variableReference);
             _runEnvironment.CurrentLine = new ProgramLine(null, new List<IToken> { });
-            bool exceptionThrown = false;
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.IllegalDirectException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<IllegalDirectException>(_sut.Execute);
         }
 
         /// <summary>

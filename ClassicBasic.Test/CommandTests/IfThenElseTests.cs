@@ -7,6 +7,7 @@ namespace ClassicBasic.Test.CommandTests
     using System.Collections.Generic;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Commands;
+    using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -145,19 +146,7 @@ namespace ClassicBasic.Test.CommandTests
             _runEnvironment.CurrentLine = new ProgramLine(
                 10,
                 new List<IToken> { new Token("ELSE", TokenClass.Statement, TokenType.Else) });
-
-            bool throwsException = false;
-
-            try
-            {
-                _sut.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                throwsException = true;
-            }
-
-            Assert.IsTrue(throwsException);
+            Test.Throws<SyntaxErrorException>(_sut.Execute);
         }
 
         /// <summary>

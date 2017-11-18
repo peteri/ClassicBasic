@@ -60,11 +60,6 @@ namespace ClassicBasic.Test
         /// <inheritdoc/>
         public string Read()
         {
-            if (_input.Count == 0)
-            {
-                return string.Empty;
-            }
-
             var returnValue = _input.Dequeue();
 
             if (EditText != string.Empty)

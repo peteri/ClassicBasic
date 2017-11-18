@@ -5,6 +5,7 @@
 namespace ClassicBasic.Test.CommandTests
 {
     using System.Collections.Generic;
+    using ClassicBasic.Interpreter.Exceptions;
     using Interpreter;
     using Interpreter.Commands;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -213,18 +214,7 @@ namespace ClassicBasic.Test.CommandTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _stepToken, _colonToken });
 
             _runEnvironment.CurrentLine = line10;
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.TypeMismatchException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<TypeMismatchException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -241,18 +231,7 @@ namespace ClassicBasic.Test.CommandTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _stepToken, _colonToken });
 
             _runEnvironment.CurrentLine = line10;
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.TypeMismatchException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<TypeMismatchException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -269,18 +248,7 @@ namespace ClassicBasic.Test.CommandTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _colonToken });
 
             _runEnvironment.CurrentLine = line10;
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -296,18 +264,7 @@ namespace ClassicBasic.Test.CommandTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _colonToken });
 
             _runEnvironment.CurrentLine = line10;
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.TypeMismatchException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<TypeMismatchException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -323,18 +280,7 @@ namespace ClassicBasic.Test.CommandTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _colonToken });
 
             _runEnvironment.CurrentLine = line10;
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -350,18 +296,7 @@ namespace ClassicBasic.Test.CommandTests
             var line10 = new ProgramLine(10, new List<IToken> { new Token("1"), _colonToken });
 
             _runEnvironment.CurrentLine = line10;
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -502,18 +437,7 @@ namespace ClassicBasic.Test.CommandTests
 
             // Check we don't overflow just yet.
             _runEnvironment.TestForStackOverflow();
-
-            bool exceptionThrown = false;
-            try
-            {
-                forCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.OutOfMemoryException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<OutOfMemoryException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -812,17 +736,7 @@ namespace ClassicBasic.Test.CommandTests
             forCmd.Execute();
             line30.CurrentToken = 0;
             _runEnvironment.CurrentLine = line30;
-            bool exceptionThrown = false;
-            try
-            {
-                nextCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<NextWithoutForException>(nextCmd.Execute);
         }
 
         /// <summary>
@@ -848,17 +762,7 @@ namespace ClassicBasic.Test.CommandTests
             _runEnvironment.ProgramStack.Push(new StackEntry());
             line30.CurrentToken = 0;
             _runEnvironment.CurrentLine = line30;
-            bool exceptionThrown = false;
-            try
-            {
-                nextCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<NextWithoutForException>(nextCmd.Execute);
         }
 
         /// <summary>
@@ -884,17 +788,7 @@ namespace ClassicBasic.Test.CommandTests
             _runEnvironment.ProgramStack.Push(new StackEntry());
             line30.CurrentToken = 0;
             _runEnvironment.CurrentLine = line30;
-            bool exceptionThrown = false;
-            try
-            {
-                nextCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<NextWithoutForException>(nextCmd.Execute);
         }
 
         /// <summary>
@@ -913,17 +807,7 @@ namespace ClassicBasic.Test.CommandTests
             var line30 = new ProgramLine(30, new List<IToken> { new Token("2") });
 
             _runEnvironment.CurrentLine = line30;
-            bool exceptionThrown = false;
-            try
-            {
-                nextCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.NextWithoutForException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<NextWithoutForException>(nextCmd.Execute);
         }
 
         /// <summary>
@@ -947,17 +831,7 @@ namespace ClassicBasic.Test.CommandTests
 
             line30.CurrentToken = 0;
             _runEnvironment.CurrentLine = line30;
-            bool exceptionThrown = false;
-            try
-            {
-                nextCmd.Execute();
-            }
-            catch (ClassicBasic.Interpreter.Exceptions.SyntaxErrorException)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            Test.Throws<SyntaxErrorException>(nextCmd.Execute);
         }
 
         private void RunnerInnerLoop(
