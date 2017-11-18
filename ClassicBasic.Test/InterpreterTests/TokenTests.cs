@@ -111,7 +111,7 @@ namespace ClassicBasic.Test.InterpreterTests
         [DataRow("F", TokenClass.String, "\"F\"")]
         [DataRow("G", TokenClass.Variable, "G")]
         [DataRow("H", TokenClass.Data, "H")]
-        [DataRow("I", TokenType.Unknown, "Unknown type Unknown")]
+        [DataRow("I", TokenType.Unknown, "Unknown class Unknown")]
         public void TokenToStringTest(string text, TokenClass tokenClass, string textOut)
         {
             var token = new Token(text, tokenClass);
