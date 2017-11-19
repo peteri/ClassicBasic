@@ -35,7 +35,7 @@
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
-    <PackageReference Include="System.IO.Abstractions" Version="2.1.0.159" />
+    <PackageReference Include="System.IO.Abstractions" Version="2.1.0.175" />
   </ItemGroup>
 
 </Project>
