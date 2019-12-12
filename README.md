@@ -9,3 +9,29 @@ See the games directory for the files from the book.
 
 ## Installing and running
 Currently not sorted out yet, build from source is the current advice.
+
+##Build for linux
+Install dotnet core 3.1 sdk (use these steps for ubuntu 19) or see https://docs.microsoft.com/en-gb/dotnet/core/install/linux-package-manager-ubuntu-1904 
+```
+wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install apt-transport-https
+sudo apt-get update
+sudo apt-get install dotnet-sdk-3.
+```
+
+Clone the git repo and build
+```
+git clone https://github.com/peteri/ClassicBasic.git
+cd ClassicBasic/
+git checkout UpgradeToCore3.1
+dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true ClassicBasic/ClassicBasic.csproj
+```
+
+Binary will be 
+```
+ClassicBasic/bin/Release/netcoreapp3.1/linux-x64/publish/ClassicBasic
+```
+
+"SYSTEM" will exit back to the shell.
