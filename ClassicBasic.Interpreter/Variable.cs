@@ -9,7 +9,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class Variable
     {
-        private short[] _dimensions;
+        private readonly short[] _dimensions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Variable"/> class.
@@ -24,7 +24,7 @@ namespace ClassicBasic.Interpreter
             int size = 1;
             for (int i = 0; i < dimensions.Length; i++)
             {
-                size = size * (dimensions[i] + 1);
+                size *= dimensions[i] + 1;
                 if ((size <= 0) || (size > 0x10000))
                 {
                     throw new Exceptions.OutOfMemoryException();
@@ -60,7 +60,7 @@ namespace ClassicBasic.Interpreter
         public object Value { get; set; }
 
         /// <summary>
-        /// Calculates the offset of an array element
+        /// Calculates the offset of an array element.
         /// </summary>
         /// <param name="indexes">Indexes to calculate.</param>
         /// <returns>Index into the array.</returns>
@@ -81,7 +81,7 @@ namespace ClassicBasic.Interpreter
                 }
 
                 offset += indexes[i] * multiplier;
-                multiplier = multiplier * (_dimensions[i] + 1);
+                multiplier *= _dimensions[i] + 1;
             }
 
             return offset;

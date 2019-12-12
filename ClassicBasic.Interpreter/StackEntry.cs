@@ -11,17 +11,17 @@ namespace ClassicBasic.Interpreter
     public class StackEntry
     {
         /// <summary>
-        /// Gets or sets line to loop back to (or return too)
+        /// Gets or sets line to loop back to (or return too).
         /// </summary>
         public ProgramLine Line { get; set; }
 
         /// <summary>
-        /// Gets or sets line token to loop back to (or return too)
+        /// Gets or sets line token to loop back to (or return too).
         /// </summary>
         public int LineToken { get; set; }
 
         /// <summary>
-        /// Gets or sets the variable name
+        /// Gets or sets the variable name.
         /// </summary>
         public string VariableName { get; set; }
 

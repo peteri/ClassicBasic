@@ -26,8 +26,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the Pos function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Current horizontal position</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>Current horizontal position.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)

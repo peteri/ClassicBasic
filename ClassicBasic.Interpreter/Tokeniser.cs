@@ -27,7 +27,7 @@ namespace ClassicBasic.Interpreter
         {
             SearchingForComma,
             FoundComma,
-            FoundQuote
+            FoundQuote,
         }
 
         /// <summary>
@@ -118,11 +118,11 @@ namespace ClassicBasic.Interpreter
 
                 if (inQuotes)
                 {
-                    currentTokenText = currentTokenText + c;
+                    currentTokenText += c;
                     continue;
                 }
 
-                currentTokenText = currentTokenText + char.ToUpper(c);
+                currentTokenText += char.ToUpper(c);
                 var retryMatch = false;
 
                 do

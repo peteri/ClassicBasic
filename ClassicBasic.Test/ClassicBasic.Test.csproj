@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <DebugType>Full</DebugType>
     <AssemblyName>ClassicBasic.Test</AssemblyName>
     <RootNamespace>ClassicBasic.Test</RootNamespace>
@@ -12,12 +12,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>ClassicBasic.Test.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\netcoreapp2.0\ClassicBasic.Test.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Peter\Source\Repos\ClassicBasic\ClassicBasic.Test\ClassicBasic.Test.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>ClassicBasic.Test.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\netcoreapp2.0\ClassicBasic.Test.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Peter\Source\Repos\ClassicBasic\ClassicBasic.Test\ClassicBasic.Test.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,16 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="2.0.0" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
-    <PackageReference Include="System.IO.Abstractions" Version="2.1.0.175" />
-    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.175" />
-    <PackageReference Include="System.Runtime" Version="4.3.0" />
-    <PackageReference Include="Microsoft.CodeCoverage" Version="1.0.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="Moq" Version="4.7.145" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="7.0.15" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="7.0.15" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="16.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

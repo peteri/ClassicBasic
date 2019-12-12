@@ -145,6 +145,6 @@ namespace ClassicBasic.Interpreter
         Seperator,
 
         /// <summary>Token is textual bit of a remark statement.</summary>
-        Remark
+        Remark,
     }
 }

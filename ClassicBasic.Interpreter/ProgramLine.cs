@@ -77,7 +77,7 @@ namespace ClassicBasic.Interpreter
                     throw new InvalidOperationException("Token isn't the original token.");
                 }
 
-               CurrentToken--;
+                CurrentToken--;
             }
         }
 

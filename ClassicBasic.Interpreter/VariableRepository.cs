@@ -12,7 +12,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class VariableRepository : IVariableRepository
     {
-        private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
+        private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         /// <summary>
         /// Clears the repository.
@@ -83,7 +83,7 @@ namespace ClassicBasic.Interpreter
             if (name.Length > 2)
             {
                 nameKey = name.Substring(0, 2);
-                var lastChar = name[name.Length - 1];
+                var lastChar = name[^1];
                 if ((lastChar == '$') || (lastChar == '%'))
                 {
                     nameKey += lastChar;

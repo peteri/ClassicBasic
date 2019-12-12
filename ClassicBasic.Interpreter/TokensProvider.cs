@@ -11,9 +11,9 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class TokensProvider : ITokensProvider
     {
-        private List<IToken> _tokens;
+        private readonly List<IToken> _tokens;
 
-        private IToken[] _staticTokens =
+        private readonly IToken[] _staticTokens =
         {
             new Token("FN", TokenClass.Statement, TokenType.Fn),
             new Token("TO", TokenClass.Statement, TokenType.To),
@@ -40,7 +40,7 @@ namespace ClassicBasic.Interpreter
             new Token(")", TokenClass.Seperator, TokenType.CloseBracket),
             new Token("OR", TokenClass.Seperator, TokenType.Or),
             new Token("NOT", TokenClass.Seperator, TokenType.Not),
-            new Token("AND", TokenClass.Seperator, TokenType.And)
+            new Token("AND", TokenClass.Seperator, TokenType.And),
         };
 
         /// <summary>

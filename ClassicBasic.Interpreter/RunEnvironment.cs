@@ -41,12 +41,12 @@ namespace ClassicBasic.Interpreter
         public int? DataErrorLine { get; set; }
 
         /// <summary>
-        /// Gets or sets the last error line used by the resume statement
+        /// Gets or sets the last error line used by the resume statement.
         /// </summary>
         public int? LastErrorLine { get; set; }
 
         /// <summary>
-        /// Gets or sets the token for a resume
+        /// Gets or sets the token for a resume.
         /// </summary>
         public int LastErrorToken { get; set; }
 
@@ -71,7 +71,7 @@ namespace ClassicBasic.Interpreter
         public bool KeyboardBreak { get; set; }
 
         /// <summary>
-        /// Gets stack for GOSUB/RETURN or FOR/NEXT
+        /// Gets stack for GOSUB/RETURN or FOR/NEXT.
         /// </summary>
         public Stack<StackEntry> ProgramStack { get; }
 
@@ -96,7 +96,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Handles on error calls.
         /// </summary>
-        /// <param name="programRepository">Program repository to use</param>
+        /// <param name="programRepository">Program repository to use.</param>
         public void OnErrorHandler(IProgramRepository programRepository)
         {
             LastErrorToken = ContinueToken;

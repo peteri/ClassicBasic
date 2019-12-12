@@ -5,7 +5,7 @@
 namespace ClassicBasic.Interpreter.Exceptions
 {
     /// <summary>
-    /// Formula to complex exception, used if we nest too deeply (64 levels)
+    /// Formula to complex exception, used if we nest too deeply (64 levels).
     /// </summary>
     public class FormulaTooComplex : BasicException
     {

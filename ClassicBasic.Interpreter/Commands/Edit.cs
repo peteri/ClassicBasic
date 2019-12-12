@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter.Commands
         /// Edit command, allows editing of a program line.
         /// </summary>
         /// <param name="runEnvironment">Run environment.</param>
-        /// <param name="programRepository">Program repository</param>
+        /// <param name="programRepository">Program repository.</param>
         /// <param name="teletype">teletype.</param>
         public Edit(
             IRunEnvironment runEnvironment,

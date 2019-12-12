@@ -22,7 +22,7 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the STR$ function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
+        /// <param name="parameters">Parameters to the function.</param>
         /// <returns>String value of the first parameter.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {

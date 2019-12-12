@@ -51,7 +51,7 @@ namespace ClassicBasic.Interpreter
         }
 
         /// <summary>
-        /// Gets a variable name including the % or $
+        /// Gets a variable name including the % or $.
         /// </summary>
         /// <returns>Name of the variable.</returns>
         public string GetVariableName()
@@ -78,7 +78,7 @@ namespace ClassicBasic.Interpreter
         /// Parses an array of indexes from the current command stream.
         /// Eats the outer set of brackets.
         /// </summary>
-        /// <returns>Array of indexes</returns>
+        /// <returns>Array of indexes.</returns>
         public short[] GetIndexes()
         {
             var indexes = new List<short>();

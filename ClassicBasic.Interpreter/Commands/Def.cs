@@ -58,7 +58,7 @@ namespace ClassicBasic.Interpreter.Commands
                 Line = _runEnvironment.CurrentLine,
                 LineToken = _runEnvironment.CurrentLine.CurrentToken,
                 FunctionName = nameToken.Text,
-                VariableName = variableName
+                VariableName = variableName,
             };
 
             _runEnvironment.DefinedFunctions[userFunctionDefinition.FunctionName] = userFunctionDefinition;

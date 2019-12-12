@@ -28,8 +28,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the Rnd function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Rnde of the input value</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>Rnde of the input value.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)

@@ -6,7 +6,7 @@ namespace ClassicBasic.Interpreter.Exceptions
 {
     /// <summary>
     /// Exception used to signal the user has either hit break OR
-    /// used the stop command
+    /// used the stop command.
     /// </summary>
     public class BreakException : BasicException
     {
