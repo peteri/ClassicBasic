@@ -83,7 +83,7 @@ namespace ClassicBasic.Interpreter
             if (name.Length > 2)
             {
                 nameKey = name.Substring(0, 2);
-                var lastChar = name[^1];
+                var lastChar = name[name.Length - 1];
                 if ((lastChar == '$') || (lastChar == '%'))
                 {
                     nameKey += lastChar;
