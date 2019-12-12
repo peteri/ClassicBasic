@@ -26,8 +26,11 @@ namespace ClassicBasic.Console
         public GlassTeletype(string initialCommand)
         {
             _initialCommand = initialCommand;
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.InputEncoding = Encoding.Unicode;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Console.OutputEncoding = Encoding.Unicode;
+                Console.InputEncoding = Encoding.Unicode;
+            }
         }
 
         /// <summary>
