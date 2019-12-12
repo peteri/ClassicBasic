@@ -10,7 +10,7 @@ See the games directory for the files from the book.
 ## Installing and running
 Currently not sorted out yet, build from source is the current advice.
 
-##Build for linux
+## Build for linux
 Install dotnet core 3.1 sdk (use these steps for ubuntu 19) or see https://docs.microsoft.com/en-gb/dotnet/core/install/linux-package-manager-ubuntu-1904 
 ```
 wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
