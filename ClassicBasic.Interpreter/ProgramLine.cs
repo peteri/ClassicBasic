@@ -112,9 +112,10 @@ namespace ClassicBasic.Interpreter
         {
             var line = new StringBuilder();
             line.Append($"{LineNumber} ");
-            while (!EndOfLine)
+
+            foreach (var item in _tokens)
             {
-                line.Append(NextToken().ToString());
+                line.Append(item.ToString());
             }
 
             return line.ToString();
