@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/a1jxfg0vfj5kuige?svg=true)](https://ci.appveyor.com/project/peteri/classicbasic)
+[![Build status](https://ci.appveyor.com/api/projects/status/vyjgqrg0hx95xa3j?svg=true)](https://ci.appveyor.com/project/peteri/classicbasic)
 [![codecov](https://codecov.io/gh/peteri/ClassicBasic/branch/master/graph/badge.svg)](https://codecov.io/gh/peteri/ClassicBasic)
 
 # ClassicBasic - Clone of Microsoft 8K BASIC
