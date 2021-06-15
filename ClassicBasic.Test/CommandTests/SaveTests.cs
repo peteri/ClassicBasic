@@ -53,10 +53,10 @@ namespace ClassicBasic.Test.CommandTests
             SetupSut();
             var tokens = new List<IToken>();
             var currentLine = new ProgramLine(null, tokens);
-            _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(@"c:\temp\test.bas"));
+            _mockExpressionEvaluator.Setup(mee => mee.GetExpression()).Returns(new Accumulator(@"c:\temp\tes<t.bas"));
             _runEnvironment.CurrentLine = currentLine;
             var exception = Test.Throws<BasicException>(_sut.Execute);
-            Assert.IsTrue(exception.ErrorMessage.Contains("BAD SAVE Could not find a part of the path"));
+            Assert.IsTrue(exception.ErrorMessage.Contains("BAD SAVE Illegal characters"));
         }
 
         private void SetupSut()

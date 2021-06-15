@@ -56,7 +56,7 @@ namespace ClassicBasic.Test.CommandTests
             BasicException exception = Test.Throws<BasicException>(() => _sut.Execute(_mockTokeniser.Object), throwsException);
             if (throwsException)
             {
-                StringAssert.Contains(exception.ErrorMessage, "Can't find " + fileName);
+                StringAssert.Contains(exception.ErrorMessage, "Could not find file \'" + fileName +"\'");
             }
         }
 
