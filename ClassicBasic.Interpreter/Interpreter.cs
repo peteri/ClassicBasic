@@ -18,7 +18,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Initializes a new instance of the <see cref="Interpreter"/> class.
         /// </summary>
-        /// <param name="teletypeWithPosition">Teletype to use for input output</param>
+        /// <param name="teletypeWithPosition">Teletype to use for input output.</param>
         /// <param name="tokeniser">Tokeniser.</param>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program repository.</param>
@@ -79,7 +79,7 @@ namespace ClassicBasic.Interpreter
                 catch (Exceptions.BasicException basicError)
                 {
                     WriteErrorToTeletype(
-                            _runEnvironment.DataErrorLine ?? _runEnvironment.CurrentLine?.LineNumber,
+                        _runEnvironment.DataErrorLine ?? _runEnvironment.CurrentLine?.LineNumber,
                         "?" + basicError.ErrorMessage + " ERROR");
                 }
             }

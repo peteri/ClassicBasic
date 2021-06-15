@@ -23,8 +23,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the LEFT$ function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>left string of the parameters</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>left string of the parameters.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 2)

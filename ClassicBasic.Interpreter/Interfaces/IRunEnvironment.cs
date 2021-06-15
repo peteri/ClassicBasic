@@ -32,12 +32,12 @@ namespace ClassicBasic.Interpreter
         int? DataErrorLine { get; set; }
 
         /// <summary>
-        /// Gets or sets the last error line used by the resume statement
+        /// Gets or sets the last error line used by the resume statement.
         /// </summary>
         int? LastErrorLine { get; set; }
 
         /// <summary>
-        /// Gets or sets the token for a resume
+        /// Gets or sets the token for a resume.
         /// </summary>
         int LastErrorToken { get; set; }
 
@@ -62,7 +62,7 @@ namespace ClassicBasic.Interpreter
         bool KeyboardBreak { get; set; }
 
         /// <summary>
-        /// Gets stack for GOSUB/RETURN or FOR/NEXT
+        /// Gets stack for GOSUB/RETURN or FOR/NEXT.
         /// </summary>
         Stack<StackEntry> ProgramStack { get; }
 
@@ -79,11 +79,11 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Handles on error calls.
         /// </summary>
-        /// <param name="programRepository">Program repository to use</param>
+        /// <param name="programRepository">Program repository to use.</param>
         void OnErrorHandler(IProgramRepository programRepository);
 
         /// <summary>
-        /// Tests if the program stack has more than 50 entries, if so throws out of memory exception
+        /// Tests if the program stack has more than 50 entries, if so throws out of memory exception.
         /// </summary>
         void TestForStackOverflow();
     }

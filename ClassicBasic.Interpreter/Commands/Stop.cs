@@ -5,7 +5,7 @@
 namespace ClassicBasic.Interpreter.Commands
 {
     /// <summary>
-    /// Implements the STOP command
+    /// Implements the STOP command.
     /// </summary>
     public class Stop : Token, ICommand
     {

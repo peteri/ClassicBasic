@@ -22,8 +22,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the VAL function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>VAL of the input value</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>VAL of the input value.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)

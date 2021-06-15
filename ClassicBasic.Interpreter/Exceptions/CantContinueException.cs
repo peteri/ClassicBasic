@@ -5,7 +5,7 @@
 namespace ClassicBasic.Interpreter.Exceptions
 {
     /// <summary>
-    /// Can't continue exception, thrown when we can't execute the CONT command
+    /// Can't continue exception, thrown when we can't execute the CONT command.
     /// </summary>
     public class CantContinueException : BasicException
     {

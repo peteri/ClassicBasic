@@ -7,7 +7,7 @@ namespace ClassicBasic.Interpreter
     using System;
 
     /// <summary>
-    /// Executes the code
+    /// Executes the code.
     /// </summary>
     public class Executor : IExecutor
     {
@@ -19,7 +19,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Initializes a new instance of the <see cref="Executor"/> class.
         /// </summary>
-        /// <param name="teletype">Teletype to use for input output</param>
+        /// <param name="teletype">Teletype to use for input output.</param>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="programRepository">Program repository.</param>
         /// <param name="tokensProvider">Provider of tokens.</param>
@@ -41,7 +41,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Executes multiple lines.
         /// </summary>
-        /// <returns>true if the user type SYSTEM</returns>
+        /// <returns>true if the user type SYSTEM.</returns>
         public bool ExecuteLine()
         {
             bool? returnValue = null;
@@ -71,7 +71,7 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Executes multiple lines without calling the BASIC error handler.
         /// </summary>
-        /// <returns>true if the user type SYSTEM</returns>
+        /// <returns>true if the user type SYSTEM.</returns>
         private bool ExecuteLineWithoutErrorHandler()
         {
             _runEnvironment.KeyboardBreak = false;

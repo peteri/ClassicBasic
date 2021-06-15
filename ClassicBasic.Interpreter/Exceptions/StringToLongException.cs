@@ -5,7 +5,7 @@
 namespace ClassicBasic.Interpreter.Exceptions
 {
     /// <summary>
-    /// String too long exception
+    /// String too long exception.
     /// </summary>
     public class StringToLongException : BasicException
     {

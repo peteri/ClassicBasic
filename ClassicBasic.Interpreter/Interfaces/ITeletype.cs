@@ -22,7 +22,7 @@ namespace ClassicBasic.Interpreter
         short Width { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the teletype supports editing
+        /// Gets a value indicating whether the teletype supports editing.
         /// </summary>
         bool CanEdit { get; }
 
@@ -33,7 +33,7 @@ namespace ClassicBasic.Interpreter
         string EditText { set; }
 
         /// <summary>
-        /// Write text to the glass teletype (aka console)
+        /// Write text to the glass teletype (aka console).
         /// </summary>
         /// <param name="output">Text to write.</param>
         void Write(string output);

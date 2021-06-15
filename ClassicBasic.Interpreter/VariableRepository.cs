@@ -12,7 +12,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class VariableRepository : IVariableRepository
     {
-        private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
+        private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         /// <summary>
         /// Clears the repository.

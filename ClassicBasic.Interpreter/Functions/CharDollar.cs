@@ -22,8 +22,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the CHR$ function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Converts the parameter to</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>Converts the parameter to.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)

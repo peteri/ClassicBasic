@@ -28,7 +28,7 @@ namespace ClassicBasic.Interpreter.Commands
         }
 
         /// <summary>
-        /// Executes the PRINT command
+        /// Executes the PRINT command.
         /// </summary>
         public void Execute()
         {

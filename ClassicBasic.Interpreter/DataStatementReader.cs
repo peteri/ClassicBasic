@@ -43,7 +43,7 @@ namespace ClassicBasic.Interpreter
         }
 
         /// <summary>
-        /// Implements moving the current data pointer to a new line number
+        /// Implements moving the current data pointer to a new line number.
         /// </summary>
         /// <param name="lineNumber">line number to move to, null moves to beginning of program.</param>
         public void RestoreToLineNumber(int? lineNumber)

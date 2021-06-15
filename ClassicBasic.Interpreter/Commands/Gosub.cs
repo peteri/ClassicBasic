@@ -40,7 +40,7 @@ namespace ClassicBasic.Interpreter.Commands
             var returnAddress = new StackEntry
             {
                 Line = _runEnvironment.CurrentLine,
-                LineToken = _runEnvironment.CurrentLine.CurrentToken
+                LineToken = _runEnvironment.CurrentLine.CurrentToken,
             };
 
             _runEnvironment.CurrentLine = _programRepository.GetLine(nextLine.Value);

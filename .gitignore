@@ -289,3 +289,6 @@ __pycache__/
 
 # code coverage
 ClassicBasic_coverage.xml
+/ClassicBasic/ClassicBasic.xml
+/ClassicBasic.Interpreter/ClassicBasic.Interpreter.xml
+/ClassicBasic.Test/ClassicBasic.Test.xml

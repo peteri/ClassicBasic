@@ -22,8 +22,8 @@ namespace ClassicBasic.Interpreter.Functions
         /// <summary>
         /// Executes the Fre function.
         /// </summary>
-        /// <param name="parameters">Parameters to the function</param>
-        /// <returns>Free of the input value</returns>
+        /// <param name="parameters">Parameters to the function.</param>
+        /// <returns>Free of the input value.</returns>
         public Accumulator Execute(IList<Accumulator> parameters)
         {
             if (parameters.Count != 1)

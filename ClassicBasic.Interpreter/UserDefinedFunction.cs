@@ -25,7 +25,7 @@ namespace ClassicBasic.Interpreter
         public string FunctionName { get; set; }
 
         /// <summary>
-        /// Gets or sets the variable name
+        /// Gets or sets the variable name.
         /// </summary>
         public string VariableName { get; set; }
 

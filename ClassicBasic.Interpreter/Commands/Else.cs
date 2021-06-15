@@ -29,7 +29,7 @@ namespace ClassicBasic.Interpreter.Commands
         {
             while (!_runEnvironment.CurrentLine.EndOfLine)
             {
-                var token = _runEnvironment.CurrentLine.NextToken();
+                _runEnvironment.CurrentLine.NextToken();
             }
         }
     }

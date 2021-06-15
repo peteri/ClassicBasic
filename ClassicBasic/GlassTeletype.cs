@@ -26,8 +26,11 @@ namespace ClassicBasic.Console
         public GlassTeletype(string initialCommand)
         {
             _initialCommand = initialCommand;
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.InputEncoding = Encoding.Unicode;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Console.OutputEncoding = Encoding.Unicode;
+                Console.InputEncoding = Encoding.Unicode;
+            }
         }
 
         /// <summary>
@@ -55,7 +58,7 @@ namespace ClassicBasic.Console
         /// Gets a value indicating whether the teletype supports editing.
         /// If the in or out is redirected then disallow edit command.
         /// </summary>
-        public bool CanEdit => !(Console.IsInputRedirected || Console.IsOutputRedirected);
+        public bool CanEdit => !(Console.IsInputRedirected || Console.IsOutputRedirected) && RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         /// <summary>
         /// Sets the edit text, when Read is called this text is displayed to
