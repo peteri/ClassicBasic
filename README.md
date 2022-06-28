@@ -25,7 +25,7 @@ Clone the git repo and build
 ```
 git clone https://github.com/peteri/ClassicBasic.git
 cd ClassicBasic/
-git checkout UpgradeToCore3.1
+git checkout master
 dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true ClassicBasic/ClassicBasic.csproj
 ```
 
