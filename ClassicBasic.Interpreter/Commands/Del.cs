@@ -1,5 +1,5 @@
 ﻿// <copyright file="Del.cs" company="Peter Ibbotson">
-// (C) Copyright 2017 Peter Ibbotson
+// (C) Copyright 2017-2024 Peter Ibbotson
 // </copyright>
 namespace ClassicBasic.Interpreter.Commands
 {
