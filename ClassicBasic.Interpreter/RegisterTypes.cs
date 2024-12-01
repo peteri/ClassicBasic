@@ -10,29 +10,103 @@ namespace ClassicBasic.Interpreter
     /// <summary>
     /// Register the types for the interpreter.
     /// </summary>
-    public class RegisterTypes
+    public static class RegisterTypes
     {
+        /// <summary>
+        /// Adds services required for using commands in ClassicBasic.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
+        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        public static IServiceCollection AddCommands(this IServiceCollection services)
+        {
+            return services
+            .AddSingleton<IToken, Commands.Clear>()
+            .AddSingleton<IToken, Commands.Clear>()
+            .AddSingleton<IToken, Commands.Cont>()
+            .AddSingleton<IToken, Commands.Data>()
+            .AddSingleton<IToken, Commands.Def>()
+            .AddSingleton<IToken, Commands.Del>()
+            .AddSingleton<IToken, Commands.Dim>()
+            .AddSingleton<IToken, Commands.Edit>()
+            .AddSingleton<IToken, Commands.End>()
+            .AddSingleton<IToken, Commands.Else>()
+            .AddSingleton<IToken, Commands.For>()
+            .AddSingleton<IToken, Commands.Get>()
+            .AddSingleton<IToken, Commands.Gosub>()
+            .AddSingleton<IToken, Commands.Goto>()
+            .AddSingleton<IToken, Commands.If>()
+            .AddSingleton<IToken, Commands.Input>()
+            .AddSingleton<IToken, Commands.Let>()
+            .AddSingleton<IToken, Commands.List>()
+            .AddSingleton<IToken, Commands.Load>()
+            .AddSingleton<IToken, Commands.New>()
+            .AddSingleton<IToken, Commands.Next>()
+            .AddSingleton<IToken, Commands.On>()
+            .AddSingleton<IToken, Commands.OnErr>()
+            .AddSingleton<IToken, Commands.Pop>()
+            .AddSingleton<IToken, Commands.Print>()
+            .AddSingleton<IToken, Commands.Read>()
+            .AddSingleton<IToken, Commands.Remark>()
+            .AddSingleton<IToken, Commands.Restore>()
+            .AddSingleton<IToken, Commands.Resume>()
+            .AddSingleton<IToken, Commands.Return>()
+            .AddSingleton<IToken, Commands.Run>()
+            .AddSingleton<IToken, Commands.Save>()
+            .AddSingleton<IToken, Commands.Stop>();
+        }
+
+        /// <summary>
+        /// Adds services required for using functions in ClassicBasic.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
+        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        public static IServiceCollection AddFunctions(this IServiceCollection services)
+        {
+            return services
+                .AddSingleton<IToken, Functions.Abs>()
+                .AddSingleton<IToken, Functions.Asc>()
+                .AddSingleton<IToken, Functions.Atn>()
+                .AddSingleton<IToken, Functions.CharDollar>()
+                .AddSingleton<IToken, Functions.Cos>()
+                .AddSingleton<IToken, Functions.Exp>()
+                .AddSingleton<IToken, Functions.Fre>()
+                .AddSingleton<IToken, Functions.Int>()
+                .AddSingleton<IToken, Functions.LeftDollar>()
+                .AddSingleton<IToken, Functions.Len>()
+                .AddSingleton<IToken, Functions.Log>()
+                .AddSingleton<IToken, Functions.MidDollar>()
+                .AddSingleton<IToken, Functions.Pos>()
+                .AddSingleton<IToken, Functions.RightDollar>()
+                .AddSingleton<IToken, Functions.Rnd>()
+                .AddSingleton<IToken, Functions.Sgn>()
+                .AddSingleton<IToken, Functions.Sin>()
+                .AddSingleton<IToken, Functions.Sqr>()
+                .AddSingleton<IToken, Functions.StrDollar>()
+                .AddSingleton<IToken, Functions.Tan>()
+                .AddSingleton<IToken, Functions.Val>();
+        }
+
         /// <summary>
         /// Registers the types contained in the interpreter.
         /// </summary>
-        /// <param name="services">IServiceCollection to register types in.</param>
-        public static void Register(IServiceCollection services)
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
+        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        public static IServiceCollection AddBasicInterpreter(this IServiceCollection services)
         {
-            Modules.RegisterCommands.Load(services);
-            Modules.RegisterFunctions.Load(services);
-
-            // Other stuff we care about
-            services.AddSingleton<IExecutor, Executor>();
-            services.AddSingleton<ITokeniser, Tokeniser>();
-            services.AddSingleton<IFileSystem, FileSystem>();
-            services.AddSingleton<IInterpreter, Interpreter>();
-            services.AddSingleton<IRunEnvironment, RunEnvironment>();
-            services.AddSingleton<ITokensProvider, TokensProvider>();
-            services.AddSingleton<IProgramRepository, ProgramRepository>();
-            services.AddSingleton<IVariableRepository, VariableRepository>();
-            services.AddSingleton<IDataStatementReader, DataStatementReader>();
-            services.AddSingleton<IExpressionEvaluator, ExpressionEvaluator>();
-            services.AddSingleton<ITeletypeWithPosition, TeletypeWithPosition>();
+            return services
+                .AddCommands()
+                .AddFunctions()
+                .AddSingleton<IExecutor, Executor>()
+                .AddSingleton<ITokeniser, Tokeniser>()
+                .AddSingleton<IFileSystem, FileSystem>()
+                .AddSingleton<IInterpreter, Interpreter>()
+                .AddSingleton<IRunEnvironment, RunEnvironment>()
+                .AddSingleton<ITokensProvider, TokensProvider>()
+                .AddSingleton<IProgramRepository, ProgramRepository>()
+                .AddSingleton<IVariableRepository, VariableRepository>()
+                .AddSingleton<IDataStatementReader, DataStatementReader>()
+                .AddSingleton<IExpressionEvaluator, ExpressionEvaluator>()
+                .AddSingleton<ITeletypeWithPosition, TeletypeWithPosition>();
         }
     }
 }

@@ -6,6 +6,8 @@ namespace ClassicBasic.Test.InterpreterTests
 {
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Exceptions;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -23,11 +25,13 @@ namespace ClassicBasic.Test.InterpreterTests
         [ClassInitialize]
         public static void SetupSut(TestContext context)
         {
-            //var builder = new ContainerBuilder();
-            //RegisterTypes.Register(builder);
-            //builder.RegisterInstance(new MockTeletype()).As<ITeletype>();
-            //var container = builder.Build();
-            //_tokeniser = container.Resolve<ITokeniser>();
+            HostApplicationBuilder builder = new HostApplicationBuilder();
+            builder.Services
+                .AddBasicInterpreter()
+                .AddSingleton<ITeletype>(new MockTeletype());
+
+            var container = builder.Build();
+            _tokeniser = container.Services.GetRequiredService<ITokeniser>();
         }
 
         /// <summary>
