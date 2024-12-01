@@ -12,7 +12,7 @@ namespace ClassicBasic.Interpreter
     [Flags]
     public enum TokenType
     {
-        /// <summary>Unknown</summary>
+        /// <summary>Unknown.</summary>
         Unknown = 0,
 
         /// <summary>Token is a colon.</summary>
@@ -99,19 +99,19 @@ namespace ClassicBasic.Interpreter
         /// <summary>Token is for a LET statement.</summary>
         Let,
 
-        /// <summary>Token is for a Remark statement</summary>
+        /// <summary>Token is for a Remark statement.</summary>
         Remark,
 
-        /// <summary>Token is for a Goto statement</summary>
+        /// <summary>Token is for a Goto statement.</summary>
         Goto,
 
-        /// <summary>Token is for a Gosub statement</summary>
+        /// <summary>Token is for a Gosub statement.</summary>
         Gosub,
 
-        /// <summary>Token is for a FN statement</summary>
+        /// <summary>Token is for a FN statement.</summary>
         Fn,
 
-        /// <summary>Token is for a PRINT statement</summary>
+        /// <summary>Token is for a PRINT statement.</summary>
         Print,
     }
 
@@ -120,7 +120,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public enum TokenClass
     {
-        /// <summary>Unknown</summary>
+        /// <summary>Unknown.</summary>
         Unknown = 0,
 
         /// <summary>Token is textual bit of a data statement.</summary>
