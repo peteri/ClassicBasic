@@ -4,48 +4,52 @@
 
 namespace ClassicBasic.Interpreter.Modules
 {
-    using Autofac;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
-    /// Register the commands with autofaq.
+    /// Register the commands with Microsoft Dependency Injection.
     /// </summary>
-    public class RegisterCommands : Module
+    public class RegisterCommands
     {
-        /// <inheritdoc/>
-        protected override void Load(ContainerBuilder builder)
+        /// <summary>
+        /// Registers commands with dependency injection.
+        /// </summary>
+        /// <param name="services">IServiceCollection to register types in.</param>
+        public static void Load(IServiceCollection services)
         {
-            builder.RegisterType<Commands.Clear>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Cont>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Data>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Def>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Del>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Dim>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Edit>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.End>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Else>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.For>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Get>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Gosub>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Goto>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.If>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Input>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Let>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.List>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Load>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.New>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Next>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.On>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.OnErr>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Pop>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Print>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Read>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Remark>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Restore>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Resume>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Return>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Run>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Save>().As<IToken>().SingleInstance();
-            builder.RegisterType<Commands.Stop>().As<IToken>().SingleInstance();
+            services.AddSingleton<IToken, Commands.Clear>();
+            services.AddSingleton<IToken, Commands.Clear>();
+            services.AddSingleton<IToken, Commands.Cont>();
+            services.AddSingleton<IToken, Commands.Data>();
+            services.AddSingleton<IToken, Commands.Def>();
+            services.AddSingleton<IToken, Commands.Del>();
+            services.AddSingleton<IToken, Commands.Dim>();
+            services.AddSingleton<IToken, Commands.Edit>();
+            services.AddSingleton<IToken, Commands.End>();
+            services.AddSingleton<IToken, Commands.Else>();
+            services.AddSingleton<IToken, Commands.For>();
+            services.AddSingleton<IToken, Commands.Get>();
+            services.AddSingleton<IToken, Commands.Gosub>();
+            services.AddSingleton<IToken, Commands.Goto>();
+            services.AddSingleton<IToken, Commands.If>();
+            services.AddSingleton<IToken, Commands.Input>();
+            services.AddSingleton<IToken, Commands.Let>();
+            services.AddSingleton<IToken, Commands.List>();
+            services.AddSingleton<IToken, Commands.Load>();
+            services.AddSingleton<IToken, Commands.New>();
+            services.AddSingleton<IToken, Commands.Next>();
+            services.AddSingleton<IToken, Commands.On>();
+            services.AddSingleton<IToken, Commands.OnErr>();
+            services.AddSingleton<IToken, Commands.Pop>();
+            services.AddSingleton<IToken, Commands.Print>();
+            services.AddSingleton<IToken, Commands.Read>();
+            services.AddSingleton<IToken, Commands.Remark>();
+            services.AddSingleton<IToken, Commands.Restore>();
+            services.AddSingleton<IToken, Commands.Resume>();
+            services.AddSingleton<IToken, Commands.Return>();
+            services.AddSingleton<IToken, Commands.Run>();
+            services.AddSingleton<IToken, Commands.Save>();
+            services.AddSingleton<IToken, Commands.Stop>();
         }
     }
 }

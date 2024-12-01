@@ -4,7 +4,6 @@
 
 namespace ClassicBasic.Test.InterpreterTests
 {
-    using Autofac;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,11 +23,11 @@ namespace ClassicBasic.Test.InterpreterTests
         [ClassInitialize]
         public static void SetupSut(TestContext context)
         {
-            var builder = new ContainerBuilder();
-            RegisterTypes.Register(builder);
-            builder.RegisterInstance(new MockTeletype()).As<ITeletype>();
-            var container = builder.Build();
-            _tokeniser = container.Resolve<ITokeniser>();
+            //var builder = new ContainerBuilder();
+            //RegisterTypes.Register(builder);
+            //builder.RegisterInstance(new MockTeletype()).As<ITeletype>();
+            //var container = builder.Build();
+            //_tokeniser = container.Resolve<ITokeniser>();
         }
 
         /// <summary>

@@ -4,37 +4,36 @@
 
 namespace ClassicBasic.Interpreter.Modules
 {
-    using Autofac;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
-    /// Register the commands with autofaq.
+    /// Register the functions with Microsoft Dependency Injection.
     /// </summary>
-    public class RegisterFunctions : Module
+    public class RegisterFunctions
     {
-        /// <inheritdoc/>
-        protected override void Load(ContainerBuilder builder)
+        public static void Load(IServiceCollection services)
         {
-            builder.RegisterType<Functions.Abs>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Asc>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Atn>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.CharDollar>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Cos>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Exp>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Fre>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Int>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.LeftDollar>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Len>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Log>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.MidDollar>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Pos>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.RightDollar>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Rnd>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Sgn>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Sin>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Sqr>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.StrDollar>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Tan>().As<IToken>().SingleInstance();
-            builder.RegisterType<Functions.Val>().As<IToken>().SingleInstance();
+            services.AddSingleton<IToken, Functions.Abs>();
+            services.AddSingleton<IToken, Functions.Asc>();
+            services.AddSingleton<IToken, Functions.Atn>();
+            services.AddSingleton<IToken, Functions.CharDollar>();
+            services.AddSingleton<IToken, Functions.Cos>();
+            services.AddSingleton<IToken, Functions.Exp>();
+            services.AddSingleton<IToken, Functions.Fre>();
+            services.AddSingleton<IToken, Functions.Int>();
+            services.AddSingleton<IToken, Functions.LeftDollar>();
+            services.AddSingleton<IToken, Functions.Len>();
+            services.AddSingleton<IToken, Functions.Log>();
+            services.AddSingleton<IToken, Functions.MidDollar>();
+            services.AddSingleton<IToken, Functions.Pos>();
+            services.AddSingleton<IToken, Functions.RightDollar>();
+            services.AddSingleton<IToken, Functions.Rnd>();
+            services.AddSingleton<IToken, Functions.Sgn>();
+            services.AddSingleton<IToken, Functions.Sin>();
+            services.AddSingleton<IToken, Functions.Sqr>();
+            services.AddSingleton<IToken, Functions.StrDollar>();
+            services.AddSingleton<IToken, Functions.Tan>();
+            services.AddSingleton<IToken, Functions.Val>();
         }
     }
 }

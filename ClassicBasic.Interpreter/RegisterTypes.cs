@@ -5,7 +5,7 @@
 namespace ClassicBasic.Interpreter
 {
     using System.IO.Abstractions;
-    using Autofac;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Register the types for the interpreter.
@@ -15,24 +15,24 @@ namespace ClassicBasic.Interpreter
         /// <summary>
         /// Registers the types contained in the interpreter.
         /// </summary>
-        /// <param name="builder">Builder to register.</param>
-        public static void Register(ContainerBuilder builder)
+        /// <param name="services">IServiceCollection to register types in.</param>
+        public static void Register(IServiceCollection services)
         {
-            builder.RegisterModule(new Modules.RegisterCommands());
-            builder.RegisterModule(new Modules.RegisterFunctions());
+            Modules.RegisterCommands.Load(services);
+            Modules.RegisterFunctions.Load(services);
 
             // Other stuff we care about
-            builder.RegisterType<Executor>().As<IExecutor>().SingleInstance();
-            builder.RegisterType<Tokeniser>().As<ITokeniser>().SingleInstance();
-            builder.RegisterType<FileSystem>().As<IFileSystem>().SingleInstance();
-            builder.RegisterType<Interpreter>().As<IInterpreter>().SingleInstance();
-            builder.RegisterType<RunEnvironment>().As<IRunEnvironment>().SingleInstance();
-            builder.RegisterType<TokensProvider>().As<ITokensProvider>().SingleInstance();
-            builder.RegisterType<ProgramRepository>().As<IProgramRepository>().SingleInstance();
-            builder.RegisterType<VariableRepository>().As<IVariableRepository>().SingleInstance();
-            builder.RegisterType<DataStatementReader>().As<IDataStatementReader>().SingleInstance();
-            builder.RegisterType<ExpressionEvaluator>().As<IExpressionEvaluator>().SingleInstance();
-            builder.RegisterType<TeletypeWithPosition>().As<ITeletypeWithPosition>().SingleInstance();
+            services.AddSingleton<IExecutor, Executor>();
+            services.AddSingleton<ITokeniser, Tokeniser>();
+            services.AddSingleton<IFileSystem, FileSystem>();
+            services.AddSingleton<IInterpreter, Interpreter>();
+            services.AddSingleton<IRunEnvironment, RunEnvironment>();
+            services.AddSingleton<ITokensProvider, TokensProvider>();
+            services.AddSingleton<IProgramRepository, ProgramRepository>();
+            services.AddSingleton<IVariableRepository, VariableRepository>();
+            services.AddSingleton<IDataStatementReader, DataStatementReader>();
+            services.AddSingleton<IExpressionEvaluator, ExpressionEvaluator>();
+            services.AddSingleton<ITeletypeWithPosition, TeletypeWithPosition>();
         }
     }
 }

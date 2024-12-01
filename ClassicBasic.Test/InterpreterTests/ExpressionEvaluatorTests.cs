@@ -5,7 +5,6 @@
 namespace ClassicBasic.Test.InterpreterTests
 {
     using System.Collections.Generic;
-    using Autofac;
     using ClassicBasic.Interpreter;
     using ClassicBasic.Interpreter.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,14 +30,14 @@ namespace ClassicBasic.Test.InterpreterTests
         public static void SetupTokeniser(TestContext context)
         {
             _mockTeletype = new MockTeletype();
-            var builder = new ContainerBuilder();
-            RegisterTypes.Register(builder);
-            builder.RegisterInstance(_mockTeletype).As<ITeletype>();
+            //var builder = new ContainerBuilder();
+            //RegisterTypes.Register(builder);
+            //builder.RegisterInstance(_mockTeletype).As<ITeletype>();
 
-            var container = builder.Build();
-            _tokeniser = container.Resolve<ITokeniser>();
-            _runEnvironment = container.Resolve<IRunEnvironment>();
-            _variableRepository = container.Resolve<IVariableRepository>();
+            //var container = builder.Build();
+            //_tokeniser = container.Resolve<ITokeniser>();
+            //_runEnvironment = container.Resolve<IRunEnvironment>();
+            //_variableRepository = container.Resolve<IVariableRepository>();
         }
 
         /// <summary>
@@ -479,7 +478,7 @@ namespace ClassicBasic.Test.InterpreterTests
         {
             _runEnvironment.CurrentLine = new ProgramLine(
                 null,
-                new List<IToken> { new Token("Hello world", TokenClass.Remark) });
+                [new Token("Hello world", TokenClass.Remark)]);
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
             Test.Throws<SyntaxErrorException, Accumulator>(_expressionEvaluator.GetExpression);
         }
@@ -490,7 +489,7 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorGetsDoubleVariable()
         {
-            _variableRepository.GetOrCreateVariable("B", new short[] { }).SetValue(new Accumulator(5.5));
+            _variableRepository.GetOrCreateVariable("B", []).SetValue(new Accumulator(5.5));
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT B");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
             var result = _expressionEvaluator.GetExpression();
@@ -503,7 +502,7 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorGetsDoubleVariableUsingTwoAlphas()
         {
-            _variableRepository.GetOrCreateVariable("BB", new short[] { }).SetValue(new Accumulator(5.5));
+            _variableRepository.GetOrCreateVariable("BB", []).SetValue(new Accumulator(5.5));
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT BBC");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
             var result = _expressionEvaluator.GetExpression();
@@ -583,9 +582,9 @@ namespace ClassicBasic.Test.InterpreterTests
         [TestMethod]
         public void EvaluatorGetsIntegerArrayVariableWithIntegerIndexes()
         {
-            _variableRepository.GetOrCreateVariable("M%", new short[] { }).SetValue(new Accumulator(2.0));
-            _variableRepository.GetOrCreateVariable("N%", new short[] { }).SetValue(new Accumulator((short)3));
-            _variableRepository.GetOrCreateVariable("G%", new short[] { 2, 3 }).SetValue(new Accumulator((short)8));
+            _variableRepository.GetOrCreateVariable("M%", []).SetValue(new Accumulator(2.0));
+            _variableRepository.GetOrCreateVariable("N%", []).SetValue(new Accumulator((short)3));
+            _variableRepository.GetOrCreateVariable("G%", [2, 3]).SetValue(new Accumulator((short)8));
             _runEnvironment.CurrentLine = _tokeniser.Tokenise("10 PRINT G%(M%,N%)");
             _runEnvironment.CurrentLine.NextToken();    // Eat the print
             var result = _expressionEvaluator.GetExpression();

@@ -5,7 +5,6 @@
 namespace ClassicBasic.Console
 {
     using System;
-    using Autofac;
     using ClassicBasic.Interpreter;
 
     /// <summary>
@@ -29,14 +28,14 @@ namespace ClassicBasic.Console
                 Console.WriteLine("Welcome to Classic BASIC, let us program like it's 1979");
             }
 
-            var builder = new ContainerBuilder();
-            builder.RegisterInstance(new GlassTeletype(initialCommand)).As<ITeletype>();
-            RegisterTypes.Register(builder);
+            //var builder = new ContainerBuilder();
+            //builder.RegisterInstance(new GlassTeletype(initialCommand)).As<ITeletype>();
+            //RegisterTypes.Register(builder);
             try
             {
-                var container = builder.Build();
-                var interpreter = container.Resolve<IInterpreter>();
-                interpreter.Execute();
+                //var container = builder.Build();
+                //var interpreter = container.Resolve<IInterpreter>();
+                //interpreter.Execute();
             }
             catch (Exception ex)
             {
