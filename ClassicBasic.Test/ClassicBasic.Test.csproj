@@ -5,16 +5,7 @@
 		<OutputType>Library</OutputType>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<CodeAnalysisRuleSet></CodeAnalysisRuleSet>
-		<DocumentationFile>C:\Users\Peter\Source\Repos\ClassicBasic\ClassicBasic.Test\ClassicBasic.Test.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<CodeAnalysisRuleSet></CodeAnalysisRuleSet>
-		<DocumentationFile>C:\Users\Peter\Source\Repos\ClassicBasic\ClassicBasic.Test\ClassicBasic.Test.xml</DocumentationFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
