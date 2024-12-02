@@ -4,8 +4,6 @@
 
 namespace ClassicBasic.Interpreter
 {
-    using System;
-
     /// <summary>
     /// Base class for token.
     /// </summary>

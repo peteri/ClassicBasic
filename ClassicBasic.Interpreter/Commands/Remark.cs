@@ -7,26 +7,18 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the REM command.
     /// </summary>
-    public class Remark : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Remark"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    public class Remark(IRunEnvironment runEnvironment) : Token("REM", TokenClass.Statement, TokenType.Remark), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Remark"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        public Remark(IRunEnvironment runEnvironment)
-            : base("REM", TokenClass.Statement, TokenType.Remark)
-        {
-            _runEnvironment = runEnvironment;
-        }
-
         /// <summary>
         /// Executes the REM command.
         /// </summary>
         public void Execute()
         {
-            _runEnvironment.CurrentLine.NextToken();
+            runEnvironment.CurrentLine.NextToken();
         }
     }
 }

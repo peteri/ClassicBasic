@@ -1,0 +1,6 @@
+<Project>
+   <PropertyGroup>
+	   <!--<AnalysisMode>AllEnabledByDefault</AnalysisMode>-->
+     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+   </PropertyGroup>
+</Project>

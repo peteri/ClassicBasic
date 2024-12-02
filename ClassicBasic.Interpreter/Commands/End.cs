@@ -7,28 +7,20 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the END command.
     /// </summary>
-    public class End : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="End"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    public class End(IRunEnvironment runEnvironment) : Token("END", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="End"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        public End(IRunEnvironment runEnvironment)
-            : base("END", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-        }
-
         /// <summary>
         /// Execute END, we do this by throwing an exception, this one doesn't
         /// display anything.
         /// </summary>
         public void Execute()
         {
-            _runEnvironment.ContinueToken = _runEnvironment.CurrentLine.CurrentToken;
-            _runEnvironment.OnErrorGotoLineNumber = null;
+            runEnvironment.ContinueToken = runEnvironment.CurrentLine.CurrentToken;
+            runEnvironment.OnErrorGotoLineNumber = null;
 
             throw new Exceptions.EndException();
         }

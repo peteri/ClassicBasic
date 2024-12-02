@@ -17,7 +17,7 @@ namespace ClassicBasic.Interpreter
         public RunEnvironment()
         {
             ProgramStack = new Stack<StackEntry>();
-            DefinedFunctions = new Dictionary<string, UserDefinedFunction>();
+            DefinedFunctions = [];
         }
 
         /// <summary>

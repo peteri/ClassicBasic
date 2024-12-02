@@ -7,43 +7,33 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the RESUME command.
     /// </summary>
-    public class Resume : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Resume"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="programRepository">Program repository.</param>
+    public class Resume(
+        IRunEnvironment runEnvironment,
+        IProgramRepository programRepository) : Token("RESUME", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IProgramRepository _programRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Resume"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="programRepository">Program repository.</param>
-        public Resume(
-            IRunEnvironment runEnvironment,
-            IProgramRepository programRepository)
-            : base("RESUME", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _programRepository = programRepository;
-        }
-
         /// <summary>
         /// Executes the RESUME command.
         /// </summary>
         public void Execute()
         {
-            while (_runEnvironment.ProgramStack.Count > _runEnvironment.LastErrorStackCount)
+            while (runEnvironment.ProgramStack.Count > runEnvironment.LastErrorStackCount)
             {
-                _runEnvironment.ProgramStack.Pop();
+                runEnvironment.ProgramStack.Pop();
             }
 
-            if (!_runEnvironment.LastErrorLine.HasValue)
+            if (!runEnvironment.LastErrorLine.HasValue)
             {
-                _runEnvironment.OnErrorGotoLineNumber = null;
+                runEnvironment.OnErrorGotoLineNumber = null;
                 throw new Exceptions.UndefinedStatementException();
             }
 
-            _runEnvironment.CurrentLine = _programRepository.GetLine(_runEnvironment.LastErrorLine.Value);
-            _runEnvironment.CurrentLine.CurrentToken = _runEnvironment.LastErrorToken;
+            runEnvironment.CurrentLine = programRepository.GetLine(runEnvironment.LastErrorLine.Value);
+            runEnvironment.CurrentLine.CurrentToken = runEnvironment.LastErrorToken;
         }
     }
 }

@@ -6,38 +6,28 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the DEF command.
     /// </summary>
-    public class Def : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Def"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    public class Def(
+        IRunEnvironment runEnvironment,
+        IExpressionEvaluator expressionEvaluator) : Token("DEF", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Def"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        public Def(
-            IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator)
-            : base("DEF", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-        }
-
         /// <summary>
         /// Executes the DEF command.
         /// </summary>
         public void Execute()
         {
-            if (!_runEnvironment.CurrentLine.LineNumber.HasValue)
+            if (!runEnvironment.CurrentLine.LineNumber.HasValue)
             {
                 throw new Exceptions.IllegalDirectException();
             }
 
-            var token = _runEnvironment.CurrentLine.NextToken();
-            var nameToken = _runEnvironment.CurrentLine.NextToken();
-            var bracketToken = _runEnvironment.CurrentLine.NextToken();
+            var token = runEnvironment.CurrentLine.NextToken();
+            var nameToken = runEnvironment.CurrentLine.NextToken();
+            var bracketToken = runEnvironment.CurrentLine.NextToken();
             if (token.Statement != TokenType.Fn
                 || nameToken.TokenClass != TokenClass.Variable
                 || bracketToken.Seperator != TokenType.OpenBracket)
@@ -45,9 +35,9 @@ namespace ClassicBasic.Interpreter.Commands
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            var variableName = _expressionEvaluator.GetVariableName();
-            bracketToken = _runEnvironment.CurrentLine.NextToken();
-            var equalsToken = _runEnvironment.CurrentLine.NextToken();
+            var variableName = expressionEvaluator.GetVariableName();
+            bracketToken = runEnvironment.CurrentLine.NextToken();
+            var equalsToken = runEnvironment.CurrentLine.NextToken();
             if (bracketToken.Seperator != TokenType.CloseBracket || equalsToken.Seperator != TokenType.Equal)
             {
                 throw new Exceptions.SyntaxErrorException();
@@ -55,20 +45,20 @@ namespace ClassicBasic.Interpreter.Commands
 
             var userFunctionDefinition = new UserDefinedFunction
             {
-                Line = _runEnvironment.CurrentLine,
-                LineToken = _runEnvironment.CurrentLine.CurrentToken,
+                Line = runEnvironment.CurrentLine,
+                LineToken = runEnvironment.CurrentLine.CurrentToken,
                 FunctionName = nameToken.Text,
                 VariableName = variableName,
             };
 
-            _runEnvironment.DefinedFunctions[userFunctionDefinition.FunctionName] = userFunctionDefinition;
+            runEnvironment.DefinedFunctions[userFunctionDefinition.FunctionName] = userFunctionDefinition;
 
-            while (!_runEnvironment.CurrentLine.EndOfLine)
+            while (!runEnvironment.CurrentLine.EndOfLine)
             {
-                token = _runEnvironment.CurrentLine.NextToken();
+                token = runEnvironment.CurrentLine.NextToken();
                 if (token.Seperator == TokenType.Colon)
                 {
-                    _runEnvironment.CurrentLine.PushToken(token);
+                    runEnvironment.CurrentLine.PushToken(token);
                     return;
                 }
             }

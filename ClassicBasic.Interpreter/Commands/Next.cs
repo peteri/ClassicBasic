@@ -7,25 +7,15 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the NEXT command.
     /// </summary>
-    public class Next : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Next"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="variableRepository">Variable repository.</param>
+    public class Next(
+        IRunEnvironment runEnvironment,
+        IVariableRepository variableRepository) : Token("NEXT", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IVariableRepository _variableRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Next"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="variableRepository">Variable repository.</param>
-        public Next(
-            IRunEnvironment runEnvironment,
-            IVariableRepository variableRepository)
-            : base("NEXT", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _variableRepository = variableRepository;
-        }
-
         /// <summary>
         /// Execute the NEXT command.
         /// </summary>
@@ -36,7 +26,7 @@ namespace ClassicBasic.Interpreter.Commands
             while (true)
             {
                 currentLoop = FindForEntry(currentLoop);
-                var loopVar = _variableRepository.GetOrCreateVariable(currentLoop.VariableName, new short[] { });
+                var loopVar = variableRepository.GetOrCreateVariable(currentLoop.VariableName, []);
                 loopVar.SetValue(new Accumulator(loopVar.GetValue().ValueAsDouble() + currentLoop.Step));
                 bool finished;
                 if (currentLoop.Step > 0.0)
@@ -50,24 +40,24 @@ namespace ClassicBasic.Interpreter.Commands
 
                 if (!finished)
                 {
-                    _runEnvironment.CurrentLine = currentLoop.Line;
-                    _runEnvironment.CurrentLine.CurrentToken = currentLoop.LineToken;
+                    runEnvironment.CurrentLine = currentLoop.Line;
+                    runEnvironment.CurrentLine.CurrentToken = currentLoop.LineToken;
                     return;
                 }
 
-                _runEnvironment.ProgramStack.Pop();
+                runEnvironment.ProgramStack.Pop();
 
-                var token = _runEnvironment.CurrentLine.NextToken();
+                var token = runEnvironment.CurrentLine.NextToken();
                 if (token.Seperator != TokenType.Comma)
                 {
-                    _runEnvironment.CurrentLine.PushToken(token);
+                    runEnvironment.CurrentLine.PushToken(token);
                     return;
                 }
 
-                token = _runEnvironment.CurrentLine.NextToken();
+                token = runEnvironment.CurrentLine.NextToken();
                 if (token.TokenClass == TokenClass.Variable)
                 {
-                    _runEnvironment.CurrentLine.PushToken(token);
+                    runEnvironment.CurrentLine.PushToken(token);
                 }
                 else
                 {
@@ -78,11 +68,11 @@ namespace ClassicBasic.Interpreter.Commands
 
         private StackEntry FindForEntry(StackEntry currentLoop)
         {
-            var token = _runEnvironment.CurrentLine.NextToken();
+            var token = runEnvironment.CurrentLine.NextToken();
             if (token.TokenClass != TokenClass.Variable)
             {
-                _runEnvironment.CurrentLine.PushToken(token);
-                currentLoop = _runEnvironment.ProgramStack.Count > 0 ? _runEnvironment.ProgramStack.Peek() : null;
+                runEnvironment.CurrentLine.PushToken(token);
+                currentLoop = runEnvironment.ProgramStack.Count > 0 ? runEnvironment.ProgramStack.Peek() : null;
 
                 if (currentLoop?.VariableName == null)
                 {
@@ -93,7 +83,7 @@ namespace ClassicBasic.Interpreter.Commands
             {
                 while (true)
                 {
-                    currentLoop = _runEnvironment.ProgramStack.Count > 0 ? _runEnvironment.ProgramStack.Peek() : null;
+                    currentLoop = runEnvironment.ProgramStack.Count > 0 ? runEnvironment.ProgramStack.Peek() : null;
 
                     if (currentLoop?.VariableName == null)
                     {
@@ -105,7 +95,7 @@ namespace ClassicBasic.Interpreter.Commands
                         break;
                     }
 
-                    currentLoop = _runEnvironment.ProgramStack.Pop();
+                    currentLoop = runEnvironment.ProgramStack.Pop();
                 }
             }
 

@@ -6,38 +6,28 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the DEL command.
     /// </summary>
-    public class Del : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Del"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run environment.</param>
+    /// <param name="programRepository">Program Repository.</param>
+    public class Del(
+        IRunEnvironment runEnvironment,
+        IProgramRepository programRepository) : Token("DEL", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IProgramRepository _programRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Del"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run environment.</param>
-        /// <param name="programRepository">Program Repository.</param>
-        public Del(
-            IRunEnvironment runEnvironment,
-            IProgramRepository programRepository)
-            : base("DEL", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _programRepository = programRepository;
-        }
-
         /// <summary>
         /// Executes the DEL command.
         /// </summary>
         public void Execute()
         {
-            int? start = _runEnvironment.CurrentLine.GetLineNumber();
+            int? start = runEnvironment.CurrentLine.GetLineNumber();
             int? end = null;
             if (start.HasValue)
             {
-                var token = _runEnvironment.CurrentLine.NextToken();
+                var token = runEnvironment.CurrentLine.NextToken();
                 if (token.Seperator == TokenType.Comma)
                 {
-                    end = _runEnvironment.CurrentLine.GetLineNumber();
+                    end = runEnvironment.CurrentLine.GetLineNumber();
                 }
             }
 
@@ -46,12 +36,12 @@ namespace ClassicBasic.Interpreter.Commands
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            _programRepository.DeleteProgramLines(start.Value, end.Value);
+            programRepository.DeleteProgramLines(start.Value, end.Value);
 
             // If we're in a program end us and don't allow continue.
-            if (_runEnvironment.CurrentLine.LineNumber.HasValue)
+            if (runEnvironment.CurrentLine.LineNumber.HasValue)
             {
-                _runEnvironment.ContinueLineNumber = null;
+                runEnvironment.ContinueLineNumber = null;
                 throw new Exceptions.EndException();
             }
         }

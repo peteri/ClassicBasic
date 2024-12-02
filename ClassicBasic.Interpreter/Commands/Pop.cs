@@ -7,20 +7,12 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the POP command.
     /// </summary>
-    public class Pop : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Pop"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    public class Pop(IRunEnvironment runEnvironment) : Token("POP", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Pop"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        public Pop(IRunEnvironment runEnvironment)
-            : base("POP", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-        }
-
         /// <summary>
         /// Executes the POP command.
         /// </summary>
@@ -29,12 +21,12 @@ namespace ClassicBasic.Interpreter.Commands
             StackEntry stackEntry;
             do
             {
-                if (_runEnvironment.ProgramStack.Count == 0)
+                if (runEnvironment.ProgramStack.Count == 0)
                 {
                     throw new Exceptions.ReturnWithoutGosubException();
                 }
 
-                stackEntry = _runEnvironment.ProgramStack.Pop();
+                stackEntry = runEnvironment.ProgramStack.Pop();
             }
             while (stackEntry.VariableName != null);
         }

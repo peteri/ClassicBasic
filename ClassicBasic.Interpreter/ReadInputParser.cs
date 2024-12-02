@@ -11,20 +11,14 @@ namespace ClassicBasic.Interpreter
     /// <summary>
     /// ReadInputParser used by read and input to parse data.
     /// </summary>
-    public class ReadInputParser : IReadInputParser
-   {
-        private Func<string> _moreData;
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ReadInputParser"/> class.
+    /// </remarks>
+    /// <param name="moreData">Function to call to get more data.</param>
+    public class ReadInputParser(Func<string> moreData) : IReadInputParser
+    {
         private string _currentLine = null;
         private int _currentIndex;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadInputParser"/> class.
-        /// </summary>
-        /// <param name="moreData">Function to call to get more data.</param>
-        public ReadInputParser(Func<string> moreData)
-        {
-            _moreData = moreData;
-        }
 
         /// <summary>
         /// Gets a value indicating whether there is extra data left.
@@ -78,11 +72,11 @@ namespace ClassicBasic.Interpreter
             bool quotedString = false;
             bool skipSpaces = false;
 
-            StringBuilder returnValue = new StringBuilder();
+            StringBuilder returnValue = new();
 
             if (_currentLine == null)
             {
-                _currentLine = _moreData();
+                _currentLine = moreData();
                 _currentIndex = 0;
             }
 

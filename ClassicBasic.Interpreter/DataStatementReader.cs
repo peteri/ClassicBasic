@@ -59,12 +59,12 @@ namespace ClassicBasic.Interpreter
         {
             if (_currentDataLine == null)
             {
-               if (_faulted)
-               {
-                  throw new Exceptions.OutOfDataException();
-               }
+                if (_faulted)
+                {
+                    throw new Exceptions.OutOfDataException();
+                }
 
-               RestoreToLineNumber(null);
+                RestoreToLineNumber(null);
             }
 
             while (_currentDataLine != null)

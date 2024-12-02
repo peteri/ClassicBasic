@@ -9,27 +9,17 @@ namespace ClassicBasic.Interpreter
     /// <summary>
     /// Reference to a variable, allows access to values.
     /// </summary>
-    public class VariableReference
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="VariableReference"/> class.
+    /// </remarks>
+    /// <param name="variable">Variable to wrap.</param>
+    /// <param name="indexes">Array of indexes to access the variable, non array variables have a zero length array.</param>
+    public class VariableReference(Variable variable, short[] indexes)
     {
-        private Variable _variable;
-
-        private short[] _indexes;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VariableReference"/> class.
-        /// </summary>
-        /// <param name="variable">Variable to wrap.</param>
-        /// <param name="indexes">Array of indexes to access the variable, non array variables have a zero length array.</param>
-        public VariableReference(Variable variable, short[] indexes)
-        {
-            _variable = variable;
-            _indexes = indexes;
-        }
-
         /// <summary>
         /// Gets a value indicating whether underlying variable is a string.
         /// </summary>
-        public bool IsString => (_variable.Value.GetType().GetElementType() ?? _variable.Value.GetType()) == typeof(string);
+        public bool IsString => (variable.Value.GetType().GetElementType() ?? variable.Value.GetType()) == typeof(string);
 
         /// <summary>
         /// Gets the value of variable. If the value is a string array, converts the
@@ -38,10 +28,10 @@ namespace ClassicBasic.Interpreter
         /// <returns>The value of variable.</returns>
         public Accumulator GetValue()
         {
-            var type = _variable.Value.GetType();
+            var type = variable.Value.GetType();
             if (typeof(Array).IsAssignableFrom(type))
             {
-                object returnValue = ((Array)_variable.Value).GetValue(_variable.Offset(_indexes));
+                object returnValue = ((Array)variable.Value).GetValue(variable.Offset(indexes));
                 if ((returnValue == null) && (type.GetElementType() == typeof(string)))
                 {
                     return new Accumulator(string.Empty);
@@ -50,7 +40,7 @@ namespace ClassicBasic.Interpreter
                 return new Accumulator(returnValue);
             }
 
-            return new Accumulator(_variable.Value);
+            return new Accumulator(variable.Value);
         }
 
         /// <summary>
@@ -59,16 +49,16 @@ namespace ClassicBasic.Interpreter
         /// <param name="value">Value to assign to the variable.</param>
         public void SetValue(Accumulator value)
         {
-            var type = _variable.Value.GetType();
+            var type = variable.Value.GetType();
             if (typeof(Array).IsAssignableFrom(type))
             {
-                var array = (Array)_variable.Value;
+                var array = (Array)variable.Value;
                 var elementType = type.GetElementType();
-                array.SetValue(value.GetValue(elementType), _variable.Offset(_indexes));
+                array.SetValue(value.GetValue(elementType), variable.Offset(indexes));
             }
             else
             {
-                _variable.Value = value.GetValue(type);
+                variable.Value = value.GetValue(type);
             }
         }
     }

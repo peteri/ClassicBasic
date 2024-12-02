@@ -114,11 +114,11 @@ namespace ClassicBasic.Console
             return keyInfo.KeyChar;
         }
 
-        private string EditLine(string editText)
+        private static string EditLine(string editText)
         {
             Console.Write(editText);
             var handle = Native.GetStdHandle(Native.StdInputHandle);
-            Native.CONSOLE_READCONSOLE_CONTROL control = default(Native.CONSOLE_READCONSOLE_CONTROL);
+            Native.CONSOLE_READCONSOLE_CONTROL control = default;
 
             control.Length = (uint)Marshal.SizeOf(control);
             control.InitialChars = (uint)editText.Length;
@@ -128,7 +128,7 @@ namespace ClassicBasic.Console
             uint charsReadUnused = 0;
 #pragma warning restore IDE0018 // Inline variable declaration
             int charactersToRead = editText.Length + ReadAheadBuffer;
-            StringBuilder buffer = new StringBuilder(editText, charactersToRead);
+            StringBuilder buffer = new(editText, charactersToRead);
             bool result = Native.ReadConsole(handle, buffer, (uint)charactersToRead, out charsReadUnused, ref control);
             if (result == false)
             {
@@ -145,7 +145,7 @@ namespace ClassicBasic.Console
             while ((charsReadUnused != 0) && !text.EndsWith(Environment.NewLine))
             {
                 charactersToRead = ReadAheadBuffer;
-                StringBuilder extraText = new StringBuilder(charactersToRead);
+                StringBuilder extraText = new(charactersToRead);
                 control.InitialChars = 0;
                 result = Native.ReadConsole(handle, buffer, (uint)charactersToRead, out charsReadUnused, ref control);
                 if (result == false)
@@ -164,7 +164,7 @@ namespace ClassicBasic.Console
 
             if (text.EndsWith(Environment.NewLine))
             {
-                return text.Substring(0, text.Length - Environment.NewLine.Length);
+                return text[..^Environment.NewLine.Length];
             }
 
             return text;

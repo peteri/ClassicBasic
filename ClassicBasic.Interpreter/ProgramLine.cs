@@ -13,7 +13,7 @@ namespace ClassicBasic.Interpreter
     /// </summary>
     public class ProgramLine
     {
-        private static readonly Token EndOfLineToken = new Token(Environment.NewLine, TokenClass.Seperator, TokenType.EndOfLine);
+        private static readonly Token EndOfLineToken = new(Environment.NewLine, TokenClass.Seperator, TokenType.EndOfLine);
 
         private readonly List<IToken> _tokens;
 

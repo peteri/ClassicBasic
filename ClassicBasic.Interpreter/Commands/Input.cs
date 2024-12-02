@@ -14,7 +14,6 @@ namespace ClassicBasic.Interpreter.Commands
     {
         private readonly IRunEnvironment _runEnvironment;
         private readonly IExpressionEvaluator _expressionEvaluator;
-        private readonly IVariableRepository _variableRepository;
         private readonly ITeletype _teletype;
         private readonly ReadInputParser _readInputParser;
         private string _prompt;
@@ -25,18 +24,15 @@ namespace ClassicBasic.Interpreter.Commands
         /// </summary>
         /// <param name="runEnvironment">Run time environment.</param>
         /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="variableRepository">Variable repository.</param>
         /// <param name="teletype">Teletype to use.</param>
         public Input(
             IRunEnvironment runEnvironment,
             IExpressionEvaluator expressionEvaluator,
-            IVariableRepository variableRepository,
             ITeletype teletype)
             : base("INPUT", TokenClass.Statement)
         {
             _runEnvironment = runEnvironment;
             _expressionEvaluator = expressionEvaluator;
-            _variableRepository = variableRepository;
             _teletype = teletype;
             _readInputParser = new ReadInputParser(ReadLine);
         }
@@ -79,7 +75,7 @@ namespace ClassicBasic.Interpreter.Commands
 
             _runEnvironment.CurrentLine.PushToken(token);
 
-            bool reenterInput = false;
+            bool reenterInput;
             do
             {
                 _firstLine = true;
@@ -108,13 +104,7 @@ namespace ClassicBasic.Interpreter.Commands
         {
             _teletype.Write(_firstLine ? _prompt : "??");
             _firstLine = false;
-            var input = _teletype.Read();
-            if (input == null)
-            {
-                throw new Exceptions.BreakException();
-            }
-
-            return input;
+            return _teletype.Read() ?? throw new Exceptions.BreakException();
         }
     }
 }

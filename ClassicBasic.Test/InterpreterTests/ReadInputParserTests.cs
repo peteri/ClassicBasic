@@ -16,7 +16,7 @@ namespace ClassicBasic.Test.InterpreterTests
     public class ReadInputParserTests
     {
         private ReadInputParser _sut;
-        private IVariableRepository _variableRepository;
+        private VariableRepository _variableRepository;
         private VariableReference[] _numericVariables = new VariableReference[3];
         private VariableReference[] _stringVariables = new VariableReference[3];
         private Queue<string> _inputQueue;

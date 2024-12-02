@@ -19,14 +19,14 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         public ProgramRepository()
         {
-            _program = new SortedList<int, ProgramLine>();
+            _program = [];
         }
 
         /// <summary>
         /// Gets the first line in the program or returns null if no program in memory.
         /// </summary>
         /// <returns>The program line.</returns>
-        public ProgramLine GetFirstLine()
+        public ProgramLine? GetFirstLine()
         {
             return (_program.Count == 0) ? null : GetLine(_program.Values[0].LineNumber.Value);
         }
@@ -38,9 +38,9 @@ namespace ClassicBasic.Interpreter
         /// <returns>The program line.</returns>
         public ProgramLine GetLine(int lineNumber)
         {
-            if (_program.ContainsKey(lineNumber))
+            if (_program.TryGetValue(lineNumber, out ProgramLine value))
             {
-                return new ProgramLine(lineNumber, _program[lineNumber]);
+                return new ProgramLine(lineNumber, value);
             }
 
             throw new Exceptions.UndefinedStatementException();

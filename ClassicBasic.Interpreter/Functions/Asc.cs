@@ -40,7 +40,7 @@ namespace ClassicBasic.Interpreter.Functions
             int returnValue = paramAsString[0];
             if (returnValue > short.MaxValue)
             {
-                returnValue = returnValue - 0x10000;
+                returnValue -= 0x10000;
             }
 
             return new Accumulator((double)returnValue);

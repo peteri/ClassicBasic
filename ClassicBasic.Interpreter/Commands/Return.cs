@@ -7,20 +7,12 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the RETURN command.
     /// </summary>
-    public class Return : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Return"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    public class Return(IRunEnvironment runEnvironment) : Token("RETURN", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Return"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        public Return(IRunEnvironment runEnvironment)
-            : base("RETURN", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-        }
-
         /// <summary>
         /// Executes the return command.
         /// </summary>
@@ -29,17 +21,17 @@ namespace ClassicBasic.Interpreter.Commands
             StackEntry stackEntry;
             do
             {
-                if (_runEnvironment.ProgramStack.Count == 0)
+                if (runEnvironment.ProgramStack.Count == 0)
                 {
                     throw new Exceptions.ReturnWithoutGosubException();
                 }
 
-                stackEntry = _runEnvironment.ProgramStack.Pop();
+                stackEntry = runEnvironment.ProgramStack.Pop();
             }
             while (stackEntry.VariableName != null);
 
-            _runEnvironment.CurrentLine = stackEntry.Line;
-            _runEnvironment.CurrentLine.CurrentToken = stackEntry.LineToken;
+            runEnvironment.CurrentLine = stackEntry.Line;
+            runEnvironment.CurrentLine.CurrentToken = stackEntry.LineToken;
         }
     }
 }

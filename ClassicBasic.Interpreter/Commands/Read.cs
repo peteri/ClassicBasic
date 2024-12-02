@@ -9,29 +9,17 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the READ command.
     /// </summary>
-    public class Read : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Read"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    /// <param name="dataStatementReader">Data statement reader.</param>
+    public class Read(
+        IRunEnvironment runEnvironment,
+        IExpressionEvaluator expressionEvaluator,
+        IDataStatementReader dataStatementReader) : Token("READ", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-        private readonly IDataStatementReader _dataStatementReader;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Read"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="dataStatementReader">Data statement reader.</param>
-        public Read(
-            IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator,
-            IDataStatementReader dataStatementReader)
-            : base("READ", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-            _dataStatementReader = dataStatementReader;
-        }
-
         /// <summary>
         /// Executes the READ command.
         /// </summary>
@@ -41,15 +29,15 @@ namespace ClassicBasic.Interpreter.Commands
             IToken token;
             do
             {
-                variableReferences.Add(_expressionEvaluator.GetLeftValue());
-                token = _runEnvironment.CurrentLine.NextToken();
+                variableReferences.Add(expressionEvaluator.GetLeftValue());
+                token = runEnvironment.CurrentLine.NextToken();
             }
             while (token.Seperator == TokenType.Comma);
 
-            _runEnvironment.CurrentLine.PushToken(token);
-            _runEnvironment.DataErrorLine = _dataStatementReader.CurrentDataLine;
-            _dataStatementReader.ReadInputParser.ReadVariables(variableReferences);
-            _runEnvironment.DataErrorLine = null;
+            runEnvironment.CurrentLine.PushToken(token);
+            runEnvironment.DataErrorLine = dataStatementReader.CurrentDataLine;
+            dataStatementReader.ReadInputParser.ReadVariables(variableReferences);
+            runEnvironment.DataErrorLine = null;
         }
     }
 }

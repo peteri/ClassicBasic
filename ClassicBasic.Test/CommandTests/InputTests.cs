@@ -232,7 +232,7 @@ namespace ClassicBasic.Test.CommandTests
             _comma = new Token(",", TokenClass.Seperator, TokenType.Comma);
             _dollar = new Token("$", TokenClass.Seperator, TokenType.Dollar);
 
-            _sut = new Input(_runEnvironment, _expressionEvaluator, _variableRepository, _teletype);
+            _sut = new Input(_runEnvironment, _expressionEvaluator, _teletype);
         }
     }
 }

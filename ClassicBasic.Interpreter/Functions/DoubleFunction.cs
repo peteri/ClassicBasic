@@ -11,21 +11,13 @@ namespace ClassicBasic.Interpreter.Functions
     /// Base class for simple mathematical function that take a double and return a double.
     /// Uses a function passed in on construction as it produces cleaner child classes.
     /// </summary>
-    public class DoubleFunction : Token, IFunction
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="DoubleFunction"/> class.
+    /// </remarks>
+    /// <param name="text">Name of the function.</param>
+    /// <param name="function">Function to call when executed.</param>
+    public class DoubleFunction(string text, Func<double, double> function) : Token(text, TokenClass.Function), IFunction
     {
-        private readonly Func<double, double> _function;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DoubleFunction"/> class.
-        /// </summary>
-        /// <param name="text">Name of the function.</param>
-        /// <param name="function">Function to call when executed.</param>
-        public DoubleFunction(string text, Func<double, double> function)
-            : base(text, TokenClass.Function)
-        {
-            _function = function;
-        }
-
         /// <summary>
         /// Executes the double function.
         /// </summary>
@@ -38,7 +30,7 @@ namespace ClassicBasic.Interpreter.Functions
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            return new Accumulator(_function(parameters[0].ValueAsDouble()));
+            return new Accumulator(function(parameters[0].ValueAsDouble()));
         }
     }
 }

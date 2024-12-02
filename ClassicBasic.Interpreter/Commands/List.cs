@@ -9,57 +9,46 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the LIST command.
     /// </summary>
-    public class List : Token, IInterruptableCommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="List"/> class.
+    /// </remarks>
+    /// <param name="programRepository">Program Repository.</param>
+    /// <param name="teletype">Output teletype to use.</param>
+    /// <param name="runEnvironment">Run environment.</param>
+    public class List(
+        IProgramRepository programRepository,
+        ITeletype teletype,
+        IRunEnvironment runEnvironment) : Token("LIST", TokenClass.Statement), IInterruptableCommand
     {
-        private readonly IProgramRepository _programRepository;
-        private readonly ITeletype _teletype;
-        private readonly IRunEnvironment _runEnvironment;
-        private ProgramLine _currentLine;
+        private ProgramLine? _currentLine;
         private int _startLine;
         private int _endLine;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="List"/> class.
-        /// </summary>
-        /// <param name="programRepository">Program Repository.</param>
-        /// <param name="teletype">Output teletype to use.</param>
-        /// <param name="runEnvironment">Run environment.</param>
-        public List(
-            IProgramRepository programRepository,
-            ITeletype teletype,
-            IRunEnvironment runEnvironment)
-            : base("LIST", TokenClass.Statement)
-        {
-            _programRepository = programRepository;
-            _teletype = teletype;
-            _runEnvironment = runEnvironment;
-        }
 
         /// <summary>
         /// Called before execute, used to setup the line number range.
         /// </summary>
         public void Setup()
         {
-            int? start = _runEnvironment.CurrentLine.GetLineNumber();
+            int? start = runEnvironment.CurrentLine.GetLineNumber();
             int? end = start;
 
-            var token = _runEnvironment.CurrentLine.NextToken();
+            var token = runEnvironment.CurrentLine.NextToken();
             if (token.Seperator == TokenType.Minus || token.Seperator == TokenType.Comma)
             {
-                end = _runEnvironment.CurrentLine.GetLineNumber();
+                end = runEnvironment.CurrentLine.GetLineNumber();
             }
             else
             {
-                _runEnvironment.CurrentLine.PushToken(token);
+                runEnvironment.CurrentLine.PushToken(token);
             }
 
             _startLine = start ?? 0;
             _endLine = end ?? ushort.MaxValue;
 
-            _currentLine = _programRepository.GetFirstLine();
+            _currentLine = programRepository.GetFirstLine();
             while (_currentLine != null && _currentLine.LineNumber < _startLine)
             {
-                _currentLine = _programRepository.GetNextLine(_currentLine.LineNumber.Value);
+                _currentLine = programRepository.GetNextLine(_currentLine.LineNumber.Value);
             }
         }
 
@@ -76,9 +65,9 @@ namespace ClassicBasic.Interpreter.Commands
                     return true;
                 }
 
-                _teletype.Write(_currentLine.ToString());
-                _teletype.Write(Environment.NewLine);
-                _currentLine = _programRepository.GetNextLine(_currentLine.LineNumber.Value);
+                teletype.Write(_currentLine.ToString());
+                teletype.Write(Environment.NewLine);
+                _currentLine = programRepository.GetNextLine(_currentLine.LineNumber.Value);
             }
 
             return _currentLine == null;

@@ -44,11 +44,11 @@ namespace ClassicBasic.Interpreter
             IVariableRepository variableRepository)
         {
             // Save the variable and program line.
-            var savedVariable = variableRepository.GetOrCreateVariable(VariableName, new short[] { }).GetValue();
+            var savedVariable = variableRepository.GetOrCreateVariable(VariableName, []).GetValue();
             var savedProgramLine = runEnvironment.CurrentLine;
 
             // Change the variable to be our parameter.
-            variableRepository.GetOrCreateVariable(VariableName, new short[] { }).SetValue(parameter);
+            variableRepository.GetOrCreateVariable(VariableName, []).SetValue(parameter);
             runEnvironment.CurrentLine = Line;
             runEnvironment.CurrentLine.CurrentToken = LineToken;
 
@@ -56,7 +56,7 @@ namespace ClassicBasic.Interpreter
             var returnValue = expressionEvaluator.GetExpression();
 
             // Restore the variable and program line.
-            variableRepository.GetOrCreateVariable(VariableName, new short[] { }).SetValue(savedVariable);
+            variableRepository.GetOrCreateVariable(VariableName, []).SetValue(savedVariable);
             runEnvironment.CurrentLine = savedProgramLine;
 
             // return the value.

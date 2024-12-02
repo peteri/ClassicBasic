@@ -7,32 +7,19 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the RUN command.
     /// </summary>
-    public class Run : Token, ITokeniserCommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Run"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="programRepository">Program Repository.</param>
+    /// <param name="variableRepository">Variable Repository.</param>
+    /// <param name="dataStatementReader">Data statement reader.</param>
+    public class Run(
+        IRunEnvironment runEnvironment,
+        IProgramRepository programRepository,
+        IVariableRepository variableRepository,
+        IDataStatementReader dataStatementReader) : Token("RUN", TokenClass.Statement), ITokeniserCommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IProgramRepository _programRepository;
-        private readonly IVariableRepository _variableRepository;
-        private readonly IDataStatementReader _dataStatementReader;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Run"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="programRepository">Program Repository.</param>
-        /// <param name="variableRepository">Variable Repository.</param>
-        /// <param name="dataStatementReader">Data statement reader.</param>
-        public Run(
-            IRunEnvironment runEnvironment,
-            IProgramRepository programRepository,
-            IVariableRepository variableRepository,
-            IDataStatementReader dataStatementReader)
-            : base("RUN", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _programRepository = programRepository;
-            _variableRepository = variableRepository;
-            _dataStatementReader = dataStatementReader;
-        }
 
         /// <summary>
         /// Executes the RUN command.
@@ -40,30 +27,30 @@ namespace ClassicBasic.Interpreter.Commands
         /// <param name="tokeniser">Tokeniser used by the load command.</param>
         public void Execute(ITokeniser tokeniser)
         {
-            var nextToken = _runEnvironment.CurrentLine.NextToken();
+            var nextToken = runEnvironment.CurrentLine?.NextToken();
 
             if (nextToken.TokenClass == TokenClass.String)
             {
                 // Since we have a tokeniser, we can just fake being the executor/interpreter
                 // and create our own LOAD command and call it.
-                var oldLine = _runEnvironment.CurrentLine;
-                _runEnvironment.CurrentLine = tokeniser.Tokenise($"LOAD {nextToken}");
-                var loadToken = _runEnvironment.CurrentLine.NextToken() as ITokeniserCommand;
-                loadToken.Execute(tokeniser);
-                _runEnvironment.CurrentLine = oldLine;
+                var oldLine = runEnvironment.CurrentLine;
+                runEnvironment.CurrentLine = tokeniser.Tokenise($"LOAD {nextToken}");
+                var loadToken = runEnvironment.CurrentLine.NextToken() as ITokeniserCommand;
+                loadToken?.Execute(tokeniser);
+                runEnvironment.CurrentLine = oldLine;
             }
             else
             {
-                _runEnvironment.CurrentLine.PushToken(nextToken);
+                runEnvironment.CurrentLine.PushToken(nextToken);
             }
 
-            _variableRepository.Clear();
-            _runEnvironment.Clear();
-            _dataStatementReader.RestoreToLineNumber(null);
-            int? startingLineNumber = _runEnvironment.CurrentLine.GetLineNumber();
-            _runEnvironment.CurrentLine = startingLineNumber.HasValue ?
-                _programRepository.GetLine(startingLineNumber.Value) :
-                _programRepository.GetFirstLine();
+            variableRepository.Clear();
+            runEnvironment.Clear();
+            dataStatementReader.RestoreToLineNumber(null);
+            int? startingLineNumber = runEnvironment.CurrentLine.GetLineNumber();
+            runEnvironment.CurrentLine = startingLineNumber.HasValue ?
+                programRepository.GetLine(startingLineNumber.Value) :
+                programRepository.GetFirstLine();
         }
     }
 }

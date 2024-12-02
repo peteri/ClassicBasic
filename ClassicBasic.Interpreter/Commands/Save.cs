@@ -7,7 +7,6 @@ namespace ClassicBasic.Interpreter.Commands
     using System;
     using System.Collections.Generic;
     using System.IO.Abstractions;
-    using System.Text;
 
     /// <summary>
     /// Implements the Save command.

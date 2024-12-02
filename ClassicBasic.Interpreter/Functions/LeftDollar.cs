@@ -40,7 +40,7 @@ namespace ClassicBasic.Interpreter.Functions
             }
 
             count = Math.Min(count, returnValue.Length);
-            return new Accumulator(returnValue.Substring(0, count));
+            return new Accumulator(returnValue[..count]);
         }
     }
 }

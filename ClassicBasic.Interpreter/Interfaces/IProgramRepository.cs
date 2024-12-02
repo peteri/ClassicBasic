@@ -21,13 +21,13 @@ namespace ClassicBasic.Interpreter
         /// </summary>
         /// <param name="lineNumber">Line number to get.</param>
         /// <returns>The program line or null if no more lines.</returns>
-        ProgramLine GetNextLine(int lineNumber);
+        ProgramLine? GetNextLine(int lineNumber);
 
         /// <summary>
         /// Gets the first line in the program or returns null if no program in memory.
         /// </summary>
         /// <returns>The program line.</returns>
-        ProgramLine GetFirstLine();
+        ProgramLine? GetFirstLine();
 
         /// <summary>
         /// Adds or updates a program line, if an empty list of tokens is provided

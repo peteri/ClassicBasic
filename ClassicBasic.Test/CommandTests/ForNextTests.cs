@@ -4,6 +4,7 @@
 
 namespace ClassicBasic.Test.CommandTests
 {
+    using System;
     using System.Collections.Generic;
     using ClassicBasic.Interpreter.Exceptions;
     using Interpreter;
@@ -38,13 +39,13 @@ namespace ClassicBasic.Test.CommandTests
             _mockExpressionEvaluator.SetupSequence(mee => mee.GetExpression())
                 .Returns(new Accumulator(1.0))
                 .Returns(new Accumulator(3.0));
-            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A"), new Token("1") });
+            var line10 = new ProgramLine(10, [new Token("A"), _equalToken, _toToken, _colonToken]);
+            var line20 = new ProgramLine(20, [new Token("A"), new Token("1")]);
 
             _runEnvironment.CurrentLine = line10;
 
             forCmd.Execute();
-            Assert.AreEqual(1.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(1.0, _variableRepository.GetOrCreateVariable("A", []).GetValue().ValueAsDouble());
             Assert.AreEqual(1, _runEnvironment.ProgramStack.Count);
             var loopBackToken = _runEnvironment.CurrentLine.CurrentToken;
 
@@ -54,7 +55,7 @@ namespace ClassicBasic.Test.CommandTests
             nextCmd.Execute();
 
             // variable should be 2
-            Assert.AreEqual(2.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(2.0, _variableRepository.GetOrCreateVariable("A", []).GetValue().ValueAsDouble());
 
             // Should be back to just after for loop.
             Assert.AreEqual(10, _runEnvironment.CurrentLine.LineNumber.Value);
@@ -64,7 +65,7 @@ namespace ClassicBasic.Test.CommandTests
             line20.CurrentToken = 0;
             _runEnvironment.CurrentLine = line20;
             nextCmd.Execute();
-            Assert.AreEqual(3.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(3.0, _variableRepository.GetOrCreateVariable("A", []).GetValue().ValueAsDouble());
             Assert.AreEqual(10, _runEnvironment.CurrentLine.LineNumber.Value);
             Assert.AreEqual(loopBackToken, _runEnvironment.CurrentLine.CurrentToken);
 
@@ -81,7 +82,7 @@ namespace ClassicBasic.Test.CommandTests
             Assert.AreEqual("1", token.Text);
 
             // Variable should be 4.0
-            Assert.AreEqual(4.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(4.0, _variableRepository.GetOrCreateVariable("A", []).GetValue().ValueAsDouble());
             Assert.AreEqual(0, _runEnvironment.ProgramStack.Count);
         }
 
@@ -98,13 +99,13 @@ namespace ClassicBasic.Test.CommandTests
                 .Returns(new Accumulator(1.0))
                 .Returns(new Accumulator(6.0))
                 .Returns(new Accumulator(2.0));
-            var line10 = new ProgramLine(10, new List<IToken> { new Token("A"), _equalToken, _toToken, _stepToken, _colonToken });
-            var line20 = new ProgramLine(20, new List<IToken> { new Token("A") });
+            var line10 = new ProgramLine(10, [new Token("A"), _equalToken, _toToken, _stepToken, _colonToken]);
+            var line20 = new ProgramLine(20, [new Token("A")]);
 
             _runEnvironment.CurrentLine = line10;
 
             forCmd.Execute();
-            Assert.AreEqual(1.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(1.0, _variableRepository.GetOrCreateVariable("A", []).GetValue().ValueAsDouble());
             Assert.AreEqual(1, _runEnvironment.ProgramStack.Count);
             var loopBackToken = _runEnvironment.CurrentLine.CurrentToken;
 
@@ -124,7 +125,7 @@ namespace ClassicBasic.Test.CommandTests
             line20.CurrentToken = 0;
             _runEnvironment.CurrentLine = line20;
             nextCmd.Execute();
-            Assert.AreEqual(5.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(5.0, _variableRepository.GetOrCreateVariable("A", []).GetValue().ValueAsDouble());
             Assert.AreEqual(10, _runEnvironment.CurrentLine.LineNumber.Value);
             Assert.AreEqual(loopBackToken, _runEnvironment.CurrentLine.CurrentToken);
 
@@ -437,7 +438,7 @@ namespace ClassicBasic.Test.CommandTests
 
             // Check we don't overflow just yet.
             _runEnvironment.TestForStackOverflow();
-            Test.Throws<OutOfMemoryException>(forCmd.Execute);
+            Test.Throws<ClassicBasic.Interpreter.Exceptions.OutOfMemoryException>(forCmd.Execute);
         }
 
         /// <summary>
@@ -711,8 +712,8 @@ namespace ClassicBasic.Test.CommandTests
 
             // variable should be A=3,B=5
             // Variable should be 5.0
-            Assert.AreEqual(3.0, _variableRepository.GetOrCreateVariable("A", new short[] { }).GetValue().ValueAsDouble());
-            Assert.AreEqual(5.0, _variableRepository.GetOrCreateVariable("B", new short[] { }).GetValue().ValueAsDouble());
+            Assert.AreEqual(3.0, _variableRepository.GetOrCreateVariable("A", System.Array.Empty<short>()).GetValue().ValueAsDouble());
+            Assert.AreEqual(5.0, _variableRepository.GetOrCreateVariable("B", System.Array.Empty<short>()).GetValue().ValueAsDouble());
             Assert.AreEqual(0, _runEnvironment.ProgramStack.Count);
         }
 

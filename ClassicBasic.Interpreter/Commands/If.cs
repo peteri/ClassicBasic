@@ -7,36 +7,24 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the IF command.
     /// </summary>
-    public class If : Token, ICommand, IRepeatExecuteCommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="If"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    /// <param name="programRepository">Program repository.</param>
+    public class If(
+        IRunEnvironment runEnvironment,
+        IExpressionEvaluator expressionEvaluator,
+        IProgramRepository programRepository) : Token("IF", TokenClass.Statement), ICommand, IRepeatExecuteCommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-        private readonly IProgramRepository _programRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="If"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="programRepository">Program repository.</param>
-        public If(
-            IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator,
-            IProgramRepository programRepository)
-            : base("IF", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-            _programRepository = programRepository;
-        }
-
         /// <summary>
         /// Executes the IF statement.
         /// </summary>
         public void Execute()
         {
-            var result = _expressionEvaluator.GetExpression();
-            var token = _runEnvironment.CurrentLine.NextToken();
+            var result = expressionEvaluator.GetExpression();
+            var token = runEnvironment.CurrentLine.NextToken();
             if (token.Statement != TokenType.Then && token.Statement != TokenType.Goto)
             {
                 throw new Exceptions.SyntaxErrorException();
@@ -50,20 +38,20 @@ namespace ClassicBasic.Interpreter.Commands
             if (test)
             {
                 // Skip to the ELSE or EndOfLine
-                while (!_runEnvironment.CurrentLine.EndOfLine
+                while (!runEnvironment.CurrentLine.EndOfLine
                         && (token.Statement != TokenType.Else))
                 {
-                    token = _runEnvironment.CurrentLine.NextToken();
+                    token = runEnvironment.CurrentLine.NextToken();
                 }
             }
             else
             {
                 // We have a winner, just a line number?
-                int? lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
+                int? lineNumber = runEnvironment.CurrentLine.GetLineNumber();
                 if (lineNumber.HasValue)
                 {
                     // Go there
-                    _runEnvironment.CurrentLine = _programRepository.GetLine(lineNumber.Value);
+                    runEnvironment.CurrentLine = programRepository.GetLine(lineNumber.Value);
                 }
             }
         }

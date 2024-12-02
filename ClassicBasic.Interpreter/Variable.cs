@@ -35,11 +35,11 @@ namespace ClassicBasic.Interpreter
 
             _dimensions = dimensions;
 
-            if (name.EndsWith("$"))
+            if (name.EndsWith('$'))
             {
                 Value = (size == 1) ? string.Empty : (object)new string[size];
             }
-            else if (name.EndsWith("%"))
+            else if (name.EndsWith('%'))
             {
                 Value = (size == 1) ? (short)0 : (object)new short[size];
             }

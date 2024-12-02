@@ -7,29 +7,17 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the DIM command.
     /// </summary>
-    public class Dim : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Dim"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run environment.</param>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    /// <param name="variableRepository">Variable repository.</param>
+    public class Dim(
+        IRunEnvironment runEnvironment,
+        IExpressionEvaluator expressionEvaluator,
+        IVariableRepository variableRepository) : Token("DIM", TokenClass.Statement), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-        private readonly IVariableRepository _variableRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Dim"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="variableRepository">Variable repository.</param>
-        public Dim(
-            IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator,
-            IVariableRepository variableRepository)
-            : base("DIM", TokenClass.Statement)
-        {
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-            _variableRepository = variableRepository;
-        }
-
         /// <summary>
         /// Implements the DIM command.
         /// </summary>
@@ -38,17 +26,17 @@ namespace ClassicBasic.Interpreter.Commands
             IToken token;
             do
             {
-                var name = _expressionEvaluator.GetVariableName();
-                var indexes = _expressionEvaluator.GetIndexes();
+                var name = expressionEvaluator.GetVariableName();
+                var indexes = expressionEvaluator.GetIndexes();
                 if (indexes.Length > 0)
                 {
-                    _variableRepository.DimensionArray(name, indexes);
+                    variableRepository.DimensionArray(name, indexes);
                 }
 
-                token = _runEnvironment.CurrentLine.NextToken();
+                token = runEnvironment.CurrentLine.NextToken();
             }
             while (token.Seperator == TokenType.Comma);
-            _runEnvironment.CurrentLine.PushToken(token);
+            runEnvironment.CurrentLine.PushToken(token);
         }
     }
 }

@@ -17,7 +17,6 @@ namespace ClassicBasic.Test.CommandTests
     [TestClass]
     public class GotoTests
     {
-        private Mock<IExpressionEvaluator> _mockExpressionEvaluator;
         private Mock<IProgramRepository> _mockProgramRepository;
         private IRunEnvironment _runEnvironment;
         private ProgramLine _gotoProgramLine;
@@ -62,13 +61,12 @@ namespace ClassicBasic.Test.CommandTests
 
         private void SetupSut()
         {
-            _mockExpressionEvaluator = new Mock<IExpressionEvaluator>();
             _mockProgramRepository = new Mock<IProgramRepository>();
             _runEnvironment = new RunEnvironment();
-            _gotoProgramLine = new ProgramLine(10, new List<IToken> { });
-            _targetProgramLine = new ProgramLine(100, new List<IToken> { });
+            _gotoProgramLine = new ProgramLine(10, []);
+            _targetProgramLine = new ProgramLine(100, []);
 
-            _sut = new Goto(_runEnvironment, _mockExpressionEvaluator.Object, _mockProgramRepository.Object);
+            _sut = new Goto(_runEnvironment, _mockProgramRepository.Object);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(100)).Returns(_targetProgramLine);
             _mockProgramRepository.Setup(mpr => mpr.GetLine(110))
                 .Throws(new ClassicBasic.Interpreter.Exceptions.UndefinedStatementException());

@@ -33,11 +33,11 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ProgramRepositoryClears()
         {
             var sut = new ProgramRepository();
-            sut.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(50, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
+            sut.SetProgramLine(new ProgramLine(30, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(10, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(20, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(50, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(40, [new Token("X")]));
 
             Assert.IsNotNull(sut.GetFirstLine());
             sut.Clear();
@@ -51,11 +51,11 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ProgramRepositorySortsLinesIntoOrder()
         {
             var sut = new ProgramRepository();
-            sut.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(50, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
+            sut.SetProgramLine(new ProgramLine(30, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(10, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(20, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(50, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(40, [new Token("X")]));
 
             var lineNumbers = new List<int?>();
             var currentLine = sut.GetFirstLine();
@@ -76,15 +76,15 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ProgramRepositoryCanDeleteLines()
         {
             var sut = new ProgramRepository();
-            sut.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(50, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
+            sut.SetProgramLine(new ProgramLine(30, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(10, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(20, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(50, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(40, [new Token("X")]));
 
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { }));
-            sut.SetProgramLine(new ProgramLine(30, new List<IToken> { }));
-            sut.SetProgramLine(new ProgramLine(50, new List<IToken> { }));
+            sut.SetProgramLine(new ProgramLine(10, []));
+            sut.SetProgramLine(new ProgramLine(30, []));
+            sut.SetProgramLine(new ProgramLine(50, []));
 
             var lineNumbers = new List<int?>();
             var currentLine = sut.GetFirstLine();
@@ -111,11 +111,11 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ProgramRepositoryCanDeleteLineRange(int start, int end, int[] expected)
         {
             var sut = new ProgramRepository();
-            sut.SetProgramLine(new ProgramLine(30, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(50, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
+            sut.SetProgramLine(new ProgramLine(30, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(10, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(20, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(50, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(40, [new Token("X")]));
 
             sut.DeleteProgramLines(start, end);
 
@@ -139,9 +139,9 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ProgramRepositoryCanGetLineResetsCurrentToken()
         {
             var sut = new ProgramRepository();
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
+            sut.SetProgramLine(new ProgramLine(10, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(20, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(40, [new Token("X")]));
 
             var line20 = sut.GetLine(20);
             line20.NextToken();
@@ -165,9 +165,9 @@ namespace ClassicBasic.Test.InterpreterTests
         public void ProgramRepositoryGetLineThrowsOnInvalidLineNumber(int lineNumber, bool throwsException)
         {
             var sut = new ProgramRepository();
-            sut.SetProgramLine(new ProgramLine(10, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(20, new List<IToken> { new Token("X") }));
-            sut.SetProgramLine(new ProgramLine(40, new List<IToken> { new Token("X") }));
+            sut.SetProgramLine(new ProgramLine(10, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(20, [new Token("X")]));
+            sut.SetProgramLine(new ProgramLine(40, [new Token("X")]));
 
             Test.Throws<UndefinedStatementException>(() => sut.GetLine(lineNumber), throwsException);
         }

@@ -7,41 +7,29 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the ON command.
     /// </summary>
-    public class On : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="On"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    /// <param name="programRepository">Program Repository.</param>
+    public class On(
+        IRunEnvironment runEnvironment,
+        IExpressionEvaluator expressionEvaluator,
+        IProgramRepository programRepository) : Token("ON", TokenClass.Statement, TokenType.Gosub), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-        private readonly IProgramRepository _programRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="On"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="programRepository">Program Repository.</param>
-        public On(
-            IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator,
-            IProgramRepository programRepository)
-            : base("ON", TokenClass.Statement, TokenType.Gosub)
-        {
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-            _programRepository = programRepository;
-        }
-
         /// <summary>
         /// Executes the ON command.
         /// </summary>
         public void Execute()
         {
-            var counter = _expressionEvaluator.GetExpression().ValueAsShort();
+            var counter = expressionEvaluator.GetExpression().ValueAsShort();
             if ((counter < 0) || (counter > 255))
             {
                 throw new Exceptions.IllegalQuantityException();
             }
 
-            var type = _runEnvironment.CurrentLine.NextToken();
+            var type = runEnvironment.CurrentLine.NextToken();
             if ((type.Statement != TokenType.Goto) && (type.Statement != TokenType.Gosub))
             {
                 throw new Exceptions.SyntaxErrorException();
@@ -52,7 +40,7 @@ namespace ClassicBasic.Interpreter.Commands
 
             do
             {
-                var lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
+                var lineNumber = runEnvironment.CurrentLine.GetLineNumber();
                 if (!lineNumber.HasValue)
                 {
                     throw new Exceptions.SyntaxErrorException();
@@ -64,12 +52,12 @@ namespace ClassicBasic.Interpreter.Commands
                     foundLine = lineNumber;
                 }
 
-                token = _runEnvironment.CurrentLine.NextToken();
+                token = runEnvironment.CurrentLine.NextToken();
             }
             while (token.Seperator == TokenType.Comma);
 
             // Put back next token.
-            _runEnvironment.CurrentLine.PushToken(token);
+            runEnvironment.CurrentLine.PushToken(token);
 
             if (foundLine.HasValue)
             {
@@ -77,15 +65,15 @@ namespace ClassicBasic.Interpreter.Commands
                 {
                     var returnAddress = new StackEntry
                     {
-                        Line = _runEnvironment.CurrentLine,
-                        LineToken = _runEnvironment.CurrentLine.CurrentToken,
+                        Line = runEnvironment.CurrentLine,
+                        LineToken = runEnvironment.CurrentLine.CurrentToken,
                     };
 
-                    _runEnvironment.ProgramStack.Push(returnAddress);
-                    _runEnvironment.TestForStackOverflow();
+                    runEnvironment.ProgramStack.Push(returnAddress);
+                    runEnvironment.TestForStackOverflow();
                 }
 
-                _runEnvironment.CurrentLine = _programRepository.GetLine(foundLine.Value);
+                runEnvironment.CurrentLine = programRepository.GetLine(foundLine.Value);
             }
         }
     }

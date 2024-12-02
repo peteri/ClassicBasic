@@ -7,36 +7,26 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the LET command.
     /// </summary>
-    public class Let : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Let"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    public class Let(IRunEnvironment runEnvironment, IExpressionEvaluator expressionEvaluator) : Token("LET", TokenClass.Statement, TokenType.Let), ICommand
     {
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Let"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        public Let(IRunEnvironment runEnvironment, IExpressionEvaluator expressionEvaluator)
-            : base("LET", TokenClass.Statement, TokenType.Let)
-        {
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-        }
-
         /// <summary>
         /// Executes the LET command.
         /// </summary>
         public void Execute()
         {
-            var variableReference = _expressionEvaluator.GetLeftValue();
-            var token = _runEnvironment.CurrentLine.NextToken();
+            var variableReference = expressionEvaluator.GetLeftValue();
+            var token = runEnvironment.CurrentLine.NextToken();
             if (token.Seperator != TokenType.Equal)
             {
                 throw new Exceptions.SyntaxErrorException();
             }
 
-            var newValue = _expressionEvaluator.GetExpression();
+            var newValue = expressionEvaluator.GetExpression();
             variableReference.SetValue(newValue);
         }
     }

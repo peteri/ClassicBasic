@@ -7,38 +7,24 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the GOTO command.
     /// </summary>
-    public class Goto : Token, ICommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Goto"/> class.
+    /// </remarks>
+    /// <param name="runEnvironment">Run time environment.</param>
+    /// <param name="programRepository">Program Repository.</param>
+    public class Goto(
+        IRunEnvironment runEnvironment,
+        IProgramRepository programRepository) : Token("GOTO", TokenClass.Statement, TokenType.Goto), ICommand
     {
-        private readonly IProgramRepository _programRepository;
-        private readonly IRunEnvironment _runEnvironment;
-        private readonly IExpressionEvaluator _expressionEvaluator;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Goto"/> class.
-        /// </summary>
-        /// <param name="runEnvironment">Run time environment.</param>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="programRepository">Program Repository.</param>
-        public Goto(
-            IRunEnvironment runEnvironment,
-            IExpressionEvaluator expressionEvaluator,
-            IProgramRepository programRepository)
-            : base("GOTO", TokenClass.Statement, TokenType.Goto)
-        {
-            _programRepository = programRepository;
-            _runEnvironment = runEnvironment;
-            _expressionEvaluator = expressionEvaluator;
-        }
-
         /// <summary>
         /// Executes the GOTO command.
         /// </summary>
         public void Execute()
         {
-            int? lineNumber = _runEnvironment.CurrentLine.GetLineNumber();
+            int? lineNumber = runEnvironment.CurrentLine.GetLineNumber();
             if (lineNumber.HasValue)
             {
-                _runEnvironment.CurrentLine = _programRepository.GetLine(lineNumber.Value);
+                runEnvironment.CurrentLine = programRepository.GetLine(lineNumber.Value);
             }
             else
             {

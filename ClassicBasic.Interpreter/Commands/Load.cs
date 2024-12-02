@@ -10,41 +10,29 @@ namespace ClassicBasic.Interpreter.Commands
     /// <summary>
     /// Implements the LOAD command.
     /// </summary>
-    public class Load : Token, ITokeniserCommand
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Load"/> class.
+    /// </remarks>
+    /// <param name="expressionEvaluator">Expression evaluator.</param>
+    /// <param name="fileSystem">Mockable file system.</param>
+    /// <param name="programRepository">Program repository.</param>
+    public class Load(
+        IExpressionEvaluator expressionEvaluator,
+        IFileSystem fileSystem,
+        IProgramRepository programRepository) : Token("LOAD", TokenClass.Statement), ITokeniserCommand
     {
-        private readonly IExpressionEvaluator _expressionEvaluator;
-        private readonly IFileSystem _fileSystem;
-        private readonly IProgramRepository _programRepository;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Load"/> class.
-        /// </summary>
-        /// <param name="expressionEvaluator">Expression evaluator.</param>
-        /// <param name="fileSystem">Mockable file system.</param>
-        /// <param name="programRepository">Program repository.</param>
-        public Load(
-            IExpressionEvaluator expressionEvaluator,
-            IFileSystem fileSystem,
-            IProgramRepository programRepository)
-            : base("LOAD", TokenClass.Statement)
-        {
-            _expressionEvaluator = expressionEvaluator;
-            _fileSystem = fileSystem;
-            _programRepository = programRepository;
-        }
-
         /// <summary>
         /// Executes the LOAD comand.
         /// </summary>
         /// <param name="tokeniser">Tokeniser to use.</param>
         public void Execute(ITokeniser tokeniser)
         {
-            var fileName = _expressionEvaluator.GetExpression().ValueAsString();
+            var fileName = expressionEvaluator.GetExpression().ValueAsString();
             int lastProgramLine = 0;
             try
             {
-                var program = _fileSystem.File.ReadAllLines(fileName, System.Text.Encoding.UTF8);
-                _programRepository.Clear();
+                var program = fileSystem.File.ReadAllLines(fileName, System.Text.Encoding.UTF8);
+                programRepository.Clear();
                 foreach (var line in program)
                 {
                     var programLine = tokeniser.Tokenise(line);
@@ -54,7 +42,7 @@ namespace ClassicBasic.Interpreter.Commands
                     }
 
                     lastProgramLine = programLine.LineNumber.Value;
-                    _programRepository.SetProgramLine(programLine);
+                    programRepository.SetProgramLine(programLine);
                 }
             }
             catch (Exception ex)
